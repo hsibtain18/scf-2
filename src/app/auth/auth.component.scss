@@ -1,0 +1,58 @@
+@import '../../assets/style/variable.scss';
+
+.authentication {
+    .content {
+        margin : 10% auto 0px auto;
+        width  : 460px;
+        padding: 20px;
+        height : auto;
+
+        .login {
+            padding   : 20px 0.8em;
+            background: #f8f8f8;
+            box-shadow: 0px 0px 5px 3px #e5e5e5;
+            font-size : 15px;
+
+            .logo {
+                height         : 48px;
+                background-size: 110px;
+            }
+
+            .logo img {
+                height         : 148px;
+                background-size: 110px;
+            }
+            .title {
+                // text-align: center !important;
+                margin: 2rem auto;
+            }
+        
+            input {
+                height: 50px;
+                border: 1px solid $borderColor;
+                border-radius: 7px;
+                margin-bottom:30px ;
+                font-size: 12px;
+            }
+        
+            .has-float-label label {
+                left: 30px;
+                top: 5px;
+                font-size: 12px;
+                
+            }
+          
+            .btn{
+                background-color: $textColor;
+        
+                &-primary{
+                    height: 37px;
+                    width: 155px;
+                }
+            }
+        }
+
+
+    }
+
+}

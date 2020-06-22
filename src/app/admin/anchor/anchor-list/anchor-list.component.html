@@ -1,0 +1,44 @@
+<section class="componentView">
+    <ol class="breadcrumb m-0">
+        <li class="breadcrumb-item">
+            <!-- <a routerLink="/user/dashboard">Anchor Onboarding</a> -->
+        </li>
+        
+    </ol>
+    <div class="container-fluid">
+
+        <div class="contentHeader row">
+            <div class="heading col-md-3">
+                <div class="row">
+                    <h3>Anchor Onboarding</h3>
+                </div>
+
+            </div>
+            <div class="buttons mb-2 col-md-9">
+                <button class="btn btn-primary">Export</button>
+            </div>
+        </div>
+        <div class="  customGrid">
+            <table class="table table-striped">
+                <thead>
+                <!-- <ng-container *ngFor="let group of header"> -->
+                    <tr>
+                        <th *ngFor="let group of column">
+                             {{group.header}} 
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr>
+                            <td *ngFor="let col of list"> 
+                                {{col.value}}
+                            </td>
+                        </tr>
+                </tbody>
+                    
+                <!-- </ng-container> -->
+            </table>
+        </div>
+    </div>
+    <!-- <app-grid [col]='column' [val]="list"></app-grid> -->
+</section>

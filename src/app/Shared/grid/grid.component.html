@@ -1,0 +1,24 @@
+<section class="customGrid">
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <thead>
+            <!-- <ng-container *ngFor="let group of header"> -->
+                <tr>
+                    <th *ngFor="let group of header">
+                         {{group.header}} 
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                        <td *ngFor="let col of val"> 
+                                {{getFieldName(col.fieldName)}}
+                        </td>
+                    </tr>
+            </tbody>
+                
+            <!-- </ng-container> -->
+        </table>
+    </div>
+   
+</section>

@@ -1,1 +1,198 @@
-/* You can add global styles to this file, and also import other style files */
+@import './assets/style/variable.scss';
+
+html {
+    margin : 0;
+    padding: 0;
+
+    body {
+        @extend html;
+
+        app-admin {
+            height    : 100vh;
+            min-height: 100vh;
+        }
+    }
+}
+
+.login {
+    .title {
+        // text-align: center !important;
+        margin: 2rem auto;
+        color : $textColor;
+    }
+
+    input {
+        height       : 50px;
+        border       : 1px solid $borderColor;
+        border-radius: 7px;
+        margin-bottom: 30px;
+        font-size    : 15px;
+    }
+
+    .has-float-label label {
+        left      : 30px;
+        top       : -8px;
+        font-size : 12px;
+        background: white;
+        padding   : 0px 2px;
+
+    }
+
+    .btn {
+        background-color: $buttonColor;
+
+        &-primary {
+            height: 37px;
+            width : 155px;
+        }
+    }
+}
+
+.forgot {
+    @extend.login
+}
+
+.componentView {
+    .breadcrumb {
+        background-color: unset;
+        padding         : .75rem 0rem;
+        color           : $textColor;
+
+        .breadcrumb-item {
+            a[href] {
+                color: $textColor;
+
+                &:hover {
+                    color          : $textColor;
+                    text-decoration: unset;
+                }
+            }
+        }
+    }
+
+    .customGrid {
+        tr th {
+            font-size  : 15px;
+            font-weight: bold;
+            text-align : center;
+        }
+
+        tr td {
+            font-size : 15px;
+            text-align: center;
+        }
+    }
+
+    .contentHeader {
+        border-bottom: 1.5px solid $borderColor;
+        .heading {
+            h3 {
+                color      : $textColor;
+                font-size  : 16px;
+                padding-top: 14px;
+            }
+        }
+
+        .buttons {
+            float: right;
+
+            // width: 100%;
+            .btn {
+                background-color: $buttonColor;
+                float           : right;
+                margin-left     : 15px;
+
+                &-primary {
+                    height: 37px;
+                    width : 155px;
+                }
+            }
+        }
+
+    }
+    .nav-tabs {
+
+        a {
+            border: none !important;
+            border-bottom: 1.5px solid $borderColor !important;
+            color: $UnselectedColor;
+            font-weight: 500;
+            
+        }
+         .nav-link:hover, .nav-tabs .nav-link:focus{
+            color: $textColor !important;
+            border-bottom: 1.5px solid $UnselectedColorBorder !important;
+         }
+         .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+            color: $textColor !important;
+            font-weight: 600;
+            background-color: #fcfcfc;
+            border-bottom: 1.5px solid $UnselectedColorBorder !important;
+         }
+         
+
+    }
+    .tabContent{
+        border: 1.5px solid $borderColor;
+        background: $backgroundColor;
+        height: auto;
+        padding: 30px;
+        .has-float-label {
+            label {
+              left         : 26px;
+              top          : -9px;
+              z-index      : 1;
+              margin-bottom: unset;
+      
+              &::after {
+                content         : " ";
+                display         : block;
+                position        : absolute;
+                background-color: #f8f8f8;
+                height          : 4px;
+                top             : 50%;
+                left            : -.2em;
+                right           : -.2em;
+                z-index         : -1;
+              }
+            }
+      
+            .form-control {
+              padding-top  : 0.375rem;
+              margin-bottom: 20px;
+              border       : 1px solid #ced4da;
+              border-radius: .25rem;
+              height       : 45px;
+              border-radius: 5px;
+            }
+      
+            select {
+              background        : inherit;
+              background-color  : #fff;
+              padding-right     : .75rem;
+              -webkit-appearance: menulist;
+              -moz-appearance   : menulist;
+              appearance        : menulist;
+            }
+      
+            input:-webkit-autofill {
+              +label {
+                border: unset;
+              }
+            }
+      
+            .form-control:placeholder-shown:not(:focus)+* {
+              font-size: 16px;
+              top      : 0.8em;
+              color    : black;
+      
+              &::after {
+                background-color: transparent;
+              }
+            }
+      
+          }
+    }
+}
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
