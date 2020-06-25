@@ -4,6 +4,7 @@ import { HeaderComponent } from './header/header.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { GridComponent } from './grid/grid.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -14,13 +15,16 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   ],
   imports: [
     CommonModule,
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule
   ],
   exports: [
     HeaderComponent,
     NavigationComponent,
     GridComponent,
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule
+
   ]
 })
 export class SharedModule { }

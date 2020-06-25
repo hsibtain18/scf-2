@@ -29,9 +29,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                        <tr>
-                            <td *ngFor="let col of list"> 
-                                {{col.value}}
+                        <tr *ngFor="let col of list">
+                            <td> {{col.ID}}</td>
+                            <td> {{col.name}}</td>
+                            <td> {{col.name2}}</td>
+                            <td> {{col.name3}}</td>
+                            <td>
+                                <div ngbDropdown class="d-inline-block">
+                                    <p class="y" id="GridDropDown" ngbDropdownToggle>Select Actions</p>
+                                    <div ngbDropdownMenu aria-labelledby="GridDropDown">
+                                      <button ngbDropdownItem (click)="View(col)" >View</button>
+                                      <button ngbDropdownItem (click)="View(col)" >Approve  </button>
+                                      <button ngbDropdownItem (click)="View(col)" >Reject  </button>
+                                    </div>
+                                  </div>
                             </td>
                         </tr>
                 </tbody>

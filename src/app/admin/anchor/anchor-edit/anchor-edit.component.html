@@ -8,79 +8,275 @@
         </li>
     </ol>
     <div class="container-fluid">
+        <form [formGroup]="anchorDetailForm">
 
-    <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
-        <li [ngbNavItem]="1">
-          <a ngbNavLink>Onboarding Request</a>
-          <ng-template ngbNavContent>
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="form-group col-md-6 input-group">
-                        <span class="col-md-12 has-float-label">
-                            <input class="form-control" class="form-control" id="Anchor" type="text" placeholder="Name" />
-                            <label for="Anchor">Anchor Name</label>
-                        </span>
-        
+        <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+            <li [ngbNavItem]="1">
+                <a ngbNavLink>Onboarding Request</a>
+                <ng-template ngbNavContent>
+                        <div class=" tabContent">
+
+                            <div class="col-md-12  ">
+                                <h4>Anchor Details</h4>
+                                <div class="row">
+                                    <div class="form-group col-md-6 input-group">
+                                        <span class="col-md-12 has-float-label">
+                                            <input class="form-control" class="form-control" id="Anchor" type="text"
+                                                formControlName="AnchorName" placeholder="Name" />
+                                            <label for="Anchor">Anchor Name</label>
+                                        </span>
+
+                                    </div>
+                                    <div class="form-group   col-md-6  input-group">
+                                        <span class="col-md-12 has-float-label">
+                                            <input class="form-control" class="form-control" id="Industry" type="text"
+                                                formControlName="AnchorName" placeholder="Industry" />
+                                            <label for="Industry">Industry</label>
+                                        </span>
+
+                                    </div>
+                                    <div class="form-group col-md-6 input-group">
+                                        <span class="col-md-12 has-float-label">
+                                            <input class="form-control" class="form-control" id="NTN" type="text"
+                                                formControlName="Industry" placeholder="NTN No" />
+                                            <label for="NTN">NTN No </label>
+                                        </span>
+
+                                    </div>
+                                    <div class="form-group   col-md-6  input-group">
+                                        <span class="col-md-12 has-float-label">
+                                            <input class="form-control" class="form-control" id="Registered" type="text"
+                                                formControlName="Office" placeholder="Registered Office" />
+                                            <label for="Registered">Registered Office</label>
+                                        </span>
+
+                                    </div>
+                                    <div class="form-group   col-md-6  input-group">
+                                        <span class="col-md-12 has-float-label">
+                                            <input class="form-control" class="form-control" id="IBAN" type="text"
+                                                formControlName="IBAN" placeholder="IBAN  " />
+                                            <label for="IBAN">IBAN </label>
+                                        </span>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="text-right">
+                                        <button class="btn btn-primary mr-2" type="button">Create Offer</button>
+                                        <button class="btn btn-primary ml-2" type="button">Reject</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="col-md-12">
+                            <div class="d-sm-flex flex-sm-row flex-xs-column justify-content-end">
+                                <button class="btn btn-primary mr-3" type="button">Create Offer</button>
+                                <button class="btn btn-primary ml-3" type="button">Reject</button>
+                            </div>
+                        </div> -->
+
+                        </div>
+
+
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="2">
+                <a ngbNavLink>Program Offer</a>
+                <ng-template ngbNavContent>
+                    <div class=" tabContent">
+
+                        <div class="col-md-12  ">
+                            <h4>Offer Details</h4>
+                            <div class="row">
+                                <div class="form-group col-md-6 input-group">
+                                    <span class="col-md-12 has-float-label">
+                                        <input class="form-control" class="form-control" id="ProgramSize " type="text" formControlName="ProgramSize"
+                                            placeholder="Program Size" />
+                                        <label for="ProgramSize">Program Size </label>
+                                    </span>
+
+                                </div>
+                                <div class="form-group   col-md-6  input-group">
+                                    <span class="col-md-12 has-float-label">
+                                        <!-- <input class="form-control" class="form-control" id="Industry" type="text"
+                                            placeholder="Industry" /> -->
+                                        <select name="programType" id="programType" formControlName="ProductType" class="form-control">
+                                            <option value="undefined" disabled>Select Product Type</option>
+                                            <option value="0" selected>Morabaha Advance</option>
+
+                                        </select>
+                                        <label for="programType">Product Type</label>
+                                    </span>
+
+                                </div>
+                                <div class="form-group col-md-6 input-group">
+                                    <span class="col-md-12 has-float-label">
+                                        <input class="form-control" class="form-control" id="Tenure" type="text" formControlName="Tenure"
+                                            placeholder="Tenure" />
+                                        <label for="NTN">Tenure </label>
+                                    </span>
+
+                                </div>
+                                <div class="form-group   col-md-6  input-group">
+                                    <span class="col-md-12 has-float-label">
+                                        <input class="form-control" class="form-control" id="financingRate" type="text" formControlName="FinancingRate"
+                                            placeholder="Financing Rate" />
+                                        <label for="financingRate">Financing Rate</label>
+                                    </span>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group   col-md-6  input-group">
-                        <span class="col-md-12 has-float-label">
-                            <input class="form-control" class="form-control" id="Industry" type="text" placeholder="Industry" />
-                            <label for="Industry">Industry</label>
-                        </span>
-        
+
+                    <div class=" tabContent">
+
+                        <div class="col-md-12  ">
+                            <h4>Upload Offer </h4>
+                            <div class="row mb-3">
+                                <div class="form-group col-md-10 input-group">
+                                    <span class="col-md-12 has-float-label">
+                                        <input class="form-control" class="form-control" id="Anchor" type="text"
+                                            placeholder="Name" />
+                                        <label for="Anchor">&nbsp;Anchor Name&nbsp;</label>
+                                        <input #myFle type="file" style="display: none;" class="inputfile" name="mFile"
+                                            id="mFile" (change)=fileEvent($event) accept=".csv" />
+
+                                    </span>
+
+                                </div>
+                                <div class="col-md-2 text-right ">
+                                    <button class="btn btn-primary mr-3" type="button">Attach</button>
+
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="text-right">
+                                    <button class="btn btn-primary mr-3" [disabled]="!anchorDetailForm.valid" type="submit" >Send Offer</button>
+                                    <button class="btn btn-primary ml-3" type="button">Reject</button>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="form-group col-md-6 input-group">
-                        <span class="col-md-12 has-float-label">
-                            <input class="form-control" class="form-control" id="NTN" type="text" placeholder="NTN No" />
-                            <label for="NTN">NTN No  </label>
-                        </span>
-        
+
+                    <div class=" tabContent">
+
+                        <div class="col-md-12  ">
+                            <h4>Uploaded Offer </h4>
+                            <div class="row">
+                                <div class="  customGrid">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <!-- <ng-container *ngFor="let group of header"> -->
+                                            <tr>
+                                                <th>File Name</th>
+                                                <th>Upload Date </th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>acscacasc</td>
+                                                <td>acscacasc</td>
+                                                <td>
+                                                    <div ngbDropdown class="d-inline-block">
+                                                        <p class="y" id="dropdownBasic1" ngbDropdownToggle>Select
+                                                            Actions</p>
+                                                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                                            <button ngbDropdownItem>View</button>
+                                                            <button ngbDropdownItem>Delete </button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
+                                        <!-- </ng-container> -->
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="form-group   col-md-6  input-group">
-                        <span class="col-md-12 has-float-label">
-                            <input class="form-control" class="form-control" id="Registered" type="text" placeholder="Registered Office" />
-                            <label for="Registered">Registered Office</label>
-                        </span>
-        
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="3">
+                <a ngbNavLink>Agreement Upload</a>
+                <ng-template ngbNavContent>
+                    <div class=" tabContent">
+
+                        <div class="col-md-12  ">
+                            <div class="row">
+                                <div class="form-group col-md-10 input-group">
+                                    <span class="col-md-12 has-float-label">
+                                        <input class="form-control" class="form-control" id="Anchor" type="text"
+                                            placeholder="Name" />
+                                        <label for="Anchor">Anchor Name</label>
+                                        <input #myFle type="file" style="display: none;" class="inputfile" name="mFile"
+                                            id="mFile" (change)=fileEvent($event) accept=".csv" />
+
+                                    </span>
+
+                                </div>
+                                <div class="col-md-2  ">
+                                    <button class="btn btn-primary mr-3" type="button">Attach Document</button>
+
+                                </div>
+                            </div>
+                            <div class="d-sm-flex flex-sm-row flex-xs-column justify-content-end">
+                                <button class="btn btn-primary mr-3" type="button"> Upload</button>
+                                <button class="btn btn-primary ml-3" type="button">Cancel</button>
+                            </div>
+                        </div>
+
                     </div>
-                    <div class="form-group   col-md-6  input-group">
-                        <span class="col-md-12 has-float-label">
-                            <input class="form-control" class="form-control" id="IBAN" type="text" placeholder="IBAN  " />
-                            <label for="IBAN">IBAN  </label>
-                        </span>
-        
+
+                    <div class=" tabContent">
+
+                        <div class="col-md-12  ">
+                            <h4>Uploaded Agreements </h4>
+                            <div class="row">
+                                <div class="  customGrid">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <!-- <ng-container *ngFor="let group of header"> -->
+                                            <tr>
+                                                <th>File Name</th>
+                                                <th>Upload Date </th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>acscacasc</td>
+                                                <td>acscacasc</td>
+                                                <td>
+                                                    <div ngbDropdown class="d-inline-block">
+                                                        <p class="y" id="dropdownBasic1" ngbDropdownToggle>Select
+                                                            Actions</p>
+                                                        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                                            <button ngbDropdownItem>Action - 1</button>
+                                                            <button ngbDropdownItem>Another Action</button>
+                                                            <button ngbDropdownItem>Something else is here</button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+
+                                        <!-- </ng-container> -->
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
-                </div>
-            </div>
-          </ng-template>
-        </li>
-        <li [ngbNavItem]="2">
-          <a ngbNavLink>Program Offer</a>
-          <ng-template ngbNavContent>
-            <p>Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko
-              farm-to-table craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip jean shorts
-              ullamco ad vinyl cillum PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus mollit. Keytar
-              helvetica VHS salvia yr, vero magna velit sapiente labore stumptown. Vegan fanny pack odio cillum wes anderson
-              8-bit, sustainable jean shorts beard ut DIY ethical culpa terry richardson biodiesel. Art party scenester
-              stumptown, tumblr butcher vero sint qui sapiente accusamus tattooed echo park.</p>
-          </ng-template>
-        </li>
-        <li [ngbNavItem]="3">
-          <a ngbNavLink>Agreement Upload</a>
-          <ng-template ngbNavContent>
-            <p>Sed commodo, leo at suscipit dictum, quam est porttitor sapien, eget sodales nibh elit id diam. Nulla facilisi.
-              Donec egestas ligula vitae odio interdum aliquet. Duis lectus turpis, luctus eget tincidunt eu, congue et odio.
-              Duis pharetra et nisl at faucibus. Quisque luctus pulvinar arcu, et molestie lectus ultrices et. Sed diam urna,
-              egestas ut ipsum vel, volutpat volutpat neque. Praesent fringilla tortor arcu. Vivamus faucibus nisl enim, nec
-              tristique ipsum euismod facilisis. Morbi ut bibendum est, eu tincidunt odio. Orci varius natoque penatibus et
-              magnis dis parturient montes, nascetur ridiculus mus. Mauris aliquet odio ac lorem aliquet ultricies in eget
-              neque. Phasellus nec tortor vel tellus pulvinar feugiat.</p>
-          </ng-template>
-        </li>
-      </ul>
-      
-      <div  [ngbNavOutlet]="nav" class="mt-5 tabContent"></div>
-      
-      <pre>Active: {{ active }}</pre>
+                </ng-template>
+            </li>
+        </ul>
+    </form>
+
+        <div [ngbNavOutlet]="nav" class="mt-5 "></div>
+
     </div>
 </section>

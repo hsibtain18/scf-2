@@ -15,7 +15,7 @@ const routes: Routes = [
         component:AnchorListComponent
       },
       {
-        path:"anchor/add",
+        path:"anchor/view/:id",
         component:AnchorEditComponent
       },
       {

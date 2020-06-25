@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-anchor-list',
@@ -8,7 +9,9 @@ import { Component, OnInit } from '@angular/core';
 export class AnchorListComponent implements OnInit {
   public column: any = [];
   public list = [];
-  constructor() { }
+  constructor(
+    private _router : Router
+  ) { }
 
   
   ngOnInit(): void {
@@ -18,17 +21,14 @@ export class AnchorListComponent implements OnInit {
       {header:"Header 1",fieldName:"header2"},
       {header:"Header 1",fieldName:"header3"},
       {header:"Header 1",fieldName:"header4"},
-      {header:"Header 1",fieldName:"header5"},
-      {header:"Header 1",fieldName:"header6"},
+      {header:"Actions",fieldName:"header5"},
     ];
     this.list = [
-      {value:"Header 6",fieldName:"header1"},
-      {value:"Header 5",fieldName:"header2"},
-      {value:"Header 4",fieldName:"header3"},
-      {value:"Header 3",fieldName:"header4"},
-      {value:"Header 2",fieldName:"header5"},
-      {value:"Header 1",fieldName:"header6"},
+     {ID:0,name:"asc",name2:"name2",name3:"name3"}
     ]
   }
 
+  View(anchor){
+    this._router.navigate(['/user/anchor/view/'+2])
+  }
 }

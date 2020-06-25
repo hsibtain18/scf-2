@@ -7,9 +7,31 @@ html {
     body {
         @extend html;
 
-        app-admin {
-            height    : 100vh;
-            min-height: 100vh;
+
+    }
+
+    app-user,
+    app-authentication {
+        display       : -webkit-box;
+        display       : -webkit-flex;
+        display       : -ms-flexbox;
+        display       : flex;
+        flex-direction: column;
+        height        : 100vh;
+        min-height    : 100vh;
+
+        main,
+        .authentication {
+            flex       : auto;
+            flex-shrink: 0;
+        }
+
+        app-header {
+            flex-shrink: 0;
+        }
+
+        app-footer {
+            flex-shrink: 0;
         }
     }
 }
@@ -28,7 +50,11 @@ html {
         margin-bottom: 30px;
         font-size    : 15px;
     }
-
+    .has-float-label .form-control:placeholder-shown:not(:focus)+* {
+        font-size: 15px;
+        top: 1.05em;
+        color: #000;
+    }
     .has-float-label label {
         left      : 30px;
         top       : -8px;
@@ -85,6 +111,7 @@ html {
 
     .contentHeader {
         border-bottom: 1.5px solid $borderColor;
+
         .heading {
             h3 {
                 color      : $textColor;
@@ -110,89 +137,130 @@ html {
         }
 
     }
+
     .nav-tabs {
 
         a {
-            border: none !important;
+            border       : none !important;
             border-bottom: 1.5px solid $borderColor !important;
-            color: $UnselectedColor;
-            font-weight: 500;
-            
+            color        : $UnselectedColor;
+            font-weight  : 500;
+
         }
-         .nav-link:hover, .nav-tabs .nav-link:focus{
-            color: $textColor !important;
+
+        .nav-link:hover,
+        .nav-tabs .nav-link:focus {
+            color        : $textColor !important;
             border-bottom: 1.5px solid $UnselectedColorBorder !important;
-         }
-         .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
-            color: $textColor !important;
-            font-weight: 600;
+        }
+
+        .nav-tabs .nav-link.active,
+        .nav-tabs .nav-item.show .nav-link {
+            color           : $textColor !important;
+            font-weight     : 600;
             background-color: #fcfcfc;
-            border-bottom: 1.5px solid $UnselectedColorBorder !important;
-         }
-         
+            border-bottom   : 1.5px solid $UnselectedColorBorder !important;
+        }
+
 
     }
-    .tabContent{
-        border: 1.5px solid $borderColor;
-        background: $backgroundColor;
-        height: auto;
-        padding: 30px;
+
+    .tabContent {
+        border       : 1.5px solid $borderColor;
+        background   : $backgroundColor;
+        height       : auto;
+        padding      : 30px;
+        margin-bottom: 50px;
+
+        h4 {
+            color        : $textColor;
+            margin-bottom: 1rem;
+            font-size    : 18px;
+        }
+
         .has-float-label {
             label {
-              left         : 26px;
-              top          : -9px;
-              z-index      : 1;
-              margin-bottom: unset;
-      
-              &::after {
-                content         : " ";
-                display         : block;
-                position        : absolute;
-                background-color: #f8f8f8;
-                height          : 4px;
-                top             : 50%;
-                left            : -.2em;
-                right           : -.2em;
-                z-index         : -1;
-              }
+                left         : 26px;
+                top          : -9px;
+                z-index      : 1;
+                margin-bottom: unset;
+
+                &::after {
+                    content         : " ";
+                    display         : block;
+                    position        : absolute;
+                    background-color: #f8f8f8;
+                    height          : 4px;
+                    top             : 50%;
+                    left            : -.2em;
+                    right           : -.2em;
+                    z-index         : -1;
+                }
             }
-      
+
             .form-control {
-              padding-top  : 0.375rem;
-              margin-bottom: 20px;
-              border       : 1px solid #ced4da;
-              border-radius: .25rem;
-              height       : 45px;
-              border-radius: 5px;
+                padding-top  : 0.375rem;
+                margin-bottom: 20px;
+                border       : 1px solid #ced4da;
+                border-radius: .25rem;
+                height       : 45px;
+                border-radius: 5px;
             }
-      
+
             select {
-              background        : inherit;
-              background-color  : #fff;
-              padding-right     : .75rem;
-              -webkit-appearance: menulist;
-              -moz-appearance   : menulist;
-              appearance        : menulist;
+                background        : inherit;
+                background-color  : #fff;
+                padding-right     : .75rem;
+                -webkit-appearance: menulist;
+                -moz-appearance   : menulist;
+                appearance        : menulist;
             }
-      
+
             input:-webkit-autofill {
-              +label {
-                border: unset;
-              }
+                +label {
+                    border: unset;
+                }
             }
-      
+
             .form-control:placeholder-shown:not(:focus)+* {
-              font-size: 16px;
-              top      : 0.8em;
-              color    : black;
-      
-              &::after {
-                background-color: transparent;
-              }
+                font-size: 16px;
+                top      : 0.8em;
+                color    : black;
+
+                &::after {
+                    background-color: transparent;
+                }
             }
-      
-          }
+
+        }
+
+        .btn {
+            background-color: $buttonColor;
+
+            &-primary {
+                height: 37px;
+                width : 155px;
+            }
+        }
+
+        .customGrid {
+            width: 100%;
+            tr th {
+                font-size  : 15px;
+                font-weight: bold;
+                text-align : center;
+            }
+
+            tr td {
+                font-size : 15px;
+                text-align: center;
+            }
+
+        }
+
+
     }
 }
+
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
