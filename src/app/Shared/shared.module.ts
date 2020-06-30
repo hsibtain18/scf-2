@@ -5,6 +5,9 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { GridComponent } from './grid/grid.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
+import { EncryptDecryptService } from './services/encrypt-decrypt.service';
+import { HttpClientModule } from '@angular/common/http';
+import { NgxSpinnerModule } from '@hardpool/ngx-spinner';
 
 
 @NgModule({
@@ -16,15 +19,20 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxSpinnerModule
   ],
   exports: [
     HeaderComponent,
     NavigationComponent,
     GridComponent,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxSpinnerModule
 
+  ],
+  providers:[
+    EncryptDecryptService
   ]
 })
 export class SharedModule { }

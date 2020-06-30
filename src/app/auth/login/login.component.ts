@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { EncryptDecryptService } from 'src/app/Shared/services/encrypt-decrypt.service';
+import { AuthService } from '../auth.service';
+import { loadingConfig } from '../../const/config'
 
 @Component({
   selector: 'app-login',
@@ -7,9 +11,52 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  public loginForm: FormGroup;
+  public loginFailure: boolean = false;
+  private loginFormSubscriber: any
+  public showSpinner: boolean = false;
+  public spinnerConfig: any;
 
-  ngOnInit(): void {
+  constructor(private _encrypt: EncryptDecryptService,
+    private _authService: AuthService) {
+
+    this.loginForm = new FormGroup({
+      UserName: new FormControl(null, [Validators.required]),
+      Password: new FormControl(null, [Validators.required]),
+    })
+
   }
 
+  ngOnInit(): void {
+    this.spinnerConfig = loadingConfig;
+
+
+  }
+  ngOnDestroy() {
+    this.loginFormSubscriber && this.loginFormSubscriber.unsubscribe();
+  }
+
+  onChanges(): void {
+    this.loginFormSubscriber = this.loginForm.valueChanges.subscribe(val => {
+      if (val && Object.keys(val).length) {
+        this.loginFailure = false;
+      }
+    });
+  }
+  Login() {
+    this.showSpinner = true;
+    let user = this._encrypt.encryptData(this.loginForm.value);
+    this._authService.PostCalls("login/token", user)
+      .then((val: any) => {
+        document.getElementsByClassName('btn')[0]["style"].background=val.UserAccount.color;
+        this.showSpinner = false;
+
+        if (val.status == 0) {
+
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      })
+  }
 }

@@ -22,8 +22,11 @@
     "@angular/router": "~9.0.5",
     "@ng-bootstrap/ng-bootstrap": "^6.1.0",
     "bootstrap": "^4.5.0",
+    "crypto-js": "^4.0.0",
     "float-label-css": "^1.0.2",
     "jquery": "^3.5.1",
+    "ngx-spinner": "^9.0.2",
+    "@hardpool/ngx-spinner": "^2.2.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
@@ -48,5 +51,8 @@
     "ts-node": "~8.3.0",
     "tslint": "~5.18.0",
     "typescript": "~3.7.5"
+  },
+  "browser": {
+    "crypto": false
   }
 }

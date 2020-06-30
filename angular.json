@@ -71,7 +71,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "scf-ui:build"
+            "browserTarget": "scf-ui:build",
+            "port": 2154
           },
           "configurations": {
             "production": {

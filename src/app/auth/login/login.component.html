@@ -5,18 +5,23 @@
     <div class="col-md-12 title">
         <h4 class="pb-2 border-bottom ">Login</h4>
     </div>
+    <form [formGroup]="loginForm" (ngSubmit)="Login()">
+
+    
     <div class="col-md-12">
         <div class="row">
             <div class="form-group input-group">
                 <span class="col-md-12 has-float-label">
-                    <input class="form-control" class="form-control" id="first" type="text" required placeholder="Name" />
+                    <input class="form-control" class="form-control" id="first" type="text"  formControlName="UserName" placeholder="Name"  
+                    [ngClass]="{'validationError': loginFailure || (loginForm.controls['UserName'].errors && (loginForm.controls.UserName.dirty || loginForm.controls.UserName.touched))}"/>
                     <label for="first">Username</label>
                 </span>
 
             </div>
             <div class="form-group   input-group">
                 <span class="col-md-12 has-float-label">
-                    <input class="form-control" class="form-control" id="Password" type="text" placeholder="********" />
+                    <input class="form-control" class="form-control" id="Password" type="password"   formControlName="Password" 
+                    placeholder="********"  [ngClass]="{'validationError': loginFailure || (loginForm.controls['Password'].errors && (loginForm.controls.Password.dirty || loginForm.controls.Password.touched))}"/>
                     <label for="Password">Password</label>
                 </span>
 
@@ -24,7 +29,9 @@
         </div>
     </div>
     <div class="d-sm-flex flex-sm-row flex-xs-column col-md-12 justify-content-center mb-3">
-        <button class="btn btn-primary mr-3" type="button" routerLink="/user/anchor/add">Login</button>
+        <button class="btn btn-primary mr-3" type="button" [disabled]="!loginForm.valid" (click)=" Login()" >Login</button>
         <button class="btn btn-primary ml-3" type="button" routerLink="/auth/forgot">Forgot Password</button>
     </div>
+</form>
 </section>
+<ngx-spinner [visible]="showSpinner" [config]="spinnerConfig"></ngx-spinner>
