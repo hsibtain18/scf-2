@@ -4,6 +4,7 @@ import { AdminComponent } from './admin.component';
 import { AnchorListComponent } from './anchor/anchor-list/anchor-list.component';
 import { AnchorEditComponent } from './anchor/anchor-edit/anchor-edit.component';
 import { LimitListComponent } from './limitapproval/limit-list/limit-list.component';
+import { LimitViewComponent } from './limitapproval/limit-view/limit-view.component';
 
 
 const routes: Routes = [
@@ -12,20 +13,21 @@ const routes: Routes = [
     component:AdminComponent,
     children:[
       {
-        path:"anchor",
+        path:"Anchor",
         component:AnchorListComponent
       },
       {
-        path:"anchor/view/:id",
-        component:AnchorEditComponent
+        path:"Anchor/View/:id",
+        component:AnchorEditComponent,
+        data :{}
       },
       {
-        path:"limitApprover",
+        path:"LimitApproval",
         component:LimitListComponent
       },
       {
-        path:"limitApprover/view/:id",
-        component:AnchorEditComponent
+        path:"LimitApproval/View/:id",
+        component:LimitViewComponent
       },
       {
         path:"**",

@@ -12,7 +12,7 @@ export class GridComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.header = this.col;
+    // this.header = this.col;
     console.log("testing",this.header);  
   }
   getFieldName(value){

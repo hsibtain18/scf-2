@@ -14,7 +14,9 @@ import { LimitViewComponent } from './limitapproval/limit-view/limit-view.compon
   declarations: [
     AdminComponent,
     AnchorListComponent, 
-    AnchorEditComponent, LimitListComponent, LimitViewComponent
+    AnchorEditComponent, 
+    LimitListComponent, 
+    LimitViewComponent
   ],
   imports: [
     CommonModule,

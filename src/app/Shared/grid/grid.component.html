@@ -4,15 +4,15 @@
             <thead>
             <!-- <ng-container *ngFor="let group of header"> -->
                 <tr>
-                    <th *ngFor="let group of header">
-                         {{group.header}} 
+                    <th *ngFor="let group of col">
+                         {{group}} 
                     </th>
                 </tr>
             </thead>
             <tbody>
-                    <tr>
-                        <td *ngFor="let col of val"> 
-                                {{getFieldName(col.fieldName)}}
+                    <tr *ngFor="let data of val">
+                        <td *ngFor="let col of col"> 
+                              {{data[col]}}
                         </td>
                     </tr>
             </tbody>

@@ -30,7 +30,7 @@ export class LimitListComponent implements OnInit {
   }
 
   View(anchor) {
-    this._router.navigate(['/user/limitApprover/view/' + 2])
+    this._router.navigate(['/user/limitapprove/view/' + 2])
   }
 
 }

@@ -65,29 +65,34 @@ html {
         padding   : 0px 2px;
 
     }
-    .form-control{
-        height: 45px;
-        color: #7e7e7e;
+
+    .form-control {
+        height   : 45px;
+        color    : #7e7e7e;
         font-size: 14px;
+
         /* Chrome, Safari, Edge, Opera */
         &[type=number]::-webkit-outer-spin-button,
         &[type=number]::-webkit-inner-spin-button {
-          -webkit-appearance: none;
-          margin: 0;
+            -webkit-appearance: none;
+            margin            : 0;
         }
 
         /* Firefox */
         &[type=number] {
-          -moz-appearance: textfield;
+            -moz-appearance: textfield;
         }
-        &.validationError{
-          border-color: $validationErrorColor;
-          color: $validationErrorColor;
-            +label{
-              color: $validationErrorColor;
-          }
+
+        &.validationError {
+            border-color: $validationErrorColor;
+            color       : $validationErrorColor;
+
+            +label {
+                color: $validationErrorColor;
+            }
         }
     }
+
     .btn {
         background-color: $buttonColor;
 
@@ -164,27 +169,39 @@ html {
 
     .nav-tabs {
 
+        .nav-link.active {
+            color           : $textColor;
+            border-bottom   : 2px solid $textColor !important;
+            background-color: transparent;
+            font-size       : 15px;
+            font-weight     : 600;
+        }
+
+        .nav-link:hover {
+            color        : $textColor !important;
+            border-bottom: 1px solid $UnselectedColorBorder !important;
+        }
+
         a {
             border       : none !important;
-            border-bottom: 1.5px solid $borderColor !important;
+            border-bottom: 1px solid $borderColor !important;
             color        : $UnselectedColor;
+            font-size    : 15px;
             font-weight  : 500;
 
+
         }
 
-        .nav-link:hover,
-        .nav-tabs .nav-link:focus {
-            color        : $textColor !important;
-            border-bottom: 1.5px solid $UnselectedColorBorder !important;
-        }
+        // .nav-link:hover,
+        // .nav-tabs .nav-link:focus {}
 
-        .nav-tabs .nav-link.active,
-        .nav-tabs .nav-item.show .nav-link {
-            color           : $textColor !important;
-            font-weight     : 600;
-            background-color: #fcfcfc;
-            border-bottom   : 1.5px solid $UnselectedColorBorder !important;
-        }
+        // .nav-tabs .nav-link.active,
+        // .nav-tabs .nav-item.show .nav-link {
+        //     color           : $textColor !important;
+        //     font-weight     : 600;
+        //     background-color: #fcfcfc;
+        //     border-bottom   : 1.5px solid $UnselectedColorBorder !important;
+        // }
 
 
     }

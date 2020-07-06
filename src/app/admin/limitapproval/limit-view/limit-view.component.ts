@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-limit-view',
@@ -7,7 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LimitViewComponent implements OnInit {
 
-  constructor() { }
+  public BuyerDetails : FormGroup
+  constructor() { 
+    this.BuyerDetails = new FormGroup({
+      
+    })
+  }
 
   ngOnInit(): void {
   }

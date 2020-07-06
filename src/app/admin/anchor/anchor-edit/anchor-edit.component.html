@@ -11,7 +11,7 @@
 
         <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
             <li [ngbNavItem]="1">
-                <a ngbNavLink>Onboarding Request</a>
+                <a class="navlinks" ngbNavLink>Onboarding Request</a>
                 <ng-template ngbNavContent>
                     <form [formGroup]="anchorDetailForm">
                         <div class=" tabContent">
@@ -212,33 +212,7 @@
             <li [ngbNavItem]="3">
                 <a ngbNavLink>Agreement Upload</a>
                 <ng-template ngbNavContent>
-                    <!-- <div class=" tabContent">
-
-                        <div class="col-md-12  ">
-                            <div class="row">
-                                <div class="form-group col-md-10 input-group">
-                                    <span class="col-md-12 has-float-label">
-                                        <input class="form-control" class="form-control" id="Anchor" type="text"
-                                            placeholder="Name" />
-                                        <label for="Anchor">Anchor Name</label>
-                                        <input #myFle type="file" style="display: none;" class="inputfile" name="mFile"
-                                            id="mFile" (change)=onFileSelect($event) accept=".csv" />
-
-                                    </span>
-
-                                </div>
-                                <div class="col-md-2  ">
-                                    <button class="btn btn-primary mr-3" type="button">Attach Document</button>
-
-                                </div>
-                            </div>
-                            <div class="d-sm-flex flex-sm-row flex-xs-column justify-content-end">
-                                <button class="btn btn-primary mr-3" type="button"> Upload</button>
-                                <button class="btn btn-primary ml-3" type="button">Cancel</button>
-                            </div>
-                        </div>
-
-                    </div> -->
+                  
 
                     <div class=" tabContent">
                         <form [formGroup]="anchorAgreementForm">

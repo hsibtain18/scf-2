@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { EncryptDecryptService } from './services/encrypt-decrypt.service';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxSpinnerModule } from '@hardpool/ngx-spinner';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { NgxSpinnerModule } from '@hardpool/ngx-spinner';
     CommonModule,
     NgbModule,
     ReactiveFormsModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    RouterModule 
   ],
   exports: [
     HeaderComponent,
@@ -28,7 +30,8 @@ import { NgxSpinnerModule } from '@hardpool/ngx-spinner';
     GridComponent,
     NgbModule,
     ReactiveFormsModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    RouterModule 
 
   ],
   providers:[

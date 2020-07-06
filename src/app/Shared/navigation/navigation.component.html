@@ -3,23 +3,12 @@
  
 
         <ul class="navbar-nav">
-          <li class="nav-item" >
-            <a class="nav-link" routerLink="/user/anchor" (click)="navToggle()" routerLinkActive="active">
-                Anchor Onboarding
+          <li class="nav-item" *ngFor="let nav of SideNav" >
+            <a class="nav-link" [routerLink]="nav.URL" (click)="navToggle()" routerLinkActive="active">
+                {{nav.DisplayName}}
             </a>
           </li>
 
-          <li class="nav-item" >
-            <a class="nav-link" routerLink="/user/limitApprover" (click)="navToggle()" routerLinkActive="active">
-                Limit Approval
-            </a>
-          </li>
-          
-          <li class="nav-item">
-            <button class="btn btn-block btnLogout text-left" >
-               Logout 
-            </button>
-          </li>
         </ul>
     </nav>
 

@@ -20,4 +20,11 @@ export class EncryptDecryptService {
       return encrypt
     }
   }
+  public decryptData(text: any){
+    if(text!=null){
+      text =  CryptoJS.AES.decrypt(text, CryptoKey);
+      text = JSON.parse(text.toString(CryptoJS.enc.Utf8));
+    }
+    return text;
+  }
 }

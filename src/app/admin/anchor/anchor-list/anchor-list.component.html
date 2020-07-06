@@ -18,10 +18,9 @@
                 <button class="btn btn-primary">Export</button>
             </div>
         </div>
-        <div class="  customGrid">
+        <!-- <div class="  customGrid">
             <table class="table table-striped">
                 <thead>
-                <!-- <ng-container *ngFor="let group of header"> -->
                     <tr>
                         <th *ngFor="let group of column">
                              {{group.header}} 
@@ -47,9 +46,9 @@
                         </tr>
                 </tbody>
                     
-                <!-- </ng-container> -->
             </table>
-        </div>
+        </div> -->
+    <app-grid   [val]="list"></app-grid>
+
     </div>
-    <!-- <app-grid [col]='column' [val]="list"></app-grid> -->
 </section>

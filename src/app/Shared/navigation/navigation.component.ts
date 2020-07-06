@@ -10,10 +10,12 @@ export class NavigationComponent implements OnInit {
   
   @Output() navToggling = new EventEmitter();
   @Input() navigationState: boolean;
-
+  public SideNav : any;
   constructor() { }
 
   ngOnInit(): void {
+
+    this.SideNav = JSON.parse(sessionStorage.getItem("SCFMenuItem"))
   }
 
 

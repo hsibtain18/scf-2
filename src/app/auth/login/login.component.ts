@@ -4,6 +4,7 @@ import { EncryptDecryptService } from 'src/app/Shared/services/encrypt-decrypt.s
 import { AuthService } from '../auth.service';
 import { loadingConfig } from '../../const/config'
 import { Router } from '@angular/router';
+import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'app-login',
@@ -45,7 +46,7 @@ export class LoginComponent implements OnInit {
       }
     });
   }
-  Login() {
+   Login() {
     this.showSpinner = true;
     let user = this._encrypt.encryptData(this.loginForm.value);
     this._authService.PostCalls("login/token", user)
@@ -57,10 +58,18 @@ export class LoginComponent implements OnInit {
 
         }
         else{
-          this._route.navigate(['/user/anchor'])
+          let token = this._encrypt.decryptData(val.access_token);
+          sessionStorage.setItem("SCFUserIdentity",JSON.stringify(val.UserAccount));
+          sessionStorage.setItem("SCFUserToken",JSON.stringify(token.access_token));
+          sessionStorage.setItem("SCFMenuItem",JSON.stringify(val.UserAccount.SideMenu));
+          //this._route.navigate(['/user/anchor'])
+          let sideMenu : any = val.UserAccount.SideMenu;
+          this._route.navigateByUrl(sideMenu[0].URL);
+          console.log(sideMenu[0]);
         }
       })
       .catch(error => {
+        this.showSpinner = false;
         console.log(error);
       })
   }
