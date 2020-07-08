@@ -4,21 +4,35 @@
             <thead>
             <!-- <ng-container *ngFor="let group of header"> -->
                 <tr>
-                    <th *ngFor="let group of col">
+                    <th *ngFor="let group of col.header">
                          {{group}} 
+                    </th>
+                    <th *ngIf="col.action.length!=0">
+                        Action
                     </th>
                 </tr>
             </thead>
             <tbody>
                     <tr *ngFor="let data of val">
-                        <td *ngFor="let col of col"> 
+                        <td *ngFor="let col of col.header">  
                               {{data[col]}}
+                        </td>
+
+                        <td  *ngIf="col.action.length!=0">
+                            <div ngbDropdown class="d-inline-block">
+                                <p class="y" id="GridDropDown" ngbDropdownToggle>Select Actions</p>
+                                <div ngbDropdownMenu aria-labelledby="GridDropDown">
+                                  <button ngbDropdownItem (click)="sendAction(data,action)"  *ngFor="let action of col.action" > {{action.Value}} </button>
+
+                                </div>
+                              </div>
                         </td>
                     </tr>
             </tbody>
                 
             <!-- </ng-container> -->
         </table>
+        <!-- <ngb-pagination class="d-flex justify-content-center" [collectionSize]="70" (pageChange)="paginate($event)" size="sm" [(page)]="page"></ngb-pagination> -->
     </div>
    
 </section>

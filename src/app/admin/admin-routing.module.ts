@@ -5,6 +5,7 @@ import { AnchorListComponent } from './anchor/anchor-list/anchor-list.component'
 import { AnchorEditComponent } from './anchor/anchor-edit/anchor-edit.component';
 import { LimitListComponent } from './limitapproval/limit-list/limit-list.component';
 import { LimitViewComponent } from './limitapproval/limit-view/limit-view.component';
+import { UIResolverService } from '../Shared/services/uiresolver.service';
 
 
 const routes: Routes = [
@@ -14,7 +15,10 @@ const routes: Routes = [
     children:[
       {
         path:"Anchor",
-        component:AnchorListComponent
+        component:AnchorListComponent,
+        resolve:{
+          UIdata: UIResolverService
+        }
       },
       {
         path:"Anchor/View/:id",

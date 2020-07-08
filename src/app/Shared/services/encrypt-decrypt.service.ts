@@ -27,4 +27,12 @@ export class EncryptDecryptService {
     }
     return text;
   }
+  public DecryptToken(text){
+    let val = {
+      access_token:text,
+      Identifier: Date.now()
+    }
+
+    return  CryptoJS.AES.encrypt(JSON.stringify(val), CryptoKey).toString();
+  }
 }

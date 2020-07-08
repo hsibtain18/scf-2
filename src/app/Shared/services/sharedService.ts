@@ -9,7 +9,7 @@ export class SharedService {
 
 
     public getUserData(){
-        return  JSON.parse(localStorage.getItem("SCFUserIdentity"));
+        return  JSON.parse(sessionStorage.getItem("SCFUserIdentity"));
     }
 
 

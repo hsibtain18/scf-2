@@ -2,26 +2,28 @@ import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap, finalize } from 'rxjs/operators';
+import { EncryptDecryptService } from './encrypt-decrypt.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpInterceptorService implements HttpInterceptor {
-  constructor() { }
+  constructor(private _crypto: EncryptDecryptService) { }
   intercept(
     request: HttpRequest<any>, next: HttpHandler
-  ) : Observable<HttpEvent<any>> {
-    const storageUser = localStorage.getItem('SCFUserIdentity');
-    const loggedUser = storageUser ? JSON.parse(storageUser) : null;
-    if (loggedUser) {
+  ): Observable<HttpEvent<any>> {
+    const storageUser = JSON.parse(sessionStorage.getItem('SCFUserToken'));
+    if (storageUser) {
+      const loggedUser = this._crypto.DecryptToken(storageUser );
+
       request = request.clone({
-          setHeaders:{
-            'Content-Type': 'application/json; charset=utf-8',
-            'dataType': 'json',
-          },
-          headers: request.headers.set(
-            'authorization', `Bearer ${loggedUser.access_token}`
-          )
+        setHeaders: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'dataType': 'json',
+        },
+        headers: request.headers.set(
+          'authorization', `Bearer ${loggedUser}`
+        )
       });
     }
     return next.handle(request).pipe(
@@ -29,7 +31,7 @@ export class HttpInterceptorService implements HttpInterceptor {
         // Checking if it is an Authentication Error (401)
         if (err.status === 401 || err.status === 498) {
           // <Log the user out of your application code>
-          if(err.status === 498){
+          if (err.status === 498) {
           }
           localStorage.clear()
           // return throwError(err);

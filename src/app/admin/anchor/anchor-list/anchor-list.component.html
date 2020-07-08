@@ -48,7 +48,7 @@
                     
             </table>
         </div> -->
-    <app-grid   [val]="list"></app-grid>
+    <app-grid [col]="column"  [val]="list" (Action)="openAction($event)" ></app-grid>
 
     </div>
 </section>
