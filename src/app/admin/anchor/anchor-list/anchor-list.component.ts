@@ -10,6 +10,7 @@ import { UserDataService } from '../../user-data.service';
 export class AnchorListComponent implements OnInit {
   public column: any = [];
   public list = [];
+  public constObject: any = [];
   filterObject: any = {
     "TotalRecords": 10, "PageNumber": 0
   }
@@ -18,38 +19,27 @@ export class AnchorListComponent implements OnInit {
     private _UserService: UserDataService,
     private route: ActivatedRoute 
   ) {
-    console.log(this.route.snapshot.data)
+    
    }
 
 
   ngOnInit(): void {
-
-
-    this.list = [
-      { anchor: "Abchor Name 1", Date: "12-25-6201", status: "Pending", col1: "column1" },
-      { anchor: "Abchor Name 2", Date: "12-25-6201", status: "Pending", col1: "column1" },
-      { anchor: "Abchor Name 3", Date: "12-25-6201", status: "Pending", col1: "column1" },
-      { anchor: "Abchor Name 4", Date: "12-25-6201", status: "Pending", col1: "column1" },
-      { anchor: "Abchor Name 5", Date: "12-25-6201", status: "Pending", col1: "column1" },
-      { anchor: "Abchor Name 6", Date: "12-25-6201", status: "Pending", col1: "column1" },
-      { anchor: "Abchor Name 7", Date: "12-25-6201", status: "Pending", col1: "column1" },
-      { anchor: "Abchor Name 8", Date: "12-25-6201", status: "Pending", col1: "column1" },
-      { anchor: "Abchor Name 9", Date: "12-25-6201", status: "Pending", col1: "column1" },
-      { anchor: "Abchor Name 10", Date: "12-25-6201", status: "Pending", col1: "column1" },
-      { anchor: "Abchor Name 11", Date: "12-25-6201", status: "Pending", col1: "column1" },
-      { anchor: "Abchor Name 12", Date: "12-25-6201", status: "Pending", col1: "column1" },
-    ];
+    const UI = this.route.snapshot.data.UIdata[0]
+    this.constObject["Heading"] = UI.Heading;
+    this.constObject["Headers"] = UI.Controls[0].Options.Headers;
+    this.constObject["Options"] = UI.Controls[0].Options.ActionItems;
     this.column["header"] = ['anchor', "Date", "status", 'col1'];
     this.column["action"] = [
       { ID: 0, Value: "View", ActionValue: "view" },
       { ID: 1, Value: "Approve", ActionValue: "approve" },
       { ID: 2, Value: "Reject", ActionValue: "reject" }
     ];
+    console.log(this.route.snapshot.url)
     this.GetGridData();
   }
 
   View(anchor) {
-    this._router.navigate(['/user/anchor/view/' + 2])
+    this._router.navigate(['/User/Anchor/View/' + 2])
   }
 
   GetGridData() {
@@ -61,5 +51,6 @@ export class AnchorListComponent implements OnInit {
 
   openAction(data: any){
     console.log(data);
+    this.View(null);
   }
 }

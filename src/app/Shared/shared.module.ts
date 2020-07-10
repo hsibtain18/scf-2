@@ -9,13 +9,15 @@ import { EncryptDecryptService } from './services/encrypt-decrypt.service';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxSpinnerModule } from '@hardpool/ngx-spinner';
 import { RouterModule } from '@angular/router';
+import { InfoPanelComponent } from './info-panel/info-panel.component';
 
 
 @NgModule({
   declarations: [
     HeaderComponent,
     NavigationComponent,
-    GridComponent
+    GridComponent,
+    InfoPanelComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +33,8 @@ import { RouterModule } from '@angular/router';
     NgbModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
-    RouterModule 
+    RouterModule,
+    InfoPanelComponent 
 
   ],
   providers:[

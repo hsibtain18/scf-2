@@ -10,7 +10,7 @@
         <div class="contentHeader row">
             <div class="heading col-md-3">
                 <div class="row">
-                    <h3>Anchor Onboarding</h3>
+                    <h3> {{constObject.Heading}} </h3>
                 </div>
 
             </div>
@@ -48,7 +48,7 @@
                     
             </table>
         </div> -->
-    <app-grid [col]="column"  [val]="list" (Action)="openAction($event)" ></app-grid>
+    <app-grid [UIObject]="constObject"  [val]="list" (Action)="openAction($event)" ></app-grid>
 
     </div>
 </section>

@@ -59,11 +59,12 @@ export class LoginComponent implements OnInit {
         }
         else{
           let token = this._encrypt.decryptData(val.access_token);
+          sessionStorage.setItem("SCFMenuItem",JSON.stringify(val.UserAccount.SideMenu));
+          let sideMenu : any = val.UserAccount.SideMenu;
+          delete val.UserAccount.SideMenu;
           sessionStorage.setItem("SCFUserIdentity",JSON.stringify(val.UserAccount));
           sessionStorage.setItem("SCFUserToken",JSON.stringify(token.access_token));
-          sessionStorage.setItem("SCFMenuItem",JSON.stringify(val.UserAccount.SideMenu));
           //this._route.navigate(['/user/anchor'])
-          let sideMenu : any = val.UserAccount.SideMenu;
           this._route.navigateByUrl(sideMenu[0].URL);
           console.log(sideMenu[0]);
         }
