@@ -28,13 +28,6 @@ export class AnchorListComponent implements OnInit {
     this.constObject["Heading"] = UI.Heading;
     this.constObject["Headers"] = UI.Controls[0].Options.Headers;
     this.constObject["Options"] = UI.Controls[0].Options.ActionItems;
-    this.column["header"] = ['anchor', "Date", "status", 'col1'];
-    this.column["action"] = [
-      { ID: 0, Value: "View", ActionValue: "view" },
-      { ID: 1, Value: "Approve", ActionValue: "approve" },
-      { ID: 2, Value: "Reject", ActionValue: "reject" }
-    ];
-    console.log(this.route.snapshot.url)
     this.GetGridData();
   }
 

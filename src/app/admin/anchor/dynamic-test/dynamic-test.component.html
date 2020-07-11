@@ -1,1 +1,28 @@
-<p>dynamic-test works!</p>
+<section class="componentView">
+    <ol class="breadcrumb m-3">
+        <li class="breadcrumb-item">
+            <a routerLink="/user/dashboard">Anchor Onboarding</a>
+        </li>
+        <li class="breadcrumb-item active">
+            <a routerLink="/user/dashboard">Add</a>
+        </li>
+    </ol>
+    <div class="container-fluid">
+
+        <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+            <li *ngFor="let tabs of UiObject.Controls[0].Controls" [ngbNavItem]="tabs.ID" >
+                <a class="navlinks" ngbNavLink> {{tabs.Options.text}} </a>
+                <ng-template ngbNavContent>
+                    <div class=" tabContent" *ngFor="let innerTab of tabs.Controls" >
+                         <!-- {{innerTab.Controls |json }} -->
+                        <app-info-panel *ngIf="innerTab.TypeID==8" [heading]="innerTab.Options.text" [fields]="getInnerControls(innerTab.Controls)"  ></app-info-panel>
+                        <app-file-upload *ngIf="innerTab.TypeID==9" [heading]="innerTab.Options.text"    ></app-file-upload>
+                    </div>
+                   
+                </ng-template>
+            </li>
+        </ul>
+
+        <div [ngbNavOutlet]="nav" class="mt-4 "></div>
+
+    </div>

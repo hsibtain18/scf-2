@@ -10,6 +10,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgxSpinnerModule } from '@hardpool/ngx-spinner';
 import { RouterModule } from '@angular/router';
 import { InfoPanelComponent } from './info-panel/info-panel.component';
+import { BuilderComponent } from './form/builder.component';
+import { FieldBuilderComponent } from './form/field-builder/field-builder.component';
+import { TextFieldComponent } from './form/form-component/textField';
+import { FileUploadComponent } from './file-upload/file-upload.component';
+import { SelectFieldComponent } from './form/form-component/selectField';
+
 
 
 @NgModule({
@@ -17,14 +23,19 @@ import { InfoPanelComponent } from './info-panel/info-panel.component';
     HeaderComponent,
     NavigationComponent,
     GridComponent,
-    InfoPanelComponent
+    InfoPanelComponent,
+    BuilderComponent,
+    FieldBuilderComponent,
+    TextFieldComponent,
+    FileUploadComponent,
+    SelectFieldComponent
   ],
   imports: [
     CommonModule,
     NgbModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
-    RouterModule 
+    RouterModule
   ],
   exports: [
     HeaderComponent,
@@ -34,10 +45,13 @@ import { InfoPanelComponent } from './info-panel/info-panel.component';
     ReactiveFormsModule,
     NgxSpinnerModule,
     RouterModule,
-    InfoPanelComponent 
+    InfoPanelComponent,
+    BuilderComponent,
+    FileUploadComponent,
+    SelectFieldComponent
 
   ],
-  providers:[
+  providers: [
     EncryptDecryptService
   ]
 })

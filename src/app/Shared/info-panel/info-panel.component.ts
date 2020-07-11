@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-info-panel',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InfoPanelComponent implements OnInit {
 
+  @Output() onSubmit = new EventEmitter();
+  @Input() fields: any[] = [];
+  @Input() heading: string ="";
+  form: FormGroup;
   constructor() { }
 
   ngOnInit(): void {
+    // console.log(this.fields);
   }
 
 }

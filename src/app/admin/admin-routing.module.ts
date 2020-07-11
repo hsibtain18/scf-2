@@ -20,6 +20,7 @@ const routes: Routes = [
         resolve: {
           UIdata: UIResolverService
         },
+        
         data: [{
           ParentID: -1,
         }]
