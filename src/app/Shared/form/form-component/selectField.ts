@@ -7,14 +7,14 @@ import { FormGroup } from '@angular/forms';
     template: `
    <div   [formGroup]="form" class="form-group   col-md-12 p-0 input-group">
                                         <span class="col-md-12 p-0 has-float-label">
-                                            <!-- <input class="form-control" class="form-control" id="Industry" type="text"
-                                            placeholder="Industry" /> -->
-                                            <select [name]="field.name" [disabled] ="field.readonly"  [id]="field.name"  [formControlName]="field.name"
-                                                class="form-control">
-                                                <option value="0" selected>Morabaha Advance</option>
+                                            <select [name]="field.name"   [id]="field.name"  [formControlName]="field.name"
+                                                class="form-control">label
+                                                <option value="0" selected disabled >  Select {{field.label}} </option>
+                                                <option value="1" selected>Morabaha Advance</option>
 
                                             </select>
-                                            <label [for]="field.name">Product Type</label>
+                                            <label [for]="field.name">{{field.label}}</label>
+
                                         </span>
                                     </div>
   
@@ -30,7 +30,7 @@ export class SelectFieldComponent  implements OnInit {
 
     }
     ngOnInit(): void {
-       console.log(this.form)
+        console.log(this.field,this.form);
     }
 
 }

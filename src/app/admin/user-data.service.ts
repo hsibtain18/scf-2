@@ -23,4 +23,18 @@ export class UserDataService {
 
     });
   }
+  GetCalls(ResourceName: string , ID : any){
+    return new Promise((resolve,reject)=>{
+      let url = baseUrl +"/"+ ResourceName + "/"+ID
+      this._httpClient.get(url)
+      .toPromise()
+      .then(val=> 
+        resolve(val)
+      )
+      .catch(error=>{
+        reject(error)
+      })
+
+    });
+  }
 }

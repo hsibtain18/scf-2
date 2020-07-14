@@ -17,7 +17,7 @@ export class BuilderComponent implements OnInit {
     let fieldsCtrls = {};
     for (let f of this.fields) {
       if (f.type != 'checkbox') {
-        fieldsCtrls[f.name] = new FormControl(f.value || '', Validators.required)
+        fieldsCtrls[f.name] = new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) }, [Validators.required])
       } else {
         let opts = {};
         for (let opt of f.options) {
@@ -27,5 +27,10 @@ export class BuilderComponent implements OnInit {
       }
     }
     this.form = new FormGroup(fieldsCtrls);
+  }
+
+  checkEval(val) {
+    let Status = val.Status
+    return eval(val.readonly);
   }
 }

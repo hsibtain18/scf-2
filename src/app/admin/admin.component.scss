@@ -1,13 +1,16 @@
-.navigation {
-    box-shadow  : 5px 0 10px -5px #7a7979;
-    border-right: 1px solid #a7a7a7;
-    padding     : 0;
-    z-index     : 1;
-}
 
-.mainContent {
-    background-color: #fcfcfc;
-    // height          : 100px;
-    // overflow-y      : scroll;
-
-}
+main{
+    .navigation{
+      box-shadow: 5px 0 10px -5px #7a7979;
+      border-right: 1px solid #a7a7a7;
+      padding: 0;
+      z-index: 1;
+ 
+    }
+    .mainContent {
+        background-color: #fcfcfc;
+        // height          : 100px;
+        // overflow-y      : scroll;
+    
+    }
+  }

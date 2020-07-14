@@ -16,31 +16,30 @@ export class UIResolverService implements Resolve<any>  {
     private activatedRoute: ActivatedRoute
   ) {
     console.log(location.href)
-    let url : string= location.href;
+    let url: string = location.href;
     let number = url.indexOf("/User")
-    if(number<0){
+    if (number < 0) {
       this.Url = JSON.parse(sessionStorage.getItem("SCFMenuItem"))[0].URL
     }
-    else{
+    else {
       this.Url = url.slice(number);
     }
 
   }
 
 
-    resolve(route: ActivatedRouteSnapshot): Promise<any> {
-      console.log(route.data[0])
-      let data : any = route.data[0];
-      let UIObject = this.getComponentID(this.Url)
-      if(data.ParentID==-1){
-        data.MenuID = UIObject.ID
-      }else{
-        data.MenuID =  UIObject.ID
-        data.ParentID = UIObject.InnerViewParentId
-      }
+  resolve(route: ActivatedRouteSnapshot): Promise<any> {
+    let data: any = route.data[0];
+    let UIObject = this.getComponentID(this.Url)
+    if (data.ParentID == -1) {
+      data.MenuID = UIObject.ID
+    } else {
+      data.MenuID = UIObject.ID
+      data.ParentID = UIObject.InnerViewParentId
+    }
     const isLogged = JSON.parse(sessionStorage.getItem('SCFUserToken'));
     if (isLogged) {
-      return this._Service.PostCalls("utility/getUIComponents",  data)
+      return this._Service.PostCalls("utility/getUIComponents", data)
     }
 
 
@@ -50,11 +49,11 @@ export class UIResolverService implements Resolve<any>  {
 
   getComponentID(route: any) {
     let menus = JSON.parse(sessionStorage.getItem("SCFMenuItem"))
-     let c= menus.filter((element) => {
-        if (route.indexOf(element.URL)==0)
-          return element
-      })
-      return c[0]
+    let c = menus.filter((element) => {
+      if (route.indexOf(element.URL) == 0)
+        return element
+    })
+    return c[0]
   }
 
 }

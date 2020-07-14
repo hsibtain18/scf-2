@@ -1,4 +1,23 @@
-<div class="col-md-12  ">
-    <h4> {{heading}} </h4>
-    <form-builder   [fields]="fields"  ></form-builder>
-</div>
+<!-- <form (ngSubmit)="onSubmit.emit(this.form.value)" [formGroup]="form" class="form-horizontal"> -->
+    <div class="col-md-12">
+        <!-- <h4> {{heading}} </h4>
+    <form-builder   [fields]="fields"  ></form-builder> -->
+    <div class="row">
+         <div class="col-md-6" *ngFor="let field of fields">
+            <app-field-builder [field]="field" [form]="form"></app-field-builder>
+
+        </div>
+    </div>
+       
+
+        <div class="row d-flex" *ngIf="buttons.length!=0">
+            <div class="col-md-12 p-0">
+                <div class="text-right">
+                    <button class="btn btn-primary mr-2" (click)="saveValue()" [disabled]="!form.valid" type="submit">Send offer </button>
+                    <button class="btn btn-primary ml-2" type="button">Cancel</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+<!-- </form> -->

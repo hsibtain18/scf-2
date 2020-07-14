@@ -21,10 +21,10 @@
                     <td  *ngIf="options.length!=0">
                         <div ngbDropdown class="d-inline-block">
                             <p class="y" id="GridDropDown" ngbDropdownToggle>Select Actions</p>
-                            <div ngbDropdownMenu aria-labelledby="GridDropDown">
-                                <button [hidden]="checkCondition(data,action.DispCond)"  ngbDropdownItem *ngFor="let action of options"
+                            <div ngbDropdownMenu aria-labelledby="GridDropDown" class="options">
+                                <button [hidden]="checkCondition(data,action.DispCond)" class="border-bottom"  ngbDropdownItem *ngFor="let action of options"
                                     (click)="sendAction(data,action)">
-                                    {{action.ActionItem}}   {{data.StatusValue}} </button>
+                                    {{action.ActionItem}}  </button>
 
                             </div>
                         </div>

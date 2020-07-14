@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, Renderer2 } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { UserDataService } from '../../user-data.service';
+import { InfoPanelComponent } from 'src/app/Shared/info-panel/info-panel.component';
 
 @Component({
   selector: 'app-anchor-edit',
@@ -9,80 +11,66 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AnchorEditComponent implements OnInit {
 
-  active = 1;
-  public anchorDetailForm: FormGroup;
-  public anchorProgramForm: FormGroup;
-  public anchorAgreementForm: FormGroup;
-  anchorID: 0;
-  programCheck: boolean = false
-  public activeIndex: number;
-  temp: any = {
-    AnchorName: "name",
-    Industry: "Industry",
-    NTN: "NTN",
-    Office: "Office",
-    IBAN: "IBAN",
-    ProgramSize: "Industry",
-    ProductType: "0",
-    Tenure: "Tenure",
-    FinancingRate: "FinancingRate",
-  };
-  selectedFile: any = [];
-  constructor(private _routerSnap: ActivatedRoute,
-    private renderer: Renderer2,
 
-  ) {
-    this.anchorID = _routerSnap.snapshot.params.id
-    this.anchorDetailForm = new FormGroup({
-      ID: new FormControl(this.anchorID, [Validators.required]),
-      AnchorName: new FormControl({ value: " ", disabled: true }, [Validators.required]),
-      Industry: new FormControl({ value: " ", disabled: true }, [Validators.required]),
-      NTN: new FormControl({ value: " ", disabled: true }, [Validators.required]),
-      Office: new FormControl({ value: " ", disabled: true }, [Validators.required]),
-      IBAN: new FormControl({ value: " ", disabled: true }, [Validators.required]),
-    })
 
-    this.anchorProgramForm = new FormGroup({
-      ID: new FormControl(this.anchorID, [Validators.required]),
-      ProgramSize: new FormControl(null, [Validators.required]),
-      ProductType: new FormControl(null, [Validators.required]),
-      Tenure: new FormControl(null, [Validators.required]),
-      FinancingRate: new FormControl(null, [Validators.required]),
-    })
+  public UiObject: any = []
+  active = 3;
+  public form: FormGroup;
+  unsubcribe: any
 
+  public status = -6;
+  AnchorObject: any = []
+  constructor(private route: ActivatedRoute,
+    private _dataService: UserDataService) {
+    this._dataService.GetCalls("anchors", 2)
+      .then(data => {
+        this.AnchorObject = data;
+      })
+    this.form = new FormGroup({})
+ 
   }
 
-  openOffer() {
-
-  }
   ngOnInit(): void {
-    this.anchorDetailForm.patchValue(this.temp);
-    this.anchorProgramForm.patchValue(this.temp);
-  }
-  onFileSelectOffer(event) {
-    this.selectedFile = event.target.files[0];
-    if (this.selectedFile != null || Math.round(this.selectedFile.size * 100 / (1024 * 1024) / 100) < 5) {
-      if (this.selectedFile.type == "application/pdf") {
-        alert("acasc");
-      }
-      return;
-    }
-  }
-  onFileSelectAgreement(event) {
-    this.selectedFile = event.target.files[0];
-    if (this.selectedFile != null || Math.round(this.selectedFile.size * 100 / (1024 * 1024) / 100) < 5) {
-      if (this.selectedFile.type == "application/pdf") {
-        alert("acasc");
-      }
-      return;
-    }
-  }
-  chooseUploadFile() {
+    this.UiObject = this.route.snapshot.data.UIdata[0]
+    // this.UiObject = await this.getUiData();
+    // await this.CreateForm()
 
-    let event = new MouseEvent('click', { bubbles: true });
-    // this.renderer.invokeElementMethod(this.myFle.nativeElement, 'dispatchEvent', [event]);
-    // this.renderer.
+  }
+ 
+  getInnerControls(obj: any) {
+    let field: any[] = [];
 
+    obj.forEach(element => {
+      let f: any = {}
+      f.type = element.Type;
+      f.name = element.Options.name;
+      f.label = element.Options.label;
+      f.readonly = element.Options.readonly;
+      if (this.AnchorObject[element.Options.name] != null) {
+        f.value = this.AnchorObject[element.Options.name]
+      }
+      if (element.Type != 'Button') {
+        this.form.addControl(element.Options.name, new FormControl(f.value ? f.value : '', Validators.required));
+      }
+      f.Status = -2;
+      field.push(f);
+
+    });
+    return field;
+  }
+
+  getChildComponent(TypeID) {
+    if (TypeID == 8) {
+      return InfoPanelComponent;
+    }
+
+  }
+  SaveData(Event: any[]){
+    console.log(Event);
+    this._dataService.PostCalls("offer/create",Event)
+    .then(val=>{
+      console.log(val);
+    })
 
   }
 }

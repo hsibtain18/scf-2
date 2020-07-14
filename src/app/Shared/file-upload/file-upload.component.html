@@ -1,10 +1,75 @@
-<div class="col-md-12">
-    <h4>  Upload Offer</h4>
+<form [formGroup]="form">
+    <div class="col-md-12  " *ngIf="!FileView">
+        <h4 *ngIf="(check&&hideTable)">Upload Offer </h4>
+        <h4 *ngIf="(!check&&hideTable)">Upload Agreement </h4>
+        <div class="row mb-3">
+            <div class="form-group col-md-10 input-group">
+                <span class="col-md-12 p-0 has-float-label">
+                    <input class="form-control" class="form-control" id="filename" type="text"  formControlName="FileName"
+                        placeholder="Name" />
+                    <label for="filename">&nbsp;File Name &nbsp;</label>
+                    <input #myFleOffer type="file" style="display: none;" class="inputfile" name="mFileOffer"
+                        id="mFileOffer" (change)=onFileChange($event) accept=".pdf"
+                        #hiddenFile />
 
-    <div class="row">
-        <div class="col-md-8">
-            
+                </span>
+
+            </div>
+            <div class="col-md-2 text-right ">
+                <button class="btn btn-primary " type="button" (click)="hiddenFile.click()">Browse</button>
+
+            </div>
+        </div>
+        <div class="row d-flex">
+            <div class="col-md-12 p-0">
+                <div class="text-right">
+                    <button class="btn btn-primary mr-2" (click)="FileView=true" [disabled]="!form.controls['FileName'].valid" type="submit">Save </button>
+                    <button class="btn btn-primary ml-2" type="button">Cancel</button>
+                </div>
+            </div>
+
         </div>
     </div>
-    <form-builder  [fields]="file"  ></form-builder>
+</form>
+
+<div class="col-md-12" *ngIf="FileView">
+    <h4 *ngIf="(check&&!hideTable)">Uploaded Offer </h4>
+    <h4 *ngIf="(!check&&!hideTable)">Uploaded Agreement </h4>
+    <table class=" cust-table table table-striped">
+        <thead>
+            <tr>
+                <th>File Name</th>
+                <th> Upload Date</th>
+                <th>Action </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let File of FileObject">
+                <td>
+                   {{File.FileName}}
+                </td>
+                <td>
+                   {{File.Date}}
+                   
+                </td>
+
+                <td>
+                    <div ngbDropdown class="d-inline-block">
+                        <p class="y" id="GridDropDown" ngbDropdownToggle>Select Actions</p>
+                        <div ngbDropdownMenu aria-labelledby="GridDropDown">
+                            <button ngbDropdownItem>View</button>
+                            <button ngbDropdownItem>Delete</button>
+
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+        </tbody>
+
+        <!-- </ng-container> -->
+    </table>
+    <!-- <ngb-pagination class="d-flex justify-content-center" [collectionSize]="70" (pageChange)="paginate($event)" size="sm" [(page)]="page"></ngb-pagination> -->
 </div>
+
+<!-- <form-builder  [fields]="file"  ></form-builder> -->

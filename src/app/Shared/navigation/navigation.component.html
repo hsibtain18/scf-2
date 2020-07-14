@@ -4,7 +4,7 @@
 
         <ul class="navbar-nav">
           <li class="nav-item" *ngFor="let nav of SideNav" >
-            <a class="nav-link" [routerLink]="nav.URL" (click)="navToggle()" routerLinkActive="active">
+            <a class="nav-link" [routerLink]="nav.URL" (click)="navToggle()" [routerLinkActive]="active">
                 {{nav.DisplayName}}
             </a>
           </li>
