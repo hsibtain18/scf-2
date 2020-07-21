@@ -8,7 +8,8 @@ import { FormGroup } from '@angular/forms';
 
       <div  [formGroup]="form" class="form-group col-md-12 p-0 input-group">
     <span class="col-md-12 p-0 has-float-label">
-        <input class="form-control"   [id]="field.name"   autocomplete="off"   type="text" [name]="field.name"  
+        <input class="form-control"   [id]="field.name"   autocomplete="off"   [type]="field.inputType" [name]="field.name"  
+        [ngClass]="{'validationError':   (form.controls[field.name].errors && (form.controls[field.name].dirty || form.controls[field.name].touched))}"
         [formControlName]="field.name" placeholder="Name" />
         <label [for]="field.name"> {{field.label}} </label>
     </span>

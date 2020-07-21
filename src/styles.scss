@@ -7,7 +7,45 @@ html {
     body {
         @extend html;
 
+        .form-control {
+            &:focus {
+                border-color      : inherit;
+                -webkit-box-shadow: none;
+                box-shadow        : none;
+            }
+        }
 
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin            : 0;
+        }
+
+        .cust-date {
+            .bs-datepicker-head {
+                background-color: $textColor !important;
+
+                span {
+                    .select-start {
+                        .selected {
+                            background-color: $textColor !important;
+
+                        }
+                    }
+                }
+
+
+
+            }
+
+            .bs-datepicker-body table td span.selected,
+            .bs-datepicker-body table td.selected span,
+            .bs-datepicker-body table td span[class*="select-"]:after,
+            .bs-datepicker-body table td[class*="select-"] span:after {
+                background-color: $textColor !important;
+
+            }
+        }
     }
 
     app-admin,
@@ -32,6 +70,87 @@ html {
 
         app-footer {
             flex-shrink: 0;
+        }
+    }
+}
+
+.toast-container {
+    .ngx-toastr:hover {
+        box-shadow: unset;
+    }
+
+    .toast-warning {
+        background-color: #fdf6ec;
+        border          : 1px solid #97bb3d;
+        color           : black !important;
+        background-image: unset;
+        box-shadow      : unset;
+
+        .toast-close-button {
+            outline: 0;
+        }
+
+        .toast-message:before {
+            content            : "";
+            width              : 15px;
+            height             : 100%;
+            background         : #97bb3d;
+            // background-image: url("./assets/images/icons/icon_info.svg");
+            background-size    : 20px;
+            background-position: 50%;
+            background-repeat  : no-repeat;
+            position           : absolute;
+            left               : 0;
+            top                : 0;
+            color              : #f89406;
+        }
+
+        .toast-close-button {
+            color: dimgrey !important;
+        }
+    }
+
+    .toast-success {
+        @extend .toast-warning;
+        background-color: #ffffff;
+        border          : 1px solid #97bb3d;
+
+        .toast-message:before {
+            background-color   : #97bb3d;
+            color              : #6d6e72;
+            background-size    : 8px;
+            background-position: 20%;
+            background-repeat  : no-repeat;
+        }
+    }
+
+    .toast-error {
+        @extend .toast-warning;
+        background-color: #fae7e9;
+        border          : 1px solid #d8242f;
+
+        .toast-message:before {
+            background         : #d8242f;
+            color              : #d8242f;
+            // background-image: url("./assets/images/icons/icon_error_white.svg");
+            background-size    : 20px;
+            background-position: 50%;
+            background-repeat  : no-repeat;
+        }
+    }
+
+    .toast-info {
+        @extend .toast-warning;
+        background-color: #fff;
+        border          : 1px solid #2f96b4;
+
+        .toast-message:before {
+            background         : #2f96b4;
+            color              : #2f96b4;
+            // background-image: url("./assets/images/icons/icon_info_white.svg");
+            background-size    : 20px;
+            background-position: 50%;
+            background-repeat  : no-repeat;
         }
     }
 }
@@ -249,7 +368,18 @@ html {
                 border-radius: .25rem;
                 height       : 45px;
                 border-radius: 5px;
+
+                &.validationError {
+                    border-color: $validationErrorColor;
+                    color       : $validationErrorColor;
+
+                    +label {
+                        color: $validationErrorColor;
+                    }
+                }
             }
+
+
 
             select {
                 background        : inherit;
@@ -263,7 +393,7 @@ html {
             input {
                 &:focus {
                     outline: none;
-                    border: none;
+                    border : none;
                 }
             }
 

@@ -8,13 +8,21 @@
 
         </div>
     </div> -->
-       {{parentForm.value |json }}
-
         <div class="row d-flex" *ngIf="buttons.length!=0">
             <div class="col-md-12 p-0">
-                <div class="text-right">
-                    <button class="btn btn-primary mr-2" (click)="saveValue()" [disabled]="!parentForm.valid" type="submit">Send offer </button>
-                    <button class="btn btn-primary ml-2" type="button">Cancel</button>
+    
+                <div  class="text-right" >
+                    <ng-template ngFor let-button [ngForOf]="buttons">
+                         
+                        <button  *ngIf="button.options.submit==1; else resetButton" type="submit" (click)="saveValue()"  [disabled]="!parentForm.valid"   [class]="button.options.class"
+                         >{{button.name}} </button>
+          
+                        <ng-template #resetButton>
+                          <button type="submit"  [class]="button.options.class">
+                          {{button.name}} </button>
+          
+                        </ng-template>
+                    </ng-template>
                 </div>
             </div>
 

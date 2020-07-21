@@ -20,15 +20,17 @@
     "@angular/platform-browser": "~9.0.5",
     "@angular/platform-browser-dynamic": "~9.0.5",
     "@angular/router": "~9.0.5",
+    "@hardpool/ngx-spinner": "^2.2.1",
     "@ng-bootstrap/ng-bootstrap": "^6.1.0",
     "bootstrap": "^4.5.0",
     "crypto-js": "^4.0.0",
     "float-label-css": "^1.0.2",
     "jquery": "^3.5.1",
+    "ngx-bootstrap": "^5.6.1",
     "ngx-spinner": "^9.0.2",
-    "@hardpool/ngx-spinner": "^2.2.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
+    "ngx-toastr": "^11.3.2",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {

@@ -1,48 +1,60 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder, ControlContainer, FormGroupDirective } from '@angular/forms';
 import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-file-upload',
   templateUrl: './file-upload.component.html',
-  styleUrls: ['./file-upload.component.scss']
+  styleUrls: ['./file-upload.component.scss'],
+  viewProviders: [{ provide: ControlContainer, useExisting: FormGroupDirective }]
+
 })
 export class FileUploadComponent implements OnInit {
 
   @Output() FileUpload = new EventEmitter();
   @Input() file: any;
-  @Input() parentForm: FormGroup;
+  parentForm: FormGroup;
   @Input() heading: any;
   @Input() check: boolean;
-  FileView : boolean =false;
+  @Input() fileObject: any
+  @Output() FileUploadEvent = new EventEmitter()
+
+  FileView: boolean = false;
   name: string = ""
   hideTable = true;
   FileObject: any[] = []
-  constructor() {
+  constructor(private mainForm: FormGroupDirective) {
+
   }
 
   ngOnInit(): void {
+    this.parentForm = this.mainForm.form;
+    // this.parentForm = 
+    this.FileView = this.fileObject.length != 0 ? true : false;
     this.parentForm.addControl("FileName", new FormControl("", Validators.required))
     this.parentForm.addControl("FileData", new FormControl("", Validators.required))
-
   }
   // public fileEvent(event) {
   //   const reader = new FileReader();
   //   this.form.controls.FileName.setValue(event.target.files[0].name.split('.')[0]);
   // }
   onFileChange(event) {
-
+    // this.parentForm.addControl("FileName", new FormControl("", Validators.required))
+    // this.parentForm.addControl("FileData", new FormControl("", Validators.required))
     this.parentForm.controls.FileName.setValue(event.target.files[0].name.split('.')[0]);
     let val: any[] = event.target.files[0];
     this.parentForm.patchValue({
       FileData: this.fileEvent(event)
     })
-    this.FileObject.push({
-      FileName: this.parentForm.get('FileName').value,
-      Date: formatDate(new Date(), 'yyyy/MM/dd', 'en')
+    this.fileObject.push({
+      FileDisplayName: this.parentForm.get('FileName').value,
+      UploadDate: formatDate(new Date(), 'yyyy/MM/dd', 'en'),
+      Type: 'Inital Offer'
     })
-
+    
   }
+
+
   public fileEvent(event): any {
 
     var fileObjDetail: any = {};
@@ -69,15 +81,15 @@ export class FileUploadComponent implements OnInit {
 
 
 
-      let str = reader.result;
+      let str: any = reader.result;
 
       let bytesString = "";
 
-      // let spl = str.substring(str.indexOf(",") + 1, str.length);
-      // bytesString = window.atob(spl);
-      // for (let i = 0; i < bytesString.length; i++) {
-      //   byteArray.push(bytesString.charCodeAt(i));
-      // }
+      let spl = str.substring(str.indexOf(",") + 1, str.length);
+      bytesString = window.atob(spl);
+      for (let i = 0; i < bytesString.length; i++) {
+        byteArray.push(bytesString.charCodeAt(i));
+      }
 
     }
 
@@ -95,8 +107,8 @@ export class FileUploadComponent implements OnInit {
 
     return fileObjDetail;
   }
-  DeleteFile(){
-    this.FileObject = []
+  DeleteFile() {
+    this.fileObject = []
     this.FileView = false;
   }
 }
