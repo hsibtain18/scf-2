@@ -5,6 +5,7 @@ import { AuthService } from '../auth.service';
 import { loadingConfig } from '../../const/config'
 import { Router } from '@angular/router';
 import { async } from '@angular/core/testing';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private _encrypt: EncryptDecryptService,
     private _authService: AuthService,
-    private  _route :Router ) {
+    private  _route :Router ,
+    private toast : ToastrService) {
 
     this.loginForm = new FormGroup({
       UserName: new FormControl(null, [Validators.required]),
@@ -71,6 +73,7 @@ export class LoginComponent implements OnInit {
       })
       .catch(error => {
         this.showSpinner = false;
+
         console.log(error);
       })
   }

@@ -1,6 +1,6 @@
 <div class="row">
     <!-- <field-builder></field-builder> -->
-    <div class="col-md-6" *ngFor="let field of fields;let i=index; trackBy:trackByFn" >
+    <div class="col-md-6" *ngFor="let field of fields;let i=index; trackBy:trackByFn" > 
         <app-field-builder [field]="field" [form]="form"></app-field-builder>
 
     </div>

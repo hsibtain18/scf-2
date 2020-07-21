@@ -9,6 +9,8 @@ import { AnchorListComponent } from './anchor/anchor-list/anchor-list.component'
 import { LimitListComponent } from './limitapproval/limit-list/limit-list.component';
 import { LimitViewComponent } from './limitapproval/limit-view/limit-view.component';
 import { UIService } from './ui.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 
 @NgModule({
@@ -17,12 +19,14 @@ import { UIService } from './ui.service';
     AnchorListComponent, 
     AnchorEditComponent, 
     LimitListComponent, 
-    LimitViewComponent
+    LimitViewComponent 
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
-    SharedModule
+    SharedModule,
+    // BrowserAnimationsModule,
+    // BsDatepickerModule.forRoot(),
   ],
   providers:[UIService]
 })

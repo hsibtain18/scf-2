@@ -16,7 +16,7 @@ import { TextFieldComponent } from './form/form-component/textField';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { SelectFieldComponent } from './form/form-component/selectField';
 import { DateFieldComponent } from './form/form-component/dateField';
-
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 
 @NgModule({
@@ -37,7 +37,8 @@ import { DateFieldComponent } from './form/form-component/dateField';
     NgbModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
-    RouterModule
+    RouterModule,
+    BsDatepickerModule.forRoot(),
   ],
   exports: [
     HeaderComponent,
@@ -50,7 +51,8 @@ import { DateFieldComponent } from './form/form-component/dateField';
     InfoPanelComponent,
     BuilderComponent,
     FileUploadComponent,
-    SelectFieldComponent
+    SelectFieldComponent,
+    BsDatepickerModule
 
   ],
   providers: [
