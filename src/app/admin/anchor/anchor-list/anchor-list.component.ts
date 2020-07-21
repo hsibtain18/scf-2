@@ -32,7 +32,7 @@ export class AnchorListComponent implements OnInit {
   }
 
   View(anchor) {
-    this._router.navigate(['/User/Anchor/View/' + 2])
+    this._router.navigate(['/User/Anchor/View/' + anchor.data.ID])
   }
 
   GetGridData() {
@@ -44,6 +44,6 @@ export class AnchorListComponent implements OnInit {
 
   openAction(data: any){
     console.log(data);
-    this.View(null);
+    this.View(data);
   }
 }

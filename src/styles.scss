@@ -223,23 +223,22 @@ html {
         .has-float-label {
             label {
                 left         : 15px;
-                top          : -8px;
+                top          : -6px;
                 padding      : 0px 1px;
                 z-index      : 1;
                 margin-bottom: unset;
-
-                color: $textColor;
+                color        : $textColor;
 
                 &::after {
-                    content         : " ";
-                    display         : block;
-                    position        : absolute;
-                    background-color: #f8f8f8;
-                    height          : 4px;
-                    top             : 50%;
-                    left            : -.2em;
-                    right           : -.2em;
-                    z-index         : -1;
+                    content   : " ";
+                    display   : block;
+                    position  : absolute;
+                    background: white;
+                    height    : 2px;
+                    top       : 47%;
+                    left      : -0.2em;
+                    right     : -0.2em;
+                    z-index   : -1;
                 }
             }
 
@@ -259,6 +258,13 @@ html {
                 -webkit-appearance: menulist;
                 -moz-appearance   : menulist;
                 appearance        : menulist;
+            }
+
+            input {
+                &:focus {
+                    outline: none;
+                    border: none;
+                }
             }
 
             input:-webkit-autofill {

@@ -6,8 +6,8 @@
     <div class="col-md-12" [ngSwitch]="field.type">
       <textField *ngSwitchCase="'TextBox'" [field]="field" [form]="form"></textField>
       <dropdown *ngSwitchCase="'Select'" [field]="field" [form]="form"></dropdown>
-      <!-- <checkbox *ngSwitchCase="'checkbox'" [field]="field" [form]="form"></checkbox>
-      <radio *ngSwitchCase="'radio'" [field]="field" [form]="form"></radio>
+     <DateField *ngSwitchCase="'DateRangePicker'" [field]="field" [form]="form"></DateField>
+      <!--  <radio *ngSwitchCase="'radio'" [field]="field" [form]="form"></radio>
       <file *ngSwitchCase="'file'" [field]="field" [form]="form"></file> -->
       <!-- <div class="alert alert-danger my-1 p-2 fadeInDown animated" *ngIf="!isValid && isDirty">{{field.label}} is required</div> -->
     </div>

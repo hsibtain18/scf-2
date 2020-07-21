@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { UserDataService } from '../../user-data.service';
 
 @Component({
   selector: 'app-limit-list',
@@ -7,30 +8,42 @@ import { Router } from '@angular/router';
   styleUrls: ['./limit-list.component.scss']
 })
 export class LimitListComponent implements OnInit {
-
   public column: any = [];
   public list = [];
+  public constObject: any = [];
+  filterObject: any = {
+    "TotalRecords": 10, "PageNumber": 0
+  }
   constructor(
-    private _router: Router
-  ) { }
+    private _router: Router,
+    private _UserService: UserDataService,
+    private route: ActivatedRoute 
+  ) {
+    
+   }
 
 
   ngOnInit(): void {
-
-    this.column = [
-      { header: "Header 1", fieldName: "header1" },
-      { header: "Header 1", fieldName: "header2" },
-      { header: "Header 1", fieldName: "header3" },
-      { header: "Header 1", fieldName: "header4" },
-      { header: "Actions", fieldName: "header5" },
-    ];
-    this.list = [
-      { ID: 0, name: "asc", name2: "name2", name3: "name3" }
-    ]
+    const UI = this.route.snapshot.data.UIdata[0]
+    this.constObject["Heading"] = UI.Heading;
+    this.constObject["Headers"] = UI.Controls[0].Options.Headers;
+    this.constObject["Options"] = UI.Controls[0].Options.ActionItems;
+    this.GetGridData();
   }
 
   View(anchor) {
-    this._router.navigate(['/user/limitapprove/view/' + 2])
+    this._router.navigate(['/User/Anchor/View/' + 2])
   }
 
+  GetGridData() {
+    this._UserService.PostCalls("limit/search", this.filterObject)
+      .then((val: any) => {
+        this.list = val;
+      })
+  }
+
+  openAction(data: any){
+    console.log(data);
+    this.View(null);
+  }
 }

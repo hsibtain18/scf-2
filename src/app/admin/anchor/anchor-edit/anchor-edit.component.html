@@ -4,24 +4,24 @@
             <a routerLink="/user/dashboard">Anchor Onboarding</a>
         </li>
         <li class="breadcrumb-item active">
-            <a routerLink="/user/dashboard">Add</a>
+            <a routerLink="/user/dashboard">View</a>
         </li>
     </ol>
     <div class="container-fluid" *ngIf="AnchorObject.length!=0">
 
-        <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+        <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs" (navChange)="change($event)" >
             <li *ngFor="let tabs of UiObject.Controls[0].Controls" [ngbNavItem]="tabs.ID" >
                 <a class="navlinks" ngbNavLink> {{tabs.Options.text}} </a>
                 <ng-template ngbNavContent>
-                 <form [formGroup]="form">
+                 <!-- <form [formGroup]="form" > -->
                     <div class=" tabContent" *ngFor="let innerTab of tabs.Controls" >
                       
                          <!-- {{innerTab.Controls |json }} -->
-                        <app-info-panel [form]="form" *ngIf="innerTab.TypeID==8" [heading]="innerTab.Options.text" [status]="status" [fields]="getInnerControls(innerTab.Controls)" 
+                        <app-info-panel *ngIf="innerTab.TypeID==8" [heading]="innerTab.Options.text" [Status]="Status"   [fields]="getInnerControls(innerTab)" 
                         (onSubmit)="SaveData($event)" ></app-info-panel>
-                        <app-file-upload  [form]="form"  *ngIf="innerTab.TypeID==9" [heading]="innerTab.Options.text"  [check]="tabs.Options.text=='Program Offer'"  ></app-file-upload>
+                        <app-file-upload  [parentForm]="form.get(innerTab.Type+innerTab.ID)" *ngIf="innerTab.TypeID==9" [heading]="innerTab.Options.text"  [check]="tabs.Options.text=='Program Offer'"  ></app-file-upload>
                     </div>
-                 </form>
+                 <!-- </form> -->
                 </ng-template>
             </li>
         </ul>

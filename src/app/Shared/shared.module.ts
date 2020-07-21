@@ -15,6 +15,7 @@ import { FieldBuilderComponent } from './form/field-builder/field-builder.compon
 import { TextFieldComponent } from './form/form-component/textField';
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { SelectFieldComponent } from './form/form-component/selectField';
+import { DateFieldComponent } from './form/form-component/dateField';
 
 
 
@@ -28,7 +29,8 @@ import { SelectFieldComponent } from './form/form-component/selectField';
     FieldBuilderComponent,
     TextFieldComponent,
     FileUploadComponent,
-    SelectFieldComponent
+    SelectFieldComponent,
+    DateFieldComponent
   ],
   imports: [
     CommonModule,

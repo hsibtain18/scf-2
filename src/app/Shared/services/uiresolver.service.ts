@@ -3,6 +3,7 @@ import { Resolve, ActivatedRouteSnapshot, ActivatedRoute, Router, ResolveEnd, Ur
 import { Observable } from 'rxjs';
 import { UserDataService } from 'src/app/admin/user-data.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { UIService } from 'src/app/admin/ui.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,12 +11,8 @@ import { AuthService } from 'src/app/auth/auth.service';
 export class UIResolverService implements Resolve<any>  {
 
   private Url = ""
-  constructor(private _Service: UserDataService,
-    private _service: AuthService,
-    private _ActivateRoute: Router,
-    private activatedRoute: ActivatedRoute
+  constructor(private _UIService: UIService,
   ) {
-    console.log(location.href)
     let url: string = location.href;
     let number = url.indexOf("/User")
     if (number < 0) {
@@ -39,7 +36,7 @@ export class UIResolverService implements Resolve<any>  {
     }
     const isLogged = JSON.parse(sessionStorage.getItem('SCFUserToken'));
     if (isLogged) {
-      return this._Service.PostCalls("utility/getUIComponents", data)
+      return this._UIService.GetUICalls("utility/getUIComponents", data)
     }
 
 

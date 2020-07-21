@@ -11,7 +11,7 @@ export class FileUploadComponent implements OnInit {
 
   @Output() FileUpload = new EventEmitter();
   @Input() file: any;
-  @Input() form: FormGroup;
+  @Input() parentForm: FormGroup;
   @Input() heading: any;
   @Input() check: boolean;
   FileView : boolean =false;
@@ -22,9 +22,8 @@ export class FileUploadComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.form)
-    this.form.addControl("FileName", new FormControl("", Validators.required))
-    this.form.addControl("FileData", new FormControl("", Validators.required))
+    this.parentForm.addControl("FileName", new FormControl("", Validators.required))
+    this.parentForm.addControl("FileData", new FormControl("", Validators.required))
 
   }
   // public fileEvent(event) {
@@ -33,13 +32,13 @@ export class FileUploadComponent implements OnInit {
   // }
   onFileChange(event) {
 
-    this.form.controls.FileName.setValue(event.target.files[0].name.split('.')[0]);
+    this.parentForm.controls.FileName.setValue(event.target.files[0].name.split('.')[0]);
     let val: any[] = event.target.files[0];
-    this.form.patchValue({
+    this.parentForm.patchValue({
       FileData: this.fileEvent(event)
     })
     this.FileObject.push({
-      FileName: this.form.get('FileName').value,
+      FileName: this.parentForm.get('FileName').value,
       Date: formatDate(new Date(), 'yyyy/MM/dd', 'en')
     })
 
@@ -74,11 +73,11 @@ export class FileUploadComponent implements OnInit {
 
       let bytesString = "";
 
-      let spl = str.substring(str.indexOf(",") + 1, str.length);
-      bytesString = window.atob(spl);
-      for (let i = 0; i < bytesString.length; i++) {
-        byteArray.push(bytesString.charCodeAt(i));
-      }
+      // let spl = str.substring(str.indexOf(",") + 1, str.length);
+      // bytesString = window.atob(spl);
+      // for (let i = 0; i < bytesString.length; i++) {
+      //   byteArray.push(bytesString.charCodeAt(i));
+      // }
 
     }
 

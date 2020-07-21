@@ -1,4 +1,4 @@
-<form [formGroup]="form">
+<form [formGroup]="parentForm">
     <div class="col-md-12  " *ngIf="!FileView">
         <h4 *ngIf="(check&&hideTable)">Upload Offer </h4>
         <h4 *ngIf="(!check&&hideTable)">Upload Agreement </h4>
@@ -23,7 +23,7 @@
         <div class="row d-flex">
             <div class="col-md-12 p-0">
                 <div class="text-right">
-                    <button class="btn btn-primary mr-2" (click)="FileView=true" [disabled]="!form.controls['FileName'].valid" type="submit">Save </button>
+                    <button class="btn btn-primary mr-2" (click)="FileView=true" [disabled]="!parentForm.controls['FileName'].valid" type="submit">Save </button>
                     <button class="btn btn-primary ml-2" type="button">Cancel</button>
                 </div>
             </div>

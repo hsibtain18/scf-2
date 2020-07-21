@@ -30,7 +30,6 @@ export class SelectFieldComponent  implements OnInit {
 
     }
     ngOnInit(): void {
-        console.log(this.field,this.form);
     }
 
 }

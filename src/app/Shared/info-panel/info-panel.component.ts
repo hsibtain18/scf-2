@@ -11,13 +11,12 @@ export class InfoPanelComponent implements OnInit {
   @Output() onSubmit = new EventEmitter();
   @Input() fields: any[] = [];
   @Input() heading: string = "";
-  @Input() status: number;
+  @Input() Status: number;
   buttons: any[] = []
-  @Input() form: FormGroup;
+  parentForm: FormGroup;
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.form)
     this.buttons = this.fields.filter((element => {
       if (element.type == 'Button')
         return element;
@@ -26,20 +25,27 @@ export class InfoPanelComponent implements OnInit {
     let fieldsCtrls = {};
     for (let f of this.fields) {
       if (f.type != 'checkbox' && f.type != 'Button') {
-        fieldsCtrls[f.name] = new FormControl(f.value ? f.value : "", [Validators.required])
+        if (f.type == 'DateRangePicker') {
+          console.log(f);
+        }
+        else {
+          fieldsCtrls[f.name] = new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) }, [Validators.required])
+        }
       }
 
     }
-    // this.form = new FormGroup(fieldsCtrls);
+    this.parentForm = new FormGroup(fieldsCtrls);
+    // console.log(this.parentForm.controls)
   }
 
 
   checkEval(val) {
     let Status = val.Status
-    return false;
+    return eval(val.readonly);
   }
   saveValue() {
     // console.log(this.form.value)
-    this.onSubmit.emit(this.form.value)
+    this.onSubmit.emit(this.parentForm.value)
   }
+  moveBack
 }

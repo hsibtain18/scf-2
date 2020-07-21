@@ -3,14 +3,14 @@
         <li class="breadcrumb-item">
             <!-- <a routerLink="/user/dashboard">Anchor Onboarding</a> -->
         </li>
-
+        
     </ol>
     <div class="container-fluid">
 
         <div class="contentHeader row">
             <div class="heading col-md-3">
                 <div class="row">
-                    <h3>Limit Approver</h3>
+                    <h3> {{constObject.Heading}} </h3>
                 </div>
 
             </div>
@@ -18,38 +18,8 @@
                 <button class="btn btn-primary">Export</button>
             </div>
         </div>
-        <div class="  customGrid">
-            <table class="table table-striped">
-                <thead>
-                    <!-- <ng-container *ngFor="let group of header"> -->
-                    <tr>
-                        <th *ngFor="let group of column">
-                            {{group.header}}
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let col of list">
-                        <td> {{col.ID}}</td>
-                        <td> {{col.name}}</td>
-                        <td> {{col.name2}}</td>
-                        <td> {{col.name3}}</td>
-                        <td>
-                            <div ngbDropdown class="d-inline-block">
-                                <p class="y" id="GridDropDown" ngbDropdownToggle>Select Actions</p>
-                                <div ngbDropdownMenu aria-labelledby="GridDropDown">
-                                    <button ngbDropdownItem (click)="View(col)">View</button>
-                                    <button ngbDropdownItem (click)="View(col)">Approve </button>
-                                    <button ngbDropdownItem (click)="View(col)">Reject </button>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
+    
+    <app-grid [UIObject]="constObject"  [val]="list" (Action)="openAction($event)" ></app-grid>
 
-                <!-- </ng-container> -->
-            </table>
-        </div>
     </div>
-    <!-- <app-grid [col]='column' [val]="list"></app-grid> -->
 </section>
