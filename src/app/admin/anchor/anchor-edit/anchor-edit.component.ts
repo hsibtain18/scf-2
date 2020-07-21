@@ -22,7 +22,7 @@ export class AnchorEditComponent implements OnInit {
   public Status: any;
   AnchorObject: any = []
   AnchorID: number;
-  sendObject: any =[];
+  sendObject: any ={};
   constructor(private route: ActivatedRoute,
     private _dataService: UserDataService,
     private builder: FormBuilder) {
@@ -97,6 +97,7 @@ export class AnchorEditComponent implements OnInit {
     this.Mapper(Event);
     // this.form.addControl("offer",Event)
     console.log(this.form);
+    this.sendObject.AnchorCode=this.AnchorObject.Data.AnchorCode
     this._dataService.PostCalls("offer/create", this.sendObject)
       .then(val => {
         console.log(val);
