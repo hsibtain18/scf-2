@@ -57,4 +57,15 @@ export class AnchorListComponent implements OnInit {
 
     console.log(data);
   }
+
+  exportCSV(){
+    // this._UserService.PostCalls("")
+
+    // var hiddenElement = document.createElement('a');
+
+    //             hiddenElement.href = 'data:attachment/csv,' + encodeURI(data._body);
+    //             hiddenElement.target = '_blank';
+    //             hiddenElement.download = 'orders.csv';
+    //             hiddenElement.click();
+  }
 }
