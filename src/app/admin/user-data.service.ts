@@ -37,4 +37,18 @@ export class UserDataService {
 
     });
   }
+  PutCalls(ResourceName: string , obj : any){
+    return new Promise((resolve,reject)=>{
+      let url = baseUrl +"/"+ ResourceName
+      this._httpClient.put(url,obj)
+      .toPromise()
+      .then(val=> 
+        resolve(val)
+      )
+      .catch(error=>{
+        reject(error)
+      })
+
+    });
+  }
 }

@@ -17,10 +17,10 @@ export class AnchorListComponent implements OnInit {
   constructor(
     private _router: Router,
     private _UserService: UserDataService,
-    private route: ActivatedRoute 
+    private route: ActivatedRoute
   ) {
-    
-   }
+
+  }
 
 
   ngOnInit(): void {
@@ -42,8 +42,19 @@ export class AnchorListComponent implements OnInit {
       })
   }
 
-  openAction(data: any){
+  openAction(data: any) {
+    if (data.action.ActionItem == "View") {
+      this.View(data);
+
+    }
+    if (data.action.ActionItem == "Reject") {
+      this._UserService.PutCalls("anchors/reject", { ID: data.data.ID })
+        .then(val => {
+          this.GetGridData();
+        })
+
+    }
+
     console.log(data);
-    this.View(data);
   }
 }

@@ -10,9 +10,6 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 
       <div  [formGroup]="form" class="form-group col-md-12 p-0 input-group">
     <span class="col-md-12 p-0 has-float-label">
-
-        <!-- <input class="form-control" placeholder="yyyy-mm-dd" [formControlName]="field.name"
-             name="dp"   ngbDatepicker (click)="d.toggle()"#d="ngbDatepicker"> -->
              <input type="text"
            placeholder="Daterangepicker"
            class="form-control" (bsValueChange)="dateRangeCreated($event)"

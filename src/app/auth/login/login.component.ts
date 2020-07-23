@@ -66,14 +66,13 @@ export class LoginComponent implements OnInit {
           delete val.UserAccount.SideMenu;
           sessionStorage.setItem("SCFUserIdentity",JSON.stringify(val.UserAccount));
           sessionStorage.setItem("SCFUserToken",JSON.stringify(token.access_token));
-          //this._route.navigate(['/user/anchor'])
           this._route.navigateByUrl(sideMenu[0].URL);
           console.log(sideMenu[0]);
         }
       })
       .catch(error => {
         this.showSpinner = false;
-
+        this.loginFailure = true;
         console.log(error);
       })
   }

@@ -1,10 +1,10 @@
 <section class="componentView">
     <ol class="breadcrumb m-3">
         <li class="breadcrumb-item">
-            <a routerLink="/user/dashboard">Anchor Onboarding</a>
+            <a routerLink="/User/Anchor">Anchor Onboarding</a>
         </li>
         <li class="breadcrumb-item active">
-            <a routerLink="/user/dashboard">View</a>
+             View
         </li>
     </ol>
     <div class="container-fluid" *ngIf="AnchorObject.length!=0">
@@ -15,12 +15,12 @@
                 <ng-template ngbNavContent>
                  <form [formGroup]="form" >
                     <div class=" tabContent" *ngFor="let innerTab of tabs.Controls" >
-                      
                          <!-- {{innerTab.Controls |json }} -->
-                        <app-info-panel    *ngIf="innerTab.TypeID==8" [heading]="innerTab.Options.text" [Status]="Status"   [fields]="getInnerControls(innerTab)" 
+                        <app-info-panel    *ngIf="innerTab.TypeID==8" [heading]="innerTab.Options.text" [Status]="Status" [formname]="innerTab.Type+''+innerTab.ID"  [fields]="getInnerControls(innerTab)" 
                         (onSubmit)="SaveData($event)" ></app-info-panel>
                         <app-file-upload    *ngIf="innerTab.TypeID==9" [heading]="innerTab.Options.text"  
-                        (FileUpload)="FileUploadAPI($event)" [check]="tabs.Options.text=='Program Offer'" (FileUploadEvent)="FileEvent($event)" [fileObject]="getFileObject(innerTab)" ></app-file-upload>
+                        (FileUpload)="FileUploadAPI($event)" [check]="tabs.Options.text=='Program Offer'" (FileUploadEvent)="FileEvent($event)" [fileObject]="getFileObject(innerTab)" 
+                        [fields]="getInnerControls(innerTab)"   ></app-file-upload>
                     </div>
                  </form>
                 </ng-template>

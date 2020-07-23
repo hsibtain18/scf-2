@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, Renderer2 } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserDataService } from '../../user-data.service';
 import { InfoPanelComponent } from 'src/app/Shared/info-panel/info-panel.component';
 
@@ -16,36 +16,37 @@ export class AnchorEditComponent implements OnInit {
 
   public UiObject: any = []
   active = 3;
-  public form: FormGroup;
+  public form = new FormGroup({});
   unsubcribe: any
 
   public Status: any;
   AnchorObject: any = []
   AnchorID: number;
-  sendObject: any ={};
+  sendObject: any = {};
   constructor(private route: ActivatedRoute,
     private _dataService: UserDataService,
-    private builder: FormBuilder) {
+    private _router: Router) {
     this.route.params.subscribe(params => {
       this.AnchorID = +params['id'];
       this._dataService.GetCalls("anchors", this.AnchorID)
         .then((data: any) => {
           this.AnchorObject = data;
           this.Status = data.Data.Status
+          this.form.addControl("ID", new FormControl(data.Data.ID));
         })
     });
 
-    this.form = new FormGroup({});
 
   }
 
-  async ngOnInit(): Promise<any> {
+  ngOnInit(): void {
     this.UiObject = this.route.snapshot.data.UIdata[0]
+
     // this.UiObject = await this.getUiData();
     // await this.CreateForm()
-    console.log(this.form)
 
   }
+
   CreateForm() {
     return new Promise((resolve, reject) => {
       this.UiObject.Controls[0].Controls.forEach(element => {
@@ -93,15 +94,28 @@ export class AnchorEditComponent implements OnInit {
     }
 
   }
-  SaveData(Event: any) {
-    this.Mapper(Event);
-    // this.form.addControl("offer",Event)
-    console.log(this.form);
-    this.sendObject.AnchorCode=this.AnchorObject.Data.AnchorCode
-    this._dataService.PostCalls("offer/create", this.sendObject)
-      .then(val => {
-        console.log(val);
-      })
+  SaveData(action) {
+    // this.Mapper(Event);
+
+
+    if (action == "Reject") {
+      this._dataService.PutCalls("anchors/reject", { ID: this.form.get('ID').value })
+        .then(val => {
+          this._router.navigate(['/User/Anchor']);
+        })
+    }
+    else {
+      this._dataService.PostCalls("offer/create", this.form.value)
+        .then(val => {
+          this._router.navigate(['/User/Anchor']);
+          console.log(val);
+        })
+    }
+
+    this.form.addControl("AnchorCode", new FormControl(this.AnchorObject.Data.AnchorCode));
+
+    console.log(this.form.value);
+
 
   }
   getForm(val) {
@@ -110,24 +124,16 @@ export class AnchorEditComponent implements OnInit {
   change(val) {
     console.log(val)
   }
-  FileUploadAPI(FormValue : any) {
-    this.sendObject["FileData"]={
-      FileData:FormValue.FileData.FileData,
-      FileDisplayName:FormValue.FileName,
-      FileExtension:FormValue.FileData.FileExtension,
-      FileType:FormValue.FileData.FileType
-    };
+  FileUploadAPI(FormValue: any) {
 
-  
-    // this.form.addControl("Offer Upload", FormValue);
     console.log(this.form);
   }
-   Mapper(obj: any){
-    Object.keys(obj).forEach((key, idx)=> {
-      this.sendObject[key]=obj[key];
+  Mapper(obj: any) {
+    Object.keys(obj).forEach((key, idx) => {
+      this.sendObject[key] = obj[key];
     });
-   }
-  
+  }
+
 
   CheckCondition(val) {
     return eval(val);

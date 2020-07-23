@@ -12,8 +12,8 @@ import { formatDate } from '@angular/common';
 export class FileUploadComponent implements OnInit {
 
   @Output() FileUpload = new EventEmitter();
-  @Input() file: any;
-  parentForm: FormGroup;
+  @Input() fields: any;
+  childForm: FormGroup;
   @Input() heading: any;
   @Input() check: boolean;
   @Input() fileObject: any
@@ -28,30 +28,47 @@ export class FileUploadComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.parentForm = this.mainForm.form;
-    // this.parentForm = 
+    this.childForm = this.mainForm.form;
+    console.log(this.fields);
     this.FileView = this.fileObject.length != 0 ? true : false;
-    this.parentForm.addControl("FileName", new FormControl("", Validators.required))
-    this.parentForm.addControl("FileData", new FormControl("", Validators.required))
+    // this.parentForm.addControl("FileName", new FormControl("", Validators.required))
+    // this.parentForm.addControl("FileData", new FormControl("", Validators.required))
+    for (let f of this.fields) {
+      if (f.type != "Collection" ) {
+        // fieldsCtrls[f.name] = new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) })
+        this.childForm.addControl(f.name, new FormControl({ value: "", disabled: true }, Validators.required));
+
+
+      }
+
+    }
+    this.childForm.addControl('FileDate', new FormControl({ value: "", disabled: true }, Validators.required));
+
+    // this.onValueChange()
   }
   // public fileEvent(event) {
   //   const reader = new FileReader();
   //   this.form.controls.FileName.setValue(event.target.files[0].name.split('.')[0]);
   // }
+  onValueChange() {
+    this.childForm.valueChanges.subscribe(val => {
+      console.log(val);
+    })
+  }
   onFileChange(event) {
-    // this.parentForm.addControl("FileName", new FormControl("", Validators.required))
-    // this.parentForm.addControl("FileData", new FormControl("", Validators.required))
-    this.parentForm.controls.FileName.setValue(event.target.files[0].name.split('.')[0]);
-    let val: any[] = event.target.files[0];
-    this.parentForm.patchValue({
-      FileData: this.fileEvent(event)
+
+    const name = this.fields[0].name
+    this.childForm.get(name).enable()
+    // this.childForm.patchValue({ [name]: event.target.files[0].name.split('.')[0] }); // added []
+    this.childForm.patchValue({
+      [this.fields[0].name]: event.target.files[0].name.split('.')[0],
+      [this.fields[1].name]: this.fileEvent(event),
     })
     this.fileObject.push({
-      FileDisplayName: this.parentForm.get('FileName').value,
+      FileDisplayName: this.childForm.get(this.fields[0].name).value,
       UploadDate: formatDate(new Date(), 'yyyy/MM/dd', 'en'),
-      Type: 'Inital Offer'
     })
-    
+
   }
 
 

@@ -5,7 +5,7 @@ import { FormGroup, FormControl, Validators, ControlContainer, FormGroupDirectiv
   selector: 'app-info-panel',
   templateUrl: './info-panel.component.html',
   styleUrls: ['./info-panel.component.scss'],
-  viewProviders:[{provide:ControlContainer,useExisting:FormGroupDirective}]
+  viewProviders: [{ provide: ControlContainer, useExisting: FormGroupDirective }]
 
 })
 export class InfoPanelComponent implements OnInit {
@@ -14,44 +14,58 @@ export class InfoPanelComponent implements OnInit {
   @Input() fields: any[] = [];
   @Input() heading: string = "";
   @Input() Status: number;
+  @Input() formname: any
   buttons: any[] = []
-  parentForm: FormGroup;
-  constructor(private mainForm:FormGroupDirective) { }
+  childForm;
+  constructor(public mainForm: FormGroupDirective) { }
 
   ngOnInit(): void {
+    this.childForm = this.mainForm.form
     this.buttons = this.fields.filter((element => {
       if (element.type == 'Button')
         return element;
     }))
-    console.log(this.buttons);
+    console.log(this.Status)
     let fieldsCtrls = {};
     for (let f of this.fields) {
       if (f.type != 'checkbox' && f.type != 'Button') {
         if (f.type == 'DateRangePicker') {
-          // console.log(f);
-          fieldsCtrls[f.name] = new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) })
+          // fieldsCtrls[f.name] = new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) })
+          this.childForm.addControl(f.name, new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) }, Validators.required));
 
         }
         else {
-          fieldsCtrls[f.name] = new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) }, [Validators.required])
+          this.childForm.addControl(f.name, new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) }, Validators.required));
+
         }
       }
 
     }
-    this.parentForm = new FormGroup(fieldsCtrls);
+
+
   }
+  dateRangeCreated($event, field) {
+    this.childForm.addControl(field.options.endDate, new FormControl($event[1].toJSON().split('T')[0], Validators.required))
+    this.childForm.addControl(field.options.startDate, new FormControl($event[0].toJSON().split('T')[0], Validators.required))
 
 
+  }
+  getForm() {
+    return this.childForm.get(this.formname) as FormGroup;
+  }
   checkEval(val) {
     let Status = val.Status
     return eval(val.readonly);
   }
-  buttonsCondition(val){
+  buttonsCondition(val) {
     return eval(val)
   }
-  saveValue() {
-    // console.log(this.form.value)
-    this.onSubmit.emit(this.parentForm.value)
+  saveValue(val) {
+    // console.log(val)
+    this.onSubmit.emit(val.name)
   }
-  
+  trackByFn(index: any, item: any) {
+    return index;
+  }
+
 }
