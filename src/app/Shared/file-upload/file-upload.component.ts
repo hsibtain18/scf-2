@@ -38,7 +38,7 @@ export class FileUploadComponent implements OnInit {
         if (f.type != "Collection") {
           // fieldsCtrls[f.name] = new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) })
           if (f.type == "Checkbox") {
-            this.childForm.addControl(f.name, new FormControl(true, Validators.required));
+            this.childForm.addControl(f.name, new FormControl(false, Validators.required));
 
           }
           else {
