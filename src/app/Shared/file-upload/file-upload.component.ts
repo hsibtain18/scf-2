@@ -17,8 +17,9 @@ export class FileUploadComponent implements OnInit {
   @Input() heading: any;
   @Input() check: boolean;
   @Input() fileObject: any
+  @Input() DirectCall: any;
   @Output() FileUploadEvent = new EventEmitter()
-
+  upload = true;
   FileView: boolean = false;
   name: string = ""
   hideTable = true;
@@ -29,27 +30,36 @@ export class FileUploadComponent implements OnInit {
 
   ngOnInit(): void {
     this.childForm = this.mainForm.form;
-    console.log(this.fields);
-    this.FileView = this.fileObject.length != 0 ? true : false;
+    console.log(this.DirectCall);
     // this.parentForm.addControl("FileName", new FormControl("", Validators.required))
     // this.parentForm.addControl("FileData", new FormControl("", Validators.required))
-    for (let f of this.fields) {
-      if (f.type != "Collection" ) {
-        // fieldsCtrls[f.name] = new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) })
-        this.childForm.addControl(f.name, new FormControl({ value: "", disabled: true }, Validators.required));
+    if (this.fileObject.length == 0) {
+      for (let f of this.fields) {
+        if (f.type != "Collection") {
+          // fieldsCtrls[f.name] = new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) })
+          if (f.type == "Checkbox") {
+            this.childForm.addControl(f.name, new FormControl(true, Validators.required));
 
+          }
+          else {
+            this.childForm.addControl(f.name, new FormControl({ value: "", disabled: false }, Validators.required));
+
+          }
+
+        }
 
       }
 
     }
-    this.childForm.addControl('FileDate', new FormControl({ value: "", disabled: true }, Validators.required));
+    else {
+      this.FileView = this.fileObject.length != 0 ? true : false;
+
+    }
+    // this.childForm.addControl('FileDat', new FormControl({ value: "", disabled: true }, Validators.required));
 
     // this.onValueChange()
   }
-  // public fileEvent(event) {
-  //   const reader = new FileReader();
-  //   this.form.controls.FileName.setValue(event.target.files[0].name.split('.')[0]);
-  // }
+
   onValueChange() {
     this.childForm.valueChanges.subscribe(val => {
       console.log(val);
@@ -64,8 +74,10 @@ export class FileUploadComponent implements OnInit {
       [this.fields[0].name]: event.target.files[0].name.split('.')[0],
       [this.fields[1].name]: this.fileEvent(event),
     })
+    this.upload = false;
+
     this.fileObject.push({
-      FileDisplayName: this.childForm.get(this.fields[0].name).value,
+      FileDisplayName: this.childForm.controls[this.fields[0].name].value,
       UploadDate: formatDate(new Date(), 'yyyy/MM/dd', 'en'),
     })
 
@@ -121,11 +133,32 @@ export class FileUploadComponent implements OnInit {
       fileObjDetail.FileExtension = extension[1];
 
     fileObjDetail.FileType = file.type;
+    fileObjDetail.FileName = file.name.split('.')[0];
 
     return fileObjDetail;
   }
   DeleteFile() {
     this.fileObject = []
+    this.childForm.get(this.fields[0].name).reset();
     this.FileView = false;
+    this.upload = true;
+
+  }
+
+  SendCall(action) {
+    let obj = {
+      directCall: this.DirectCall,
+      ActionValue: action
+    }
+    if (this.DirectCall == 'false' && action == "cancel") {
+      this.DeleteFile();
+    }
+    if (this.DirectCall == 'false' && action == "save") {
+      this.FileView = true;
+      this.fileObject[0].FileDisplayName = this.childForm.controls[this.fields[0].name].value
+    }
+    else {
+      this.FileUpload.emit(obj)
+    }
   }
 }

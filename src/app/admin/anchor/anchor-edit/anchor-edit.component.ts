@@ -105,6 +105,8 @@ export class AnchorEditComponent implements OnInit {
         })
     }
     else {
+      this.form.addControl("AnchorCode", new FormControl(this.AnchorObject.Data.AnchorCode));
+
       this._dataService.PostCalls("offer/create", this.form.value)
         .then(val => {
           this._router.navigate(['/User/Anchor']);
@@ -112,7 +114,6 @@ export class AnchorEditComponent implements OnInit {
         })
     }
 
-    this.form.addControl("AnchorCode", new FormControl(this.AnchorObject.Data.AnchorCode));
 
     console.log(this.form.value);
 
@@ -124,9 +125,26 @@ export class AnchorEditComponent implements OnInit {
   change(val) {
     console.log(val)
   }
-  FileUploadAPI(FormValue: any) {
+  FileUploadAPI(Action) {
+    console.log(this.form)
+    if (Action.ActionValue == "cancel") {
+      this._router.navigate(['/User/Anchor'])
+    } else {
+      this.form.addControl("AnchorCode", new FormControl(this.AnchorObject.Data.AnchorCode));
+      console.log(this.form.controls['signed'].value)
+      if (this.form.controls['signed'].value == true) {
+        this._dataService.PostCalls("offer/signedoffer", this.form.value)
+          .then(val => {
+            this._router.navigate(['/User/Anchor'])
+          })
+      } else {
+        this._dataService.PostCalls("offer/agreement", this.form.value)
+          .then(val => {
+            this._router.navigate(['/User/Anchor'])
+          })
+      }
 
-    console.log(this.form);
+    }
   }
   Mapper(obj: any) {
     Object.keys(obj).forEach((key, idx) => {

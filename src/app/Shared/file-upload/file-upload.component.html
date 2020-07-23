@@ -1,17 +1,15 @@
 <form [formGroup]="childForm">
     <div class="col-md-12  " *ngIf="!FileView">
-        <h4 *ngIf="(check&&hideTable)">Upload Offer </h4>
-        <h4 *ngIf="(!check&&hideTable)">Upload Agreement </h4>
+        <h4>{{heading}} </h4>
         <div class="row mb-3">
-            
+
             <div class="form-group col-md-10 input-group">
                 <span class="col-md-12 p-0 has-float-label">
-                    <input class="form-control" class="form-control" id="filename" type="text"  [formControlName]="fields[0].name"
-                        placeholder="Name" />
+                    <input class="form-control" class="form-control" id="filename" type="text" [readonly]="upload"
+                        [formControlName]="fields[0].name" placeholder="Name" />
                     <label for="filename">&nbsp;File Name &nbsp;</label>
                     <input #myFleOffer type="file" style="display: none;" class="inputfile" name="mFileOffer"
-                        id="mFileOffer" (change)=onFileChange($event) accept=".pdf"
-                        #hiddenFile />
+                        id="mFileOffer" (change)=onFileChange($event) accept=".pdf" #hiddenFile />
 
                 </span>
 
@@ -22,11 +20,18 @@
             </div>
         </div>
         <div class="row d-flex">
-            <div class="col-md-12 p-0">
-                <div class="text-right">
-                    <button class="btn btn-primary mr-2" (click)="FileView=true;this.FileUpload.emit(this.childForm.value)" [disabled]="!childForm.controls[fields[0].name].valid" type="submit">Save </button>
-                    <button class="btn btn-primary ml-2"  type="button">Cancel</button>
-                </div>
+            <div class="col-md-3 ">
+                <fieldset data-role="controlgroup" *ngIf="fields.length==4">
+                    <input type="checkbox" [name]="fields[3].name" [id]="fields[3].name"
+                        [formControlName]="fields[3].name" class="custom" />
+                    <label [for]="fields[3].name" class="chkbox" style="padding-left: 10px;"> {{fields[3].label}} </label>
+
+                </fieldset>
+            </div>
+            <div class="col-md-9 p-0 text-right">
+                <button class="btn btn-primary mr-2" (click)="SendCall('save')"
+                    [disabled]="!childForm.controls[fields[0].name].valid" type="submit">Save </button>
+                <button class="btn btn-primary ml-2" (click)="SendCall('cancel')" type="button">Cancel</button>
             </div>
 
         </div>
@@ -34,37 +39,33 @@
 </form>
 
 <div class="col-md-12" *ngIf="(FileView)">
-    <h4 *ngIf="(check&&!hideTable)">Uploaded Offer </h4>
-    <h4 *ngIf="(!check&&!hideTable)">Uploaded Agreement </h4>
+    <h4>{{heading}} </h4>
+
     <table class=" cust-table table table-striped">
         <thead>
             <tr>
                 <th>File Name</th>
-                <th> Type  </th>
-                <th> Uploaded Date  </th>
+                <th> Uploaded Date </th>
                 <th>Action </th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let File of fileObject">
                 <td>
-                   {{File.FileDisplayName}}
+                    {{File.FileDisplayName}}
                 </td>
-                <td>
-                   {{File.Type}}
-                   
-                </td>
+
                 <td>
                     {{File.UploadDate | date}}
-                    
-                 </td>
+
+                </td>
 
                 <td>
                     <div ngbDropdown class="d-inline-block">
                         <p class="y" id="GridDropDown" ngbDropdownToggle>Select Actions</p>
                         <div ngbDropdownMenu aria-labelledby="GridDropDown">
                             <button (click)="FileUploadEvent.emit(File)" ngbDropdownItem>View</button>
-                            <button  (click)="DeleteFile()" ngbDropdownItem>Delete</button>
+                            <button (click)="DeleteFile()" ngbDropdownItem>Delete</button>
 
                         </div>
                     </div>

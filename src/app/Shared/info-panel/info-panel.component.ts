@@ -44,9 +44,9 @@ export class InfoPanelComponent implements OnInit {
 
 
   }
-  dateRangeCreated($event, field) {
-    this.childForm.addControl(field.options.endDate, new FormControl($event[1].toJSON().split('T')[0], Validators.required))
-    this.childForm.addControl(field.options.startDate, new FormControl($event[0].toJSON().split('T')[0], Validators.required))
+  dateRangeCreated(temp, field) {
+    this.childForm.addControl(field.options.endDate, new FormControl(new Date(temp[1]))); 
+    this.childForm.addControl(field.options.startDate, new FormControl(new Date(temp[0])));
 
 
   }

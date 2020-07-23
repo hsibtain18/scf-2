@@ -28,7 +28,7 @@
 
                 </span>
                 <span class="col-md-12 p-0 has-float-label" *ngSwitchCase="'DateRangePicker'">
-                    <input type="text" [placeholder]="field.label" class="form-control"
+                    <input type="text" readonly [placeholder]="field.label" class="form-control"
                         (bsValueChange)="dateRangeCreated($event ,field)" bsDaterangepicker
                         [formControlName]="field.name"
                         [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'cust-date' }">
@@ -50,7 +50,7 @@
 
                     <ng-template #resetButton>
                         <button type="submit" *ngIf="buttonsCondition(button.options.visible)"
-                        (click)="saveValue(button)" [class]="button.options.class">
+                            (click)="saveValue(button)" [class]="button.options.class">
                             {{button.name}} </button>
 
                     </ng-template>

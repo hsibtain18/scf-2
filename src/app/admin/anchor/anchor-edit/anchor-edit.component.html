@@ -20,7 +20,7 @@
                         (onSubmit)="SaveData($event)" ></app-info-panel>
                         <app-file-upload    *ngIf="innerTab.TypeID==9" [heading]="innerTab.Options.text"  
                         (FileUpload)="FileUploadAPI($event)" [check]="tabs.Options.text=='Program Offer'" (FileUploadEvent)="FileEvent($event)" [fileObject]="getFileObject(innerTab)" 
-                        [fields]="getInnerControls(innerTab)"   ></app-file-upload>
+                        [fields]="getInnerControls(innerTab)"  [DirectCall]="innerTab.Options.sendAPICall"  ></app-file-upload>
                     </div>
                  </form>
                 </ng-template>
