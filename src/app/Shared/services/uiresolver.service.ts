@@ -11,7 +11,7 @@ import { UIService } from 'src/app/admin/ui.service';
 export class UIResolverService implements Resolve<any>  {
 
   private Url = ""
-  constructor(private _UIService: UIService,
+  constructor(private _UIService: UIService, private _router: Router
   ) {
     let url: string = location.href;
     let number = url.indexOf("/User")
@@ -26,11 +26,31 @@ export class UIResolverService implements Resolve<any>  {
 
 
   resolve(route: ActivatedRouteSnapshot): Promise<any> {
-    let data: any = route.data[0];
-    let UIObject = this.getComponentID(this.Url)
-    if (data.ParentID == -1) {
-      data.MenuID = UIObject.ID
+    const navigation = this._router.getCurrentNavigation();
+    let data: any = navigation.extras.state
+    let state = ""
+    let num = this.Url.split('/').length
+    if (!data) {
+      state = "refreshed"
+      data = {};
+      data.URL = this.Url
+
     } else {
+      state = "unrefreshed"
+    }
+    let UIObject = this.getComponentID(data)
+    if (data.ParentID == -1 && state == 'unrefreshed') {
+      data.MenuID = UIObject.ID;
+    }
+    if (data.ParentID != -1 && state == 'unrefreshed') {
+      data.MenuID = UIObject.ID
+      data.ParentID = UIObject.InnerViewParentId
+    }
+    if (!data.ParentID && state == 'refreshed' && num == 3) {
+      data.MenuID = UIObject.ID;
+      data.ParentID = -1 
+    }
+    if (!data.ParentID && state == 'refreshed' && num != 3) {
       data.MenuID = UIObject.ID
       data.ParentID = UIObject.InnerViewParentId
     }
@@ -38,16 +58,12 @@ export class UIResolverService implements Resolve<any>  {
     if (isLogged) {
       return this._UIService.GetUICalls("utility/getUIComponents", data)
     }
-
-
-
-
   }
 
   getComponentID(route: any) {
     let menus = JSON.parse(sessionStorage.getItem("SCFMenuItem"))
     let c = menus.filter((element) => {
-      if (route.indexOf(element.URL) == 0)
+      if ((element.ID == route.MenuID) || (route.URL.indexOf(element.URL) == 0))
         return element
     })
     return c[0]

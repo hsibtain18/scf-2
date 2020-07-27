@@ -7,7 +7,7 @@
     </ol>
     <div class="container-fluid">
 
-        <div class="contentHeader row">
+        <div class="contentHeader d-flex">
             <div class="heading col-md-3">
                 <div class="row">
                     <h3> {{constObject.Heading}} </h3>
@@ -19,7 +19,7 @@
             </div>
         </div>
     
-    <app-grid [UIObject]="constObject"  [val]="list" (Action)="openAction($event)" ></app-grid>
+    <app-grid [UIObject]="constObject"   (Action)="openAction($event)" ></app-grid>
 
     </div>
 </section>

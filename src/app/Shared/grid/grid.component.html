@@ -1,6 +1,6 @@
 <section class="customGrid">
-    <div class="col-md-12">
-        <table class="table table-striped">
+    <div class="gridArea table-responsive" id="nav-scrollbar">
+        <table class="table">
             <thead>
                 <!-- <ng-container *ngFor="let group of header"> -->
                 <tr>
@@ -13,29 +13,33 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let data of val.Data">
+                <tr *ngFor="let data of value">
                     <td *ngFor="let col of header">
                         {{data[col.Column]}}
                     </td>
 
-                    <td  *ngIf="options.length!=0">
+                    <td *ngIf="options.length!=0">
                         <div ngbDropdown class="d-inline-block">
                             <p class="y" id="GridDropDown" ngbDropdownToggle>Select Actions</p>
                             <div ngbDropdownMenu aria-labelledby="GridDropDown" class="options">
-                                <button [hidden]="checkCondition(data,action.DispCond)" class="border-bottom"  ngbDropdownItem *ngFor="let action of options"
-                                    (click)="sendAction(data,action)">
-                                    {{action.ActionItem}}  </button>
+                                <button [hidden]="checkCondition(data,action.DispCond)" class="border-bottom"
+                                    ngbDropdownItem *ngFor="let action of options" (click)="sendAction(data,action)">
+                                    {{action.ActionItem}} </button>
 
                             </div>
                         </div>
-                        
+
                     </td>
                 </tr>
-            </tbody>
+                <tr class="text-center" *ngIf="(value.length!=0 && TotalCount>value.length)">
+                    <td colspan="6"> <button class="btn" (click)="paginateEvent()">Load More</button></td>
+                </tr>
 
-            <!-- </ng-container> -->
+            </tbody>
         </table>
-        <!-- <ngb-pagination class="d-flex justify-content-center" [collectionSize]="70" (pageChange)="paginate($event)" size="sm" [(page)]="page"></ngb-pagination> -->
+        <span class="d-flex align-items-center justify-content-center h-100" *ngIf="(value.length==0)">No Data
+            Available</span>
     </div>
 
 </section>
+<ngx-spinner [visible]="showSpinner" [config]="spinnerConfig"></ngx-spinner>

@@ -7,19 +7,19 @@
     </ol>
     <div class="container-fluid">
 
-        <div class="contentHeader row">
+        <div class="contentHeader d-flex">
             <div class="heading col-md-3">
                 <div class="row">
                     <h3> {{constObject.Heading}} </h3>
                 </div>
 
             </div>
-            <div class="buttons mb-2 col-md-9">
+            <div class="buttons mb-2 pr-0 col-md-9">
                 <button class="btn btn-primary"  (click)="exportCSV()" >Export</button>
             </div>
         </div>
     
-    <app-grid [UIObject]="constObject"  [val]="list" (Action)="openAction($event)" ></app-grid>
+    <app-grid *ngIf="show" [UIObject]="constObject"  (Action)="openAction($event)" ></app-grid>
 
     </div>
 </section>
