@@ -15,7 +15,7 @@
 
             </div>
             <div class="col-md-2 text-right ">
-                <button class="btn btn-primary " type="button" (click)="hiddenFile.click()">Browse</button>
+                <button class="btn btn-primary  mr-2" type="button" (click)="hiddenFile.click()">Browse</button>
 
             </div>
         </div>
@@ -29,9 +29,9 @@
                 </fieldset>
             </div>
             <div class="col-md-9 p-0 text-right">
-                <button class="btn btn-primary mr-2" (click)="SendCall('save')"
+                <button class="btn btn-primary " (click)="SendCall('save')"
                     [disabled]="!childForm.controls[fields[0].name].valid" type="submit">Save </button>
-                <button class="btn btn-primary ml-2 mr-3" (click)="SendCall('cancel')" type="button">Cancel</button>
+                <button class="btn btn-primary ml-2" (click)="SendCall('cancel')" type="button">Cancel</button>
             </div>
 
         </div>

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,SecurityContext} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserDataService } from '../../user-data.service';
 import { loadingConfig } from 'src/app/const/config';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-anchor-list',
@@ -22,7 +23,8 @@ export class AnchorListComponent implements OnInit {
   constructor(
     private _router: Router,
     private _UserService: UserDataService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private _domSanitizer: DomSanitizer
   ) {
 
   }
@@ -80,14 +82,28 @@ export class AnchorListComponent implements OnInit {
 
   exportCSV() {
     this._UserService.PostCalls("anchors/export", {ID:-1 ,fileType:"text/comma-separated-values"})
-      .then((val: any) => {
-        console.log("val;")
-        var hiddenElement = document.createElement('a');
+      .then((res: any) => {
+        // console.log("val;")
+        // var hiddenElement = document.createElement('a');
 
-        hiddenElement.href = 'data:attachment/csv,' + encodeURI(val);
-        hiddenElement.target = '_blank';
-        hiddenElement.download = 'orders.csv';
-        hiddenElement.click();
+        // hiddenElement.href = 'data:attachment/csv,' + encodeURI(val);
+        // hiddenElement.target = '_blank';
+        // hiddenElement.download = 'orders.csv';
+        // hiddenElement.click();
+        if(res.data && res.data.length){
+          let typedArray = new Uint8Array(res);
+          const stringChar = typedArray.reduce((data, byte)=> {
+            return data + String.fromCharCode(byte);
+            }, '')
+          let base64String = btoa(stringChar);
+          let doc = this._domSanitizer.bypassSecurityTrustUrl(`data:application/octet-stream;base64, ${base64String}`) as string;
+          doc = this._domSanitizer.sanitize(SecurityContext.URL, doc) ;
+          const downloadLink = document.createElement("a");
+          const fileName = "List.csv";
+          downloadLink.href = doc;
+          downloadLink.download = fileName;
+          downloadLink.click();
+        }
       })
       .catch(err=>{
         console.log(err);
