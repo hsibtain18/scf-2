@@ -80,6 +80,9 @@ export class FileUploadComponent implements OnInit {
  
 
   }
+  trackByFn(index: any, item: any) {
+    return index;
+  }
 
 
   public fileEvent(event): any {

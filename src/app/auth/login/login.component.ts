@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.spinnerConfig = loadingConfig;
-
+    sessionStorage.clear();
     this.onChanges();
   }
   ngOnDestroy() {

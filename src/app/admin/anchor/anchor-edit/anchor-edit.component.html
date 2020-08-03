@@ -7,7 +7,7 @@
             View
         </li>
     </ol> 
-    <div class="container-fluid" *ngIf="AnchorObject!=null">
+    <div class="container-fluid" *ngIf="AnchorObject.length!=0">
 
         <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs" (navChange)="change($event)">
             <li *ngFor="let tabs of UiObject.Controls[0].Controls" [ngbNavItem]="tabs.ID">

@@ -38,7 +38,7 @@ export class AnchorEditComponent implements OnInit {
       }
       else {
         this.Status = -1
-        this.AnchorObject['ID'] = 0;
+        this.AnchorObject.push({ ID: 0 });
         this.form.addControl("ID", new FormControl(0));
 
       }
@@ -123,6 +123,10 @@ export class AnchorEditComponent implements OnInit {
           // this.Status=val.Status;
           console.log(val);
         })
+    }
+    if (action == "Cancel") {
+      this._router.navigate(['/User/Anchor']);
+
     }
     else {
       this.form.addControl("AnchorCode", new FormControl(this.AnchorObject.Data.AnchorCode));

@@ -20,8 +20,8 @@
             </div>
         </div>
         <div class="row d-flex">
-            <div class="col-md-3 ">
-                <fieldset data-role="controlgroup" *ngIf="(fields.length==4 && Status!=4 )">
+            <div class="col-md-3 " *ngIf="(fields.length==4 && Status!=4 )">
+                <fieldset data-role="controlgroup">
                     <input type="checkbox" [name]="fields[3].name" [id]="fields[3].name"
                         [formControlName]="fields[3].name" class="custom" />
                     <label [for]="fields[3].name" class="chkbox" style="padding-left: 10px;"> {{fields[3].label}}
@@ -29,7 +29,38 @@
 
                 </fieldset>
             </div>
-            <div class="col-md-9 p-0 text-right">
+            <div class="col-md-4" *ngFor="let field of fields.slice(1);let i=index; trackBy:trackByFn">
+                <div class="form-group col-md-12 p-0 input-group " [ngSwitch]="field.type">
+    
+                    <!-- inputs -->
+                    <span *ngSwitchCase="'TextBox'" class="col-md-12 p-0 has-float-label">
+                        <input class="form-control" [id]="field.name" autocomplete="off" [type]="field.inputType"
+                            [name]="field.name" [formControlName]="field.name" [placeholder]="field.label" />
+                        <label [for]="field.name"> {{field.label}} </label>
+    
+                    </span>
+    
+                    <span class="col-md-12 p-0 has-float-label" *ngSwitchCase="'Select'">
+                        <select [name]="field.name" [id]="field.name" [formControlName]="field.name"
+                            class="form-control">label
+                            <option value="0" selected disabled> Select {{field.label}} </option>
+                            <option value="1" selected>Morabaha Advance</option>
+    
+                        </select>
+                        <label [for]="field.name">{{field.label}}</label>
+    
+                    </span>
+                    
+                    <span class="col-md-12 p-0 has-float-label" *ngSwitchCase="'DatePicker'">
+                        <input type="text" readonly [placeholder]="field.label" class="form-control" bsDatepicker
+                            [formControlName]="field.name"
+                            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'cust-date' ,adaptivePosition: true  }">
+                        <label [for]="field.name"> {{field.label}} </label>
+                    </span>
+                </div>
+            </div>
+         
+            <div class="col-md-12 p-0 text-right">
                 <button class="btn btn-primary " (click)="SendCall('save')"
                     [disabled]="!childForm.controls[fields[0].name].valid" type="submit">Save </button>
                 <button class="btn btn-primary ml-2" (click)="SendCall('cancel')" type="button">Cancel</button>
