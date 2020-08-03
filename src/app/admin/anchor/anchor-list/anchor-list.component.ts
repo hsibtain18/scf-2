@@ -73,7 +73,7 @@ export class AnchorListComponent implements OnInit {
 
     }
     if (data.action.ActionItem == "Reject") {
-      this._UserService.PutCalls("anchors/reject", { ID: data.data.ID })
+      this._UserService.PostCalls("anchors/reject", { ID: data.data.ID })
         .then(val => {
           this.GetGridData();
         })

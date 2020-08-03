@@ -15,11 +15,11 @@ export class LimitViewComponent implements OnInit {
   public UiObject: any = []
   public Status: any;
   active;
-  limitID: number 
-  LimitObject : any = []
-  constructor(private route: ActivatedRoute,private _dataService : UserDataService,
+  limitID: number
+  LimitObject: any = []
+  constructor(private route: ActivatedRoute, private _dataService: UserDataService,
     private _router: Router
-    ) { 
+  ) {
     this.route.params.subscribe(params => {
       this.limitID = +params['id'];
       this._dataService.GetCalls("buyer", this.limitID)
@@ -37,7 +37,7 @@ export class LimitViewComponent implements OnInit {
   CheckCondition(val) {
     return eval(val);
   }
-  getInnerControls(obj){
+  getInnerControls(obj) {
     let field: any[] = [];
     // this.form.addControl(obj.Type+obj.ID,this.builder.group([]))
     // let tempArray = this.form.get(obj.Type + obj.ID) as FormArray;
@@ -65,12 +65,12 @@ export class LimitViewComponent implements OnInit {
     });
 
     return field;
-  } 
-  SaveData(action){
+  }
+  SaveData(action) {
     if (action == "Reject") {
-      this._dataService.PutCalls("anchors/reject", { ID: this.form.get('ID').value })
+      this._dataService.PostCalls("limit/reject", { ID: this.form.get('ID').value })
         .then(val => {
-          this._router.navigate(['/User/LimitApproval'],{ state:{ParentID:-1,MenuID:-1,URL:"/User/LimitApproval/"}});
+          this.navigate();
         })
     }
     if (action == "Approve") {
@@ -80,7 +80,7 @@ export class LimitViewComponent implements OnInit {
 
           }
           else {
-            this._router.navigate(['/User/LimitApproval'],{ state:{ParentID:-1,MenuID:-1,URL:"/User/LimitApproval/"}});
+            this.navigate();
 
           }
           // this.Status=val.Status;
@@ -91,15 +91,16 @@ export class LimitViewComponent implements OnInit {
   FileUploadAPI(Action) {
     console.log(this.form)
     if (Action.ActionValue == "cancel") {
-      this.navigate()
+      this.navigate();
 
-    // } else {
-    //     this._dataService.PostCalls("limit/agreement", this.form.value)
-    //       .then(val => {
-    //         this.navigate()
+    }
+    if (Action.ActionValue == "save") {
+      this._dataService.PostCalls("limit/agreement", this.form.value)
+        .then(val => {
+          this.navigate();
 
-    //       })
-        
+        })
+
 
     }
   }
@@ -115,7 +116,7 @@ export class LimitViewComponent implements OnInit {
     })
     return this.LimitObject[obj[0].Options.name];
   }
-  FileEvent(value){
+  FileEvent(value) {
     console.log(value)
   }
 }

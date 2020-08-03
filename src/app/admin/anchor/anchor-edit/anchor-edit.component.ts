@@ -28,7 +28,7 @@ export class AnchorEditComponent implements OnInit {
     private _dataService: UserDataService,
     private _router: Router,
     private _domSanitizer: DomSanitizer
-    ) {
+  ) {
     this.route.params.subscribe(params => {
       this.AnchorID = +params['id'];
       if (this.AnchorID) {
@@ -108,9 +108,9 @@ export class AnchorEditComponent implements OnInit {
 
 
     if (action == "Reject") {
-      this._dataService.PutCalls("anchors/reject", { ID: this.form.get('ID').value })
+      this._dataService.PostCalls("anchors/reject", { ID: this.form.get('ID').value })
         .then(val => {
-          this._router.navigate(['/User/Anchor']);
+          this.navigate();
         })
     }
     if (action == "Create") {
@@ -120,7 +120,7 @@ export class AnchorEditComponent implements OnInit {
 
           }
           else {
-            this._router.navigate(['/User/Anchor']);
+            this.navigate();
 
           }
           // this.Status=val.Status;
@@ -128,15 +128,15 @@ export class AnchorEditComponent implements OnInit {
         })
     }
     if (action == "Cancel") {
-      this._router.navigate(['/User/Anchor']);
+      this.navigate();
 
     }
-    else {
+    if(action=="Send Offer") {
       this.form.addControl("AnchorCode", new FormControl(this.AnchorObject.Data.AnchorCode));
 
       this._dataService.PostCalls("offer/create", this.form.value)
         .then((val: any) => {
-          this._router.navigate(['/User/Anchor']);
+         this.navigate();
           // this.Status=val.Status;
           console.log(val);
         })
@@ -164,13 +164,13 @@ export class AnchorEditComponent implements OnInit {
     if (Action.ActionValue == "delete") {
 
 
-    this._dataService.PostCalls("offer/deleteagreement",{ID:Action.ID, AnchorCode:this.AnchorObject.Data.AnchorCode})
-    .then(val=>{
-      console.log(val);
-    })
+      this._dataService.PostCalls("offer/deleteagreement", { ID: Action.ID, AnchorCode: this.AnchorObject.Data.AnchorCode })
+        .then(val => {
+          this.navigate();
+        })
 
     }
-     else {
+    else {
       this.form.addControl("AnchorCode", new FormControl(this.AnchorObject.Data.AnchorCode));
       console.log(this.form.controls['signed'].value)
       if (this.form.controls['signed'].value == true) {
@@ -218,16 +218,16 @@ export class AnchorEditComponent implements OnInit {
     this._dataService.GetCalls("FileUpload", ID)
       .then((res: any) => {
 
-        if(res.FileData.data && res.FileData.data.length){
+        if (res.FileData.data && res.FileData.data.length) {
           let typedArray = new Uint8Array(res.FileData.data);
-          const stringChar = typedArray.reduce((data, byte)=> {
+          const stringChar = typedArray.reduce((data, byte) => {
             return data + String.fromCharCode(byte);
-            }, '')
+          }, '')
           let base64String = btoa(stringChar);
           let doc = this._domSanitizer.bypassSecurityTrustUrl(`data:application/octet-stream;base64, ${base64String}`) as string;
-          doc = this._domSanitizer.sanitize(SecurityContext.URL, doc) ;
+          doc = this._domSanitizer.sanitize(SecurityContext.URL, doc);
           const downloadLink = document.createElement("a");
-          const fileName = res.FileDisplayName+"."+res.FileType;
+          const fileName = res.FileDisplayName + "." + res.FileType;
           downloadLink.href = doc;
           downloadLink.download = fileName;
           downloadLink.click();

@@ -49,7 +49,7 @@ export class LimitListComponent implements OnInit {
 
     }
     if (data.action.ActionItem == "Reject") {
-      this._UserService.PutCalls("limit/reject", { ID: data.data.ID })
+      this._UserService.PostCalls("limit/reject", { ID: data.data.ID })
         .then(val => {
           this.GetGridData();
         })
