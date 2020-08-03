@@ -52,7 +52,7 @@ export class GridComponent implements OnInit {
           this.value = this.value.concat(val.Data)
         }
         this.showSpinner = false;
-        this.TotalCount = val.AnchorCount.anchorcount;
+        this.TotalCount = val.DataCount;
       })
       .catch(err => {
         this.showSpinner = false;

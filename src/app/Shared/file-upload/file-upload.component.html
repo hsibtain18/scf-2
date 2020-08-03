@@ -1,7 +1,7 @@
 <form [formGroup]="childForm">
     <div class="col-md-12 tabContent " *ngIf="fileObject?.length<options.Options.maxFiles">
         <h4>{{heading}} Upload </h4>
-        <div class="row mb-3">
+        <div class="row ">
 
             <div class="form-group col-md-10 input-group">
                 <span class="col-md-12 p-0 has-float-label">
@@ -40,16 +40,7 @@
     
                     </span>
     
-                    <span class="col-md-12 p-0 has-float-label" *ngSwitchCase="'Select'">
-                        <select [name]="field.name" [id]="field.name" [formControlName]="field.name"
-                            class="form-control">label
-                            <option value="0" selected disabled> Select {{field.label}} </option>
-                            <option value="1" selected>Morabaha Advance</option>
-    
-                        </select>
-                        <label [for]="field.name">{{field.label}}</label>
-    
-                    </span>
+                 
                     
                     <span class="col-md-12 p-0 has-float-label" *ngSwitchCase="'DatePicker'">
                         <input type="text" readonly [placeholder]="field.label" class="form-control" bsDatepicker
@@ -72,7 +63,6 @@
 
 <div class="col-md-12 tabContent" *ngIf="fileObject?.length>0">
     <h4>{{heading}} Documents</h4>
-
     <table class=" cust-table table table-striped">
         <thead>
             <tr>
@@ -85,7 +75,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let File of fileObject">
+            <tr *ngFor="let File of fileObject; let i=index">
                 <td>
                     {{File.FileDisplayName}}
                     {{File.ID}}
@@ -105,7 +95,7 @@
                         <p class="y" id="GridDropDown" ngbDropdownToggle>Select Actions</p>
                         <div ngbDropdownMenu aria-labelledby="GridDropDown">
                             <button *ngIf="File.ID" (click)="FileUploadEvent.emit(File)" ngbDropdownItem>View</button>
-                            <button *ngIf="File.ID>0 && options.sendAPICall" (click)="DeleteFile()"
+                            <button   *ngIf="CheckCondition(options.Options.optionDelete)" (click)="DeleteFile(File,i)"
                                 ngbDropdownItem>Delete </button>
 
                         </div>

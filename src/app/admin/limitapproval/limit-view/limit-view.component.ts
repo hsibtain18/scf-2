@@ -65,12 +65,12 @@ export class LimitViewComponent implements OnInit {
     });
 
     return field;
-  }
+  } 
   SaveData(action){
     if (action == "Reject") {
       this._dataService.PutCalls("anchors/reject", { ID: this.form.get('ID').value })
         .then(val => {
-          this._router.navigate(['/User/LimitApproval']);
+          this._router.navigate(['/User/LimitApproval'],{ state:{ParentID:-1,MenuID:-1,URL:"/User/LimitApproval/"}});
         })
     }
     if (action == "Approve") {
@@ -80,7 +80,7 @@ export class LimitViewComponent implements OnInit {
 
           }
           else {
-            this._router.navigate(['/User/LimitApproval']);
+            this._router.navigate(['/User/LimitApproval'],{ state:{ParentID:-1,MenuID:-1,URL:"/User/LimitApproval/"}});
 
           }
           // this.Status=val.Status;
@@ -88,7 +88,23 @@ export class LimitViewComponent implements OnInit {
         })
     }
   }
-  FileUploadAPI(value){
+  FileUploadAPI(Action) {
+    console.log(this.form)
+    if (Action.ActionValue == "cancel") {
+      this.navigate()
+
+    // } else {
+    //     this._dataService.PostCalls("limit/agreement", this.form.value)
+    //       .then(val => {
+    //         this.navigate()
+
+    //       })
+        
+
+    }
+  }
+  navigate() {
+    this._router.navigate(['/User/LimitApproval'], { state: { ParentID: -1, MenuID: -1, URL: "/User/LimitApproval" } })
 
   }
   getFileObject(inner) {
@@ -100,6 +116,6 @@ export class LimitViewComponent implements OnInit {
     return this.LimitObject[obj[0].Options.name];
   }
   FileEvent(value){
-
+    console.log(value)
   }
 }

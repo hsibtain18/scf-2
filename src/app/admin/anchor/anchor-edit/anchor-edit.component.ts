@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, Renderer2, SecurityContext } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserDataService } from '../../user-data.service';
 import { InfoPanelComponent } from 'src/app/Shared/info-panel/info-panel.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-anchor-edit',
@@ -25,7 +26,9 @@ export class AnchorEditComponent implements OnInit {
   sendObject: any = {};
   constructor(private route: ActivatedRoute,
     private _dataService: UserDataService,
-    private _router: Router) {
+    private _router: Router,
+    private _domSanitizer: DomSanitizer
+    ) {
     this.route.params.subscribe(params => {
       this.AnchorID = +params['id'];
       if (this.AnchorID) {
@@ -150,26 +153,44 @@ export class AnchorEditComponent implements OnInit {
   change(val) {
     console.log(val)
   }
+
+
   FileUploadAPI(Action) {
     console.log(this.form)
     if (Action.ActionValue == "cancel") {
-      this._router.navigate(['/User/Anchor'])
-    } else {
+      this.navigate()
+
+    }
+    if (Action.ActionValue == "delete") {
+
+
+    this._dataService.PostCalls("offer/deleteagreement",{ID:Action.ID, AnchorCode:this.AnchorObject.Data.AnchorCode})
+    .then(val=>{
+      console.log(val);
+    })
+
+    }
+     else {
       this.form.addControl("AnchorCode", new FormControl(this.AnchorObject.Data.AnchorCode));
       console.log(this.form.controls['signed'].value)
       if (this.form.controls['signed'].value == true) {
         this._dataService.PostCalls("offer/signedoffer", this.form.value)
           .then(val => {
-            this._router.navigate(['/User/Anchor'])
+            this.navigate()
+
           })
       } else {
         this._dataService.PostCalls("offer/agreement", this.form.value)
           .then(val => {
-            this._router.navigate(['/User/Anchor'])
+            this.navigate()
           })
       }
 
     }
+  }
+  navigate() {
+    this._router.navigate(['/User/Anchor'], { state: { ParentID: -1, MenuID: -1, URL: "/User/Anchor" } })
+
   }
   Mapper(obj: any) {
     Object.keys(obj).forEach((key, idx) => {
@@ -189,10 +210,29 @@ export class AnchorEditComponent implements OnInit {
     })
     return this.AnchorObject[obj[0].Options.name];
   }
-  FileEvent(event) {
-    if (event == 'view') {
+  FileEvent(Action) {
+    this.DownloadFile(Action.ID);
 
-    }
+  }
+  DownloadFile(ID) {
+    this._dataService.GetCalls("FileUpload", ID)
+      .then((res: any) => {
 
+        if(res.FileData.data && res.FileData.data.length){
+          let typedArray = new Uint8Array(res.FileData.data);
+          const stringChar = typedArray.reduce((data, byte)=> {
+            return data + String.fromCharCode(byte);
+            }, '')
+          let base64String = btoa(stringChar);
+          let doc = this._domSanitizer.bypassSecurityTrustUrl(`data:application/octet-stream;base64, ${base64String}`) as string;
+          doc = this._domSanitizer.sanitize(SecurityContext.URL, doc) ;
+          const downloadLink = document.createElement("a");
+          const fileName = res.FileDisplayName+"."+res.FileType;
+          downloadLink.href = doc;
+          downloadLink.download = fileName;
+          downloadLink.click();
+        }
+        console.log(res);
+      })
   }
 }

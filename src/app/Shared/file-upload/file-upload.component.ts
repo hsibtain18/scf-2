@@ -15,8 +15,8 @@ export class FileUploadComponent implements OnInit {
   @Input() fields: any;
   childForm: FormGroup;
   @Input() heading: any;
-  @Input() options: any={};
-  @Input() fileObject: any
+  @Input() options: any = {};
+  @Input() fileObject: any[];
   @Input() DirectCall: any;
   @Input() Status: any;
   @Output() FileUploadEvent = new EventEmitter()
@@ -32,9 +32,7 @@ export class FileUploadComponent implements OnInit {
   ngOnInit(): void {
     this.childForm = this.mainForm.form;
     console.log(this.fileObject);
-    // this.parentForm.addControl("FileName", new FormControl("", Validators.required))
-    // this.parentForm.addControl("FileData", new FormControl("", Validators.required))
-    if (this.fileObject.length == 0) {
+    if (this.fileObject.length == 0 || this.fileObject.length < this.options.Options.maxFiles) {
       for (let f of this.fields) {
         if (f.type != "Collection") {
           // fieldsCtrls[f.name] = new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) })
@@ -66,6 +64,9 @@ export class FileUploadComponent implements OnInit {
       console.log(val);
     })
   }
+  CheckCondition(condition) {
+    return eval(condition);
+  }
   onFileChange(event) {
 
     const name = this.fields[0].name
@@ -77,7 +78,7 @@ export class FileUploadComponent implements OnInit {
     })
     this.upload = false;
 
- 
+
 
   }
   trackByFn(index: any, item: any) {
@@ -138,11 +139,20 @@ export class FileUploadComponent implements OnInit {
 
     return fileObjDetail;
   }
-  DeleteFile() {
-    this.fileObject = []
-    this.childForm.get(this.fields[0].name).reset();
-    this.FileView = false;
-    this.upload = true;
+  DeleteFile(File ,index) {
+    if (File.ID == undefined ) {
+      console.log("delete");
+      this.fileObject.splice(index,1)
+      this.childForm.get(this.fields[0].name).reset();
+    }
+    else{
+      let obj = {
+        ID: File.ID,
+        ActionValue: "delete"
+      }
+      this.FileUpload.emit(obj)
+
+    }
 
   }
 
@@ -152,7 +162,7 @@ export class FileUploadComponent implements OnInit {
       ActionValue: action
     }
     if (this.DirectCall == 'false' && action == "cancel") {
-      this.DeleteFile();
+      // this.DeleteFile();
     }
     if (this.DirectCall == 'false' && action == "save") {
       this.FileView = true;
@@ -162,8 +172,13 @@ export class FileUploadComponent implements OnInit {
         UploadDate: formatDate(new Date(), 'yyyy/MM/dd', 'en'),
       })
     }
-    else {
+    if (this.DirectCall && action == "cancel") {
+      this.FileUpload.emit(obj)
+
+    }
+    if (this.DirectCall && action == "save") {
       this.FileUpload.emit(obj)
     }
+
   }
 }
