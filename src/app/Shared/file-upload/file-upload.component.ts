@@ -15,9 +15,10 @@ export class FileUploadComponent implements OnInit {
   @Input() fields: any;
   childForm: FormGroup;
   @Input() heading: any;
-  @Input() check: boolean;
+  @Input() options: any={};
   @Input() fileObject: any
   @Input() DirectCall: any;
+  @Input() Status: any;
   @Output() FileUploadEvent = new EventEmitter()
   upload = true;
   FileView: boolean = false;
@@ -30,7 +31,7 @@ export class FileUploadComponent implements OnInit {
 
   ngOnInit(): void {
     this.childForm = this.mainForm.form;
-    console.log(this.DirectCall);
+    console.log(this.fileObject);
     // this.parentForm.addControl("FileName", new FormControl("", Validators.required))
     // this.parentForm.addControl("FileData", new FormControl("", Validators.required))
     if (this.fileObject.length == 0) {
@@ -76,10 +77,7 @@ export class FileUploadComponent implements OnInit {
     })
     this.upload = false;
 
-    this.fileObject.push({
-      FileDisplayName: this.childForm.controls[this.fields[0].name].value,
-      UploadDate: formatDate(new Date(), 'yyyy/MM/dd', 'en'),
-    })
+ 
 
   }
 
@@ -155,7 +153,11 @@ export class FileUploadComponent implements OnInit {
     }
     if (this.DirectCall == 'false' && action == "save") {
       this.FileView = true;
-      this.fileObject[0].FileDisplayName = this.childForm.controls[this.fields[0].name].value
+      // this.fileObject[0].FileDisplayName = this.childForm.controls[this.fields[0].name].value
+      this.fileObject.push({
+        FileDisplayName: this.childForm.controls[this.fields[0].name].value,
+        UploadDate: formatDate(new Date(), 'yyyy/MM/dd', 'en'),
+      })
     }
     else {
       this.FileUpload.emit(obj)

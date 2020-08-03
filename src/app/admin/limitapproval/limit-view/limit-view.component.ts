@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { FormGroup, FormControl } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserDataService } from '../../user-data.service';
 
 @Component({
   selector: 'app-limit-view',
@@ -14,9 +15,20 @@ export class LimitViewComponent implements OnInit {
   public UiObject: any = []
   public Status: any;
   active;
+  limitID: number 
   LimitObject : any = []
-  constructor(private route: ActivatedRoute,) { 
-    
+  constructor(private route: ActivatedRoute,private _dataService : UserDataService,
+    private _router: Router
+    ) { 
+    this.route.params.subscribe(params => {
+      this.limitID = +params['id'];
+      this._dataService.GetCalls("buyer", this.limitID)
+        .then((data: any) => {
+          this.LimitObject = data;
+          this.Status = data.Data.Status
+          this.form.addControl("ID", new FormControl(data.Data.ID));
+        })
+    });
   }
 
   ngOnInit(): void {
@@ -37,10 +49,9 @@ export class LimitViewComponent implements OnInit {
       f.label = element.Options.label;
       f.inputType = element.Options.texttype != null ? element.Options.texttype : 'text'
       f.readonly = element.Options.readonly;
-      // if (this.LimitObject.Data[element.Options.name] != null) {
-      //   f.value = this.LimitObject.Data[element.Options.name]
-      // }
-        f.value = "hassan"
+      if (this.LimitObject.Data[element.Options.name] != null) {
+        f.value = this.LimitObject.Data[element.Options.name]
+      }
 
       if (element.Type != 'Button') {
         // tempArray.insert(element.Options.name, new FormControl({ value: f.value ? f.value : '', disabled: eval(f.readonly) }, Validators.required));
@@ -55,14 +66,38 @@ export class LimitViewComponent implements OnInit {
 
     return field;
   }
-  SaveData(value){
+  SaveData(action){
+    if (action == "Reject") {
+      this._dataService.PutCalls("anchors/reject", { ID: this.form.get('ID').value })
+        .then(val => {
+          this._router.navigate(['/User/LimitApproval']);
+        })
+    }
+    if (action == "Approve") {
+      this._dataService.PostCalls("limit/approve", this.form.value)
+        .then((val: any) => {
+          if (val.Found) {
 
+          }
+          else {
+            this._router.navigate(['/User/LimitApproval']);
+
+          }
+          // this.Status=val.Status;
+          console.log(val);
+        })
+    }
   }
   FileUploadAPI(value){
 
   }
-  getFileObject(value){
-
+  getFileObject(inner) {
+    let obj = inner.Controls.filter(ele => {
+      if (ele.Type == "Collection") {
+        return ele.Options.name;
+      }
+    })
+    return this.LimitObject[obj[0].Options.name];
   }
   FileEvent(value){
 

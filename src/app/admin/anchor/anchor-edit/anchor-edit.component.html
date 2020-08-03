@@ -6,8 +6,8 @@
         <li class="breadcrumb-item active">
             View
         </li>
-    </ol>
-    <div class="container-fluid" *ngIf="AnchorObject.length!=0">
+    </ol> 
+    <div class="container-fluid" *ngIf="AnchorObject!=null">
 
         <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs" (navChange)="change($event)">
             <li *ngFor="let tabs of UiObject.Controls[0].Controls" [ngbNavItem]="tabs.ID">
@@ -15,14 +15,14 @@
                 <ng-template ngbNavContent>
                     <form [formGroup]="form">
                         <div *ngFor="let innerTab of tabs.Controls">
-                            <div class=" tabContent" *ngIf="CheckCondition(innerTab.Options.visible)">
+                            <div class=" " *ngIf="CheckCondition(innerTab.Options.visible)">
                                 <!-- {{innerTab.Controls |json }} -->
                                 <app-info-panel *ngIf="innerTab.TypeID==8" [heading]="innerTab.Options.text"
                                     [Status]="Status" [formname]="innerTab.Type+''+innerTab.ID"
                                     [fields]="getInnerControls(innerTab)" (onSubmit)="SaveData($event)">
                                 </app-info-panel>
                                 <app-file-upload *ngIf="innerTab.TypeID==9" [heading]="innerTab.Options.text"
-                                    (FileUpload)="FileUploadAPI($event)" [check]="tabs.Options.text=='Program Offer'"
+                                    (FileUpload)="FileUploadAPI($event)" [options]="innerTab"   [Status]="Status" 
                                     (FileUploadEvent)="FileEvent($event)" [fileObject]="getFileObject(innerTab)"
                                     [fields]="getInnerControls(innerTab)" [DirectCall]="innerTab.Options.sendAPICall">
                                 </app-file-upload>

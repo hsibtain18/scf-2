@@ -28,6 +28,13 @@ const routes: Routes = [
         }
       },
       {
+        path: "Anchor/Create",
+        component: AnchorEditComponent,
+        resolve: {
+          UIdata: UIResolverService
+        }
+      },
+      {
         path: "LimitApproval",
         component: LimitListComponent,
         resolve: {

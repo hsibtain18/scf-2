@@ -1,4 +1,20 @@
 <section class="customGrid">
+    <div class="contentHeader d-flex">
+        <div class="heading col-md-3">
+            <div class="row">
+                <h3> {{UIObject.Heading}} </h3>
+            </div>
+
+        </div>
+        <div class="buttons mb-2 pr-0 col-md-9">
+          
+            <button class="btn btn-primary" (click)="exportCSV()"  >Export</button> 
+              <ng-template ngFor let-button [ngForOf]="buttonsArray">
+                <button [class]="button.Options.class" (click)="NavigateUrl(button.Options.route)"  > {{button.Options.name}}  </button> 
+
+            </ng-template>
+        </div>
+    </div>
     <div class="gridArea table-responsive" id="nav-scrollbar">
         <table class="table">
             <thead>

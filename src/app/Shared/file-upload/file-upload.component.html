@@ -1,6 +1,6 @@
 <form [formGroup]="childForm">
-    <div class="col-md-12  " *ngIf="!FileView">
-        <h4>{{heading}} </h4>
+    <div class="col-md-12 tabContent " *ngIf="fileObject?.length<options.Options.maxFiles">
+        <h4>{{heading}} Upload </h4>
         <div class="row mb-3">
 
             <div class="form-group col-md-10 input-group">
@@ -21,10 +21,11 @@
         </div>
         <div class="row d-flex">
             <div class="col-md-3 ">
-                <fieldset data-role="controlgroup" *ngIf="fields.length==4">
+                <fieldset data-role="controlgroup" *ngIf="(fields.length==4 && Status!=4 )">
                     <input type="checkbox" [name]="fields[3].name" [id]="fields[3].name"
                         [formControlName]="fields[3].name" class="custom" />
-                    <label [for]="fields[3].name" class="chkbox" style="padding-left: 10px;"> {{fields[3].label}} </label>
+                    <label [for]="fields[3].name" class="chkbox" style="padding-left: 10px;"> {{fields[3].label}}
+                    </label>
 
                 </fieldset>
             </div>
@@ -38,13 +39,16 @@
     </div>
 </form>
 
-<div class="col-md-12" *ngIf="(FileView)">
-    <h4>{{heading}} </h4>
+<div class="col-md-12 tabContent" *ngIf="fileObject?.length>0">
+    <h4>{{heading}} Documents</h4>
 
     <table class=" cust-table table table-striped">
         <thead>
             <tr>
                 <th>File Name</th>
+                <ng-container *ngIf="Status!=0">
+                    <th *ngFor="let head of options.Headers"> {{head.DisplayText}} </th>
+                </ng-container>
                 <th> Uploaded Date </th>
                 <th>Action </th>
             </tr>
@@ -53,19 +57,25 @@
             <tr *ngFor="let File of fileObject">
                 <td>
                     {{File.FileDisplayName}}
+                    {{File.ID}}
                 </td>
+
+                <ng-container *ngIf="Status!=0">
+                    <td *ngFor="let head of options.Headers"> {{File[head.Column]}} </td>
+                </ng-container>
 
                 <td>
                     {{File.UploadDate | date}}
-
                 </td>
 
                 <td>
+                    {{options.sendAPICall}}
                     <div ngbDropdown class="d-inline-block">
                         <p class="y" id="GridDropDown" ngbDropdownToggle>Select Actions</p>
                         <div ngbDropdownMenu aria-labelledby="GridDropDown">
-                            <button (click)="FileUploadEvent.emit(File)" ngbDropdownItem>View</button>
-                            <button (click)="DeleteFile()" ngbDropdownItem>Delete</button>
+                            <button *ngIf="File.ID" (click)="FileUploadEvent.emit(File)" ngbDropdownItem>View</button>
+                            <button *ngIf="File.ID>0 && options.sendAPICall" (click)="DeleteFile()"
+                                ngbDropdownItem>Delete </button>
 
                         </div>
                     </div>

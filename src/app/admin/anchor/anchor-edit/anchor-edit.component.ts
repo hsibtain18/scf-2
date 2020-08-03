@@ -28,12 +28,20 @@ export class AnchorEditComponent implements OnInit {
     private _router: Router) {
     this.route.params.subscribe(params => {
       this.AnchorID = +params['id'];
-      this._dataService.GetCalls("anchors", this.AnchorID)
-        .then((data: any) => {
-          this.AnchorObject = data;
-          this.Status = data.Data.Status
-          this.form.addControl("ID", new FormControl(data.Data.ID));
-        })
+      if (this.AnchorID) {
+        this._dataService.GetCalls("anchors", this.AnchorID)
+          .then((data: any) => {
+            this.AnchorObject = data;
+            this.Status = data.Data.Status
+            this.form.addControl("ID", new FormControl(data.Data.ID));
+          })
+      }
+      else {
+        this.Status = -1
+        this.AnchorObject['ID'] = 0;
+        this.form.addControl("ID", new FormControl(0));
+
+      }
     });
 
 
@@ -71,12 +79,10 @@ export class AnchorEditComponent implements OnInit {
       f.label = element.Options.label;
       f.inputType = element.Options.texttype != null ? element.Options.texttype : 'text'
       f.readonly = element.Options.readonly;
-      if (this.AnchorObject.Data[element.Options.name] != null) {
+      if (this.Status >= 0 && this.AnchorObject.Data[element.Options.name] != null) {
         f.value = this.AnchorObject.Data[element.Options.name]
       }
       if (element.Type != 'Button') {
-        // tempArray.insert(element.Options.name, new FormControl({ value: f.value ? f.value : '', disabled: eval(f.readonly) }, Validators.required));
-        // this.form.addControl(element.Options.name, new FormControl({ value: f.value ? f.value : '', disabled: eval(f.readonly) }, Validators.required));
       }
       if (element.Type == 'DateRangePicker' || element.Type == 'Button') {
         f.options = element.Options;
@@ -104,12 +110,27 @@ export class AnchorEditComponent implements OnInit {
           this._router.navigate(['/User/Anchor']);
         })
     }
+    if (action == "Create") {
+      this._dataService.PostCalls("anchors/save", this.form.value)
+        .then((val: any) => {
+          if (val.Found) {
+
+          }
+          else {
+            this._router.navigate(['/User/Anchor']);
+
+          }
+          // this.Status=val.Status;
+          console.log(val);
+        })
+    }
     else {
       this.form.addControl("AnchorCode", new FormControl(this.AnchorObject.Data.AnchorCode));
 
       this._dataService.PostCalls("offer/create", this.form.value)
-        .then(val => {
+        .then((val: any) => {
           this._router.navigate(['/User/Anchor']);
+          // this.Status=val.Status;
           console.log(val);
         })
     }

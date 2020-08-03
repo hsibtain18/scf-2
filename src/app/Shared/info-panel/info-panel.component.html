@@ -1,7 +1,7 @@
 <!-- <form (ngSubmit)="onSubmit.emit(this.form.value)" [formGroup]="form" class="form-horizontal"> -->
 <!-- {{childForm.value |json}} -->
 
-<div [formGroup]="childForm" class="col-md-12">
+<div [formGroup]="childForm" class=" tabContent col-md-12">
     <h4> {{heading}} </h4>
     <!-- <form-builder   [fields]="fields"  [form]="getForm()" ></form-builder> -->
     <div class="row">
@@ -31,7 +31,13 @@
                     <input type="text" readonly [placeholder]="field.label" class="form-control"
                         (bsValueChange)="dateRangeCreated($event ,field)" bsDaterangepicker
                         [formControlName]="field.name"
-                        [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'cust-date' }">
+                        [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'cust-date' ,adaptivePosition: true }">
+                    <label [for]="field.name"> {{field.label}} </label>
+                </span>
+                <span class="col-md-12 p-0 has-float-label" *ngSwitchCase="'DatePicker'">
+                    <input type="text" readonly [placeholder]="field.label" class="form-control" bsDatepicker
+                        [formControlName]="field.name"
+                        [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'cust-date' ,adaptivePosition: true  }">
                     <label [for]="field.name"> {{field.label}} </label>
                 </span>
             </div>

@@ -28,11 +28,12 @@ export class LimitListComponent implements OnInit {
     this.constObject["Heading"] = UI.Heading;
     this.constObject["Headers"] = UI.Controls[0].Options.Headers;
     this.constObject["Options"] = UI.Controls[0].Options.ActionItems;
-    this.GetGridData();
+    this.constObject["Api"] = "buyer/search" 
+    // this.GetGridData();
   }
 
-  View(anchor) {
-    this._router.navigate(['/User/Anchor/View/' + 2])
+  View(Limit) {
+    this._router.navigate(['/User/LimitApproval/View/' + Limit.ID],{ state:{ParentID:-2,MenuID:-1,URL:"/User/LimitApproval/View/"}}) 
   }
 
   GetGridData() {
@@ -42,8 +43,19 @@ export class LimitListComponent implements OnInit {
       })
   }
 
-  openAction(data: any){
+  openAction(data: any) {
+    if (data.action.ActionItem == "View") {
+      this.View(data.data);
+
+    }
+    if (data.action.ActionItem == "Reject") {
+      this._UserService.PutCalls("limit/reject", { ID: data.data.ID })
+        .then(val => {
+          this.GetGridData();
+        })
+
+    }
+
     console.log(data);
-    this.View(null);
   }
 }

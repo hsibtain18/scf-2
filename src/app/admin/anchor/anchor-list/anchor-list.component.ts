@@ -38,6 +38,7 @@ export class AnchorListComponent implements OnInit {
     this.constObject["Headers"] = UI.Controls[0].Options.Headers;
     this.constObject["Options"] = UI.Controls[0].Options.ActionItems;
     this.constObject["Api"] = "anchors/search"
+    this.constObject["ButtonsArray"] =  UI.Controls[0].Controls;
     // this.GetGridData();
     this.show = true
 
@@ -63,7 +64,9 @@ export class AnchorListComponent implements OnInit {
       })
   }
 
+  getButtonsArray(){
 
+  }
   openAction(data: any) {
     if (data.action.ActionItem == "View") {
       this.View(data);

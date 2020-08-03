@@ -25,7 +25,7 @@ export class InfoPanelComponent implements OnInit {
       if (element.type == 'Button')
         return element;
     }))
-    console.log(this.Status)
+    console.log(this.fields)
     let fieldsCtrls = {};
     for (let f of this.fields) {
       if (f.type != 'checkbox' && f.type != 'Button') {

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { UserDataService } from 'src/app/admin/user-data.service';
 import { loadingConfig } from 'src/app/const/config';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-grid',
@@ -9,6 +10,7 @@ import { loadingConfig } from 'src/app/const/config';
 })
 export class GridComponent implements OnInit {
   @Input() UIObject;
+   buttonsArray: any [];
   value: any[] = [];
   ApiRoute: string;
   @Output() Action = new EventEmitter<any>();
@@ -24,7 +26,7 @@ export class GridComponent implements OnInit {
   }
   constructor(
     private _UserService: UserDataService,
-
+    private _router: Router
   ) { }
 
   ngOnInit(): void {
@@ -34,6 +36,7 @@ export class GridComponent implements OnInit {
     this.options = this.UIObject.Options;
     this.header = this.UIObject.Headers;
     this.ApiRoute = this.UIObject.Api;
+    this.buttonsArray = this.UIObject.ButtonsArray;
     this.GetGridData()
   }
 
@@ -66,5 +69,38 @@ export class GridComponent implements OnInit {
   checkCondition(data, option) {
     return !eval(option);
   }
+  exportCSV() {
+    this._UserService.PostCalls("anchors/export", {ID:-1 ,fileType:"text/comma-separated-values"})
+      .then((res: any) => {
+        console.log(res)
+        var hiddenElement = document.createElement('a');
 
+        hiddenElement.href = 'data:attachment/csv,' + encodeURI(res);
+        hiddenElement.target = '_blank';
+        hiddenElement.download = 'orders.csv';
+        hiddenElement.click();
+        // if(res.data && res.data.length){
+        //   let typedArray = new Uint8Array(res);
+        //   const stringChar = typedArray.reduce((data, byte)=> {
+        //     return data + String.fromCharCode(byte);
+        //     }, '')
+        //   let base64String = btoa(stringChar);
+        //   let doc = this._domSanitizer.bypassSecurityTrustUrl(`data:application/octet-stream;base64, ${base64String}`) as string;
+        //   doc = this._domSanitizer.sanitize(SecurityContext.URL, doc) ;
+        //   const downloadLink = document.createElement("a");
+        //   const fileName = "List.csv";
+        //   downloadLink.href = doc;
+        //   downloadLink.download = fileName;
+        //   downloadLink.click();
+        // }
+      })
+      .catch(err=>{
+        console.log(err);
+      })
+
+
+  }
+  NavigateUrl(Url){
+    this._router.navigate([Url],{ state:{ParentID:-2,MenuID:-1,URL:Url}});
+  }
 }
