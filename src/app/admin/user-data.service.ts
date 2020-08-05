@@ -23,10 +23,39 @@ export class UserDataService {
 
     });
   }
+  SearchCalls(ResourceName: string , obj : any){
+    return new Promise((resolve,reject)=>{
+      
+      let url = baseUrl +"/"+ ResourceName
+      this._httpClient.get(url,obj)
+      .toPromise()
+      .then(val=> 
+        resolve(val)
+      )
+      .catch(error=>{
+        reject(error)
+      })
+
+    });
+  }
   GetCalls(ResourceName: string , ID : any){
     return new Promise((resolve,reject)=>{
       let url = baseUrl +"/"+ ResourceName + "/"+ID
       this._httpClient.get(url)
+      .toPromise()
+      .then(val=> 
+        resolve(val)
+      )
+      .catch(error=>{
+        reject(error)
+      })
+
+    });
+  }
+  PutCalls(ResourceName: string , obj : any){
+    return new Promise((resolve,reject)=>{
+      let url = baseUrl +"/"+ ResourceName
+      this._httpClient.put(url,obj)
       .toPromise()
       .then(val=> 
         resolve(val)

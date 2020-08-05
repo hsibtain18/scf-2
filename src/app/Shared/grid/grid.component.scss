@@ -1,12 +1,58 @@
-.customGrid{
-    tr th  {
-        font-size: 15px;
+.customGrid {
+    .gridArea {
+        height: 75vh;
+        width : 100%;
+
+        &.table-responsive {
+            max-height: 100%;
+
+            .table {
+                text-align: center;
+                margin    : 0;
+
+                th {
+                    border-top      : unset;
+                    background-color: #e9ecef;
+                    position        : sticky;
+                    top             : 0;
+                    z-index         : 2;
+
+                    &:last-child {
+                        position: sticky;
+                        right   : 0;
+                    }
+                }
+
+                tbody {
+                    tr {
+
+                        &:focus {
+                            outline: unset;
+                        }
+
+                        &:nth-child(odd) {
+                            background-color: #fff;
+                        }
+
+                        &:nth-child(even) {
+                            background-color: #e9ecef;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    tr th {
+        font-size  : 13px;
         font-weight: bold;
-        text-align: center;
+        text-align : center;
     }
-    tr td  {
-        font-size: 15px;
+
+    tr td {
+        font-size : 13px;
         text-align: center;
+        padding   : 8px 0px;
     }
-   
+
 }

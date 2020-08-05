@@ -18,35 +18,38 @@ const routes: Routes = [
         component: AnchorListComponent,
         resolve: {
           UIdata: UIResolverService
-        },
-        
-        data: [{
-          ParentID: -1,
-        }]
+        }
       },
       {
         path: "Anchor/View/:id",
         component: AnchorEditComponent,
         resolve: {
           UIdata: UIResolverService
-        },
-        data: [{
-          ParentID: null,
-        }]
+        }
+      },
+      {
+        path: "Anchor/Create",
+        component: AnchorEditComponent,
+        resolve: {
+          UIdata: UIResolverService
+        }
       },
       {
         path: "LimitApproval",
         component: LimitListComponent,
         resolve: {
           UIdata: UIResolverService
-        },
-        data: [{
-          ParentID: -1,
-        }]
+        }
       },
       {
         path: "LimitApproval/View/:id",
-        component: LimitViewComponent
+        component: LimitViewComponent,
+        resolve: {
+          UIdata: UIResolverService
+        },
+        data: [{
+          ParentID: null,
+        }]
       },
       {
         path: "**",

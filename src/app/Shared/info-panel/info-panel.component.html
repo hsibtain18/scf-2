@@ -1,31 +1,69 @@
 <!-- <form (ngSubmit)="onSubmit.emit(this.form.value)" [formGroup]="form" class="form-horizontal"> -->
-    <form    [formGroup]="parentForm" class="col-md-12">
-        <h4> {{heading}} </h4>
-    <form-builder   [fields]="fields"  [form]="parentForm" ></form-builder>
-    <!-- <div class="row">
-         <div class="col-md-6" *ngFor="let field of fields">
-            <app-field-builder [field]="field" [form]="parentForm"></app-field-builder>
+<!-- {{childForm.value |json}} -->
 
-        </div>
-    </div> -->
-        <div class="row d-flex" *ngIf="buttons.length!=0">
-            <div class="col-md-12 p-0">
-    
-                <div  class="text-right" >
-                    <ng-template ngFor let-button [ngForOf]="buttons">
-                         
-                        <button  *ngIf="button.options.submit==1; else resetButton" type="submit" (click)="saveValue()"  [disabled]="!parentForm.valid"   [class]="button.options.class"
-                         >{{button.name}} </button>
-          
-                        <ng-template #resetButton>
-                          <button type="submit"  [class]="button.options.class">
-                          {{button.name}} </button>
-          
-                        </ng-template>
-                    </ng-template>
-                </div>
+<div [formGroup]="childForm" class=" tabContent col-md-12">
+    <h4> {{heading}} </h4>
+    <!-- <form-builder   [fields]="fields"  [form]="getForm()" ></form-builder> -->
+    <div class="row">
+
+        <div class="col-md-6" *ngFor="let field of fields;let i=index; trackBy:trackByFn">
+            <div class="form-group col-md-12 p-0 input-group " [ngSwitch]="field.type">
+
+                <!-- inputs -->
+                <span *ngSwitchCase="'TextBox'" class="col-md-12 p-0 has-float-label">
+                    <input class="form-control" [id]="field.name" autocomplete="off" [type]="field.inputType"
+                        [name]="field.name" [formControlName]="field.name" [placeholder]="field.label" />
+                    <label [for]="field.name"> {{field.label}} </label>
+
+                </span>
+
+                <span class="col-md-12 p-0 has-float-label" *ngSwitchCase="'Select'">
+                    <select [name]="field.name" [id]="field.name" [formControlName]="field.name"
+                        class="form-control">label
+                        <option value="0" selected disabled> Select {{field.label}} </option>
+                        <option value="1" selected>Morabaha Advance</option>
+
+                    </select>
+                    <label [for]="field.name">{{field.label}}</label>
+
+                </span>
+                <span class="col-md-12 p-0 has-float-label" *ngSwitchCase="'DateRangePicker'">
+                    <input type="text" readonly [placeholder]="field.label" class="form-control"
+                        (bsValueChange)="dateRangeCreated($event ,field)" bsDaterangepicker
+                        [formControlName]="field.name"
+                        [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'cust-date' ,adaptivePosition: true }">
+                    <label [for]="field.name"> {{field.label}} </label>
+                </span>
+                <span class="col-md-12 p-0 has-float-label" *ngSwitchCase="'DatePicker'">
+                    <input type="text" readonly [placeholder]="field.label" class="form-control" bsDatepicker
+                        [formControlName]="field.name"
+                        [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'cust-date' ,adaptivePosition: true  }">
+                    <label [for]="field.name"> {{field.label}} </label>
+                </span>
             </div>
-
         </div>
-    </form>
+    </div>
+    <div class="row d-flex" *ngIf="buttons.length!=0">
+        <div class="col-md-12 p-0">
+
+            <div class="text-right">
+                <ng-template ngFor let-button [ngForOf]="buttons">
+
+                    <button
+                        *ngIf="(button.options.submit==1 && buttonsCondition(button.options.visible)); else resetButton"
+                        type="submit" (click)="saveValue(button)" [disabled]="!mainForm.form.valid"
+                        [class]="button.options.class">{{button.name}} </button>
+
+                    <ng-template #resetButton>
+                        <button type="submit" *ngIf="buttonsCondition(button.options.visible)"
+                            (click)="saveValue(button)" [class]="button.options.class">
+                            {{button.name}} </button>
+
+                    </ng-template>
+                </ng-template>
+            </div>
+        </div>
+
+    </div>
+</div>
 <!-- </form> -->

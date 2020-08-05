@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, Renderer2, SecurityContext } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserDataService } from '../../user-data.service';
 import { InfoPanelComponent } from 'src/app/Shared/info-panel/info-panel.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-anchor-edit',
@@ -16,36 +17,47 @@ export class AnchorEditComponent implements OnInit {
 
   public UiObject: any = []
   active = 3;
-  public form: FormGroup;
+  public form = new FormGroup({});
   unsubcribe: any
 
   public Status: any;
   AnchorObject: any = []
   AnchorID: number;
-  sendObject: any ={};
+  sendObject: any = {};
   constructor(private route: ActivatedRoute,
     private _dataService: UserDataService,
-    private builder: FormBuilder) {
+    private _router: Router,
+    private _domSanitizer: DomSanitizer
+  ) {
     this.route.params.subscribe(params => {
       this.AnchorID = +params['id'];
-      this._dataService.GetCalls("anchors", this.AnchorID)
-        .then((data: any) => {
-          this.AnchorObject = data;
-          this.Status = data.Data.Status
-        })
+      if (this.AnchorID) {
+        this._dataService.GetCalls("anchors", this.AnchorID)
+          .then((data: any) => {
+            this.AnchorObject = data;
+            this.Status = data.Data.Status
+            this.form.addControl("ID", new FormControl(data.Data.ID));
+          })
+      }
+      else {
+        this.Status = -1
+        this.AnchorObject.push({ ID: 0 });
+        this.form.addControl("ID", new FormControl(0));
+
+      }
     });
 
-    this.form = new FormGroup({});
 
   }
 
-  async ngOnInit(): Promise<any> {
+  ngOnInit(): void {
     this.UiObject = this.route.snapshot.data.UIdata[0]
+
     // this.UiObject = await this.getUiData();
     // await this.CreateForm()
-    console.log(this.form)
 
   }
+
   CreateForm() {
     return new Promise((resolve, reject) => {
       this.UiObject.Controls[0].Controls.forEach(element => {
@@ -70,12 +82,10 @@ export class AnchorEditComponent implements OnInit {
       f.label = element.Options.label;
       f.inputType = element.Options.texttype != null ? element.Options.texttype : 'text'
       f.readonly = element.Options.readonly;
-      if (this.AnchorObject.Data[element.Options.name] != null) {
+      if (this.Status >= 0 && this.AnchorObject.Data[element.Options.name] != null) {
         f.value = this.AnchorObject.Data[element.Options.name]
       }
       if (element.Type != 'Button') {
-        // tempArray.insert(element.Options.name, new FormControl({ value: f.value ? f.value : '', disabled: eval(f.readonly) }, Validators.required));
-        // this.form.addControl(element.Options.name, new FormControl({ value: f.value ? f.value : '', disabled: eval(f.readonly) }, Validators.required));
       }
       if (element.Type == 'DateRangePicker' || element.Type == 'Button') {
         f.options = element.Options;
@@ -93,15 +103,48 @@ export class AnchorEditComponent implements OnInit {
     }
 
   }
-  SaveData(Event: any) {
-    this.Mapper(Event);
-    // this.form.addControl("offer",Event)
-    console.log(this.form);
-    this.sendObject.AnchorCode=this.AnchorObject.Data.AnchorCode
-    this._dataService.PostCalls("offer/create", this.sendObject)
-      .then(val => {
-        console.log(val);
-      })
+  SaveData(action) {
+    // this.Mapper(Event);
+
+
+    if (action == "Reject") {
+      this._dataService.PostCalls("anchors/reject", { ID: this.form.get('ID').value })
+        .then(val => {
+          this.navigate();
+        })
+    }
+    if (action == "Create") {
+      this._dataService.PostCalls("anchors/save", this.form.value)
+        .then((val: any) => {
+          if (val.Found) {
+
+          }
+          else {
+            this.navigate();
+
+          }
+          // this.Status=val.Status;
+          console.log(val);
+        })
+    }
+    if (action == "Cancel") {
+      this.navigate();
+
+    }
+    if(action=="Send Offer") {
+      this.form.addControl("AnchorCode", new FormControl(this.AnchorObject.Data.AnchorCode));
+
+      this._dataService.PostCalls("offer/create", this.form.value)
+        .then((val: any) => {
+         this.navigate();
+          // this.Status=val.Status;
+          console.log(val);
+        })
+    }
+
+
+    console.log(this.form.value);
+
 
   }
   getForm(val) {
@@ -110,24 +153,51 @@ export class AnchorEditComponent implements OnInit {
   change(val) {
     console.log(val)
   }
-  FileUploadAPI(FormValue : any) {
-    this.sendObject["FileData"]={
-      FileData:FormValue.FileData.FileData,
-      FileDisplayName:FormValue.FileName,
-      FileExtension:FormValue.FileData.FileExtension,
-      FileType:FormValue.FileData.FileType
-    };
 
-  
-    // this.form.addControl("Offer Upload", FormValue);
-    console.log(this.form);
+
+  FileUploadAPI(Action) {
+    console.log(this.form)
+    if (Action.ActionValue == "cancel") {
+      this.navigate()
+
+    }
+    if (Action.ActionValue == "delete") {
+
+
+      this._dataService.PostCalls("offer/deleteagreement", { ID: Action.ID, AnchorCode: this.AnchorObject.Data.AnchorCode })
+        .then(val => {
+          this.navigate();
+        })
+
+    }
+    else {
+      this.form.addControl("AnchorCode", new FormControl(this.AnchorObject.Data.AnchorCode));
+      console.log(this.form.controls['signed'].value)
+      if (this.form.controls['signed'].value == true) {
+        this._dataService.PostCalls("offer/signedoffer", this.form.value)
+          .then(val => {
+            this.navigate()
+
+          })
+      } else {
+        this._dataService.PostCalls("offer/agreement", this.form.value)
+          .then(val => {
+            this.navigate()
+          })
+      }
+
+    }
   }
-   Mapper(obj: any){
-    Object.keys(obj).forEach((key, idx)=> {
-      this.sendObject[key]=obj[key];
+  navigate() {
+    this._router.navigate(['/User/Anchor'], { state: { ParentID: -1, MenuID: -1, URL: "/User/Anchor" } })
+
+  }
+  Mapper(obj: any) {
+    Object.keys(obj).forEach((key, idx) => {
+      this.sendObject[key] = obj[key];
     });
-   }
-  
+  }
+
 
   CheckCondition(val) {
     return eval(val);
@@ -140,10 +210,29 @@ export class AnchorEditComponent implements OnInit {
     })
     return this.AnchorObject[obj[0].Options.name];
   }
-  FileEvent(event) {
-    if (event == 'view') {
+  FileEvent(Action) {
+    this.DownloadFile(Action.ID);
 
-    }
+  }
+  DownloadFile(ID) {
+    this._dataService.GetCalls("FileUpload", ID)
+      .then((res: any) => {
 
+        if (res.FileData.data && res.FileData.data.length) {
+          let typedArray = new Uint8Array(res.FileData.data);
+          const stringChar = typedArray.reduce((data, byte) => {
+            return data + String.fromCharCode(byte);
+          }, '')
+          let base64String = btoa(stringChar);
+          let doc = this._domSanitizer.bypassSecurityTrustUrl(`data:application/octet-stream;base64, ${base64String}`) as string;
+          doc = this._domSanitizer.sanitize(SecurityContext.URL, doc);
+          const downloadLink = document.createElement("a");
+          const fileName = res.FileDisplayName + "." + res.FileType;
+          downloadLink.href = doc;
+          downloadLink.download = fileName;
+          downloadLink.click();
+        }
+        console.log(res);
+      })
   }
 }

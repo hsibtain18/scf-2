@@ -11,6 +11,7 @@ import { LimitViewComponent } from './limitapproval/limit-view/limit-view.compon
 import { UIService } from './ui.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { FileService } from '../Shared/services/fileService';
 
 
 @NgModule({
@@ -28,6 +29,6 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     // BrowserAnimationsModule,
     // BsDatepickerModule.forRoot(),
   ],
-  providers:[UIService]
+  providers:[UIService,FileService]
 })
 export class AdminModule { }
