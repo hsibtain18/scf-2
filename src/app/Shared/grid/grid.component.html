@@ -7,12 +7,22 @@
 
         </div>
         <div class="buttons mb-2 pr-0 col-md-9">
-          
-            <button class="btn btn-primary" (click)="exportCSV()"  >Export</button> 
-              <ng-template ngFor let-button [ngForOf]="buttonsArray">
-                <button [class]="button.Options.class" (click)="NavigateUrl(button.Options.route)"  > {{button.Options.name}}  </button> 
+            <form [formGroup]="fileUploadForm" >
+            <button class="btn btn-primary" (click)="exportCSV()">Export</button>
+            <ng-template ngFor let-button [ngForOf]="buttonsArray">
+                <button *ngIf="button.Options.texttype!='file' ; else FileUpload" [class]="button.Options.class"
+                    (click)="NavigateUrl(button.Options)"> {{button.Options.name}} </button>
+                <ng-template #FileUpload>
+                    <input #myFleOffer type="file" style="display: none;" class="inputfile" name="myfile"
+                        id="mFileOffer" (change)=onFileChange($event,button.Options)
+                        
+                        #hiddenFile />
+                    <button class="btn btn-primary  mr-2" type="button" (click)="hiddenFile.click()">
+                        {{button.Options.name}} </button>
 
+                </ng-template>
             </ng-template>
+        </form>
         </div>
     </div>
     <div class="gridArea table-responsive" id="nav-scrollbar">

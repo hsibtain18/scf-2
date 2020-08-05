@@ -29,6 +29,8 @@ export class LimitListComponent implements OnInit {
     this.constObject["Headers"] = UI.Controls[0].Options.Headers;
     this.constObject["Options"] = UI.Controls[0].Options.ActionItems;
     this.constObject["Api"] = "buyer/search" 
+    this.constObject["ButtonsArray"] =  UI.Controls[0].Controls;
+
     // this.GetGridData();
   }
 
@@ -50,6 +52,13 @@ export class LimitListComponent implements OnInit {
     }
     if (data.action.ActionItem == "Reject") {
       this._UserService.PostCalls("limit/reject", { ID: data.data.ID })
+        .then(val => {
+          this.GetGridData();
+        })
+
+    }
+    if (data.action.action== "upload") {
+      this._UserService.PostCalls("buyer/upload", {FileData:data["FileData"]})
         .then(val => {
           this.GetGridData();
         })

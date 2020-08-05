@@ -1,8 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { UserDataService } from 'src/app/admin/user-data.service';
 import { loadingConfig } from 'src/app/const/config';
 import { Router } from '@angular/router';
-
+import { FileService } from '../services/fileService';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import * as _ from 'lodash';
+// import * as XLSX from 'xl '
 @Component({
   selector: 'app-grid',
   templateUrl: './grid.component.html',
@@ -10,10 +13,11 @@ import { Router } from '@angular/router';
 })
 export class GridComponent implements OnInit {
   @Input() UIObject;
-   buttonsArray: any [];
+  buttonsArray: any[];
   value: any[] = [];
   ApiRoute: string;
   @Output() Action = new EventEmitter<any>();
+  @Output() ButtonsAction = new EventEmitter<any>();
   TotalCount: any;
   public header = [];
   public options = [];
@@ -24,12 +28,22 @@ export class GridComponent implements OnInit {
   filterObject: any = {
     "TotalRecords": 10, "PageNumber": 0
   }
+
+  @ViewChild('hiddenFile', { static: false }) uploadFileInput: ElementRef;
+  fileUploadForm: FormGroup;
+  fileInputLabel: string;
+  arrayBuffer: any;
   constructor(
     private _UserService: UserDataService,
-    private _router: Router
+    private _router: Router,
+    private _fileService: FileService,
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
+    this.fileUploadForm = this.formBuilder.group({
+      myfile: ['']
+    });
     this.spinnerConfig = loadingConfig;
 
     // this.header = this.col;
@@ -45,10 +59,10 @@ export class GridComponent implements OnInit {
 
     this._UserService.PostCalls(this.ApiRoute, this.filterObject)
       .then((val: any) => {
-        if(!this.filterObject.PageNumber){
+        if (!this.filterObject.PageNumber) {
           this.value = val.Data
         }
-        else{
+        else {
           this.value = this.value.concat(val.Data)
         }
         this.showSpinner = false;
@@ -69,8 +83,25 @@ export class GridComponent implements OnInit {
   checkCondition(data, option) {
     return !eval(option);
   }
+  onFileChange(File: any, action) {
+    let obj = {};
+    let file = File.target.files[0];
+    let fileReader = new FileReader();
+    fileReader.readAsArrayBuffer(file);
+    fileReader.onload = (e) => {
+      this.arrayBuffer = fileReader.result;
+      var data = new Uint8Array(this.arrayBuffer);
+      var arr = new Array();
+      for (var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
+      var bstr = arr.join("");
+
+      obj["FileData"] = { buffer: arr };
+      obj["action"]= action
+      this.Action.emit(obj)
+    }
+  }
   exportCSV() {
-    this._UserService.PostCalls("anchors/export", {ID:-1 ,fileType:"text/comma-separated-values"})
+    this._UserService.PostCalls("anchors/export", { ID: -1, fileType: "text/comma-separated-values" })
       .then((res: any) => {
         console.log(res)
         var hiddenElement = document.createElement('a');
@@ -79,28 +110,20 @@ export class GridComponent implements OnInit {
         hiddenElement.target = '_blank';
         hiddenElement.download = 'orders.csv';
         hiddenElement.click();
-        // if(res.data && res.data.length){
-        //   let typedArray = new Uint8Array(res);
-        //   const stringChar = typedArray.reduce((data, byte)=> {
-        //     return data + String.fromCharCode(byte);
-        //     }, '')
-        //   let base64String = btoa(stringChar);
-        //   let doc = this._domSanitizer.bypassSecurityTrustUrl(`data:application/octet-stream;base64, ${base64String}`) as string;
-        //   doc = this._domSanitizer.sanitize(SecurityContext.URL, doc) ;
-        //   const downloadLink = document.createElement("a");
-        //   const fileName = "List.csv";
-        //   downloadLink.href = doc;
-        //   downloadLink.download = fileName;
-        //   downloadLink.click();
-        // }
+      
       })
-      .catch(err=>{
+      .catch(err => {
         console.log(err);
       })
 
 
   }
-  NavigateUrl(Url){
-    this._router.navigate([Url],{ state:{ParentID:-2,MenuID:-1,URL:Url}});
+  NavigateUrl(Options) {
+    if (Options.route) {
+      this._router.navigate([Options.route], { state: { ParentID: -2, MenuID: -1, URL: Options.route } });
+    }
+    else {
+      this.ButtonsAction.emit(Options)
+    }
   }
 }
