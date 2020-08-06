@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { FileService } from '../services/fileService';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import * as _ from 'lodash';
-// import * as XLSX from 'xl '
+import * as XLSX from 'xlsx'
 @Component({
   selector: 'app-grid',
   templateUrl: './grid.component.html',
@@ -90,12 +90,12 @@ export class GridComponent implements OnInit {
     fileReader.readAsArrayBuffer(file);
     fileReader.onload = (e) => {
       this.arrayBuffer = fileReader.result;
-      var data = new Uint8Array(this.arrayBuffer);
-      var arr = new Array();
-      for (var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
-      var bstr = arr.join("");
+      var data = new ArrayBuffer(this.arrayBuffer);
+      // var arr = new Array();
+      // for (var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
+      // var bstr = arr.join("");
 
-      obj["FileData"] = { buffer: arr };
+      obj["FileData"] =  fileReader.result;
       obj["action"]= action
       this.Action.emit(obj)
     }
@@ -126,4 +126,31 @@ export class GridComponent implements OnInit {
       this.ButtonsAction.emit(Options)
     }
   }
+  file:File;
+  filelist: any;
+  addfile(event)     
+  {    
+    
+  this.file= event.target.files[0];     
+  let fileReader = new FileReader();    
+  fileReader.readAsArrayBuffer(this.file);     
+  fileReader.onload = (e) => {    
+      this.arrayBuffer = fileReader.result;    
+      var data = new Uint8Array(this.arrayBuffer);    
+      var arr = new Array();    
+      for(var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);    
+      var bstr = arr.join("");    
+      var workbook : any = XLSX.read(bstr, {type:"binary"}); 
+      for(let v = 0 ; v < workbook.length ;v++){
+
+      }   
+      var first_sheet_name = workbook.SheetNames[0];    
+      var worksheet = workbook.Sheets[first_sheet_name];    
+      console.log(XLSX.utils.sheet_to_json(worksheet,{raw:true}));    
+        var arraylist = XLSX.utils.sheet_to_json(worksheet,{raw:true});     
+            this.filelist = [];    
+            console.log(this.filelist)    
+    
+  }    
+}
 }

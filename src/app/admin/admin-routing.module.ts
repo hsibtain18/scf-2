@@ -6,6 +6,7 @@ import { AnchorEditComponent } from './anchor/anchor-edit/anchor-edit.component'
 import { LimitListComponent } from './limitapproval/limit-list/limit-list.component';
 import { LimitViewComponent } from './limitapproval/limit-view/limit-view.component';
 import { UIResolverService } from '../Shared/services/uiresolver.service';
+import { FinancingListComponent } from './financing/financing-list/financing-list.component';
 
 
 const routes: Routes = [
@@ -46,10 +47,14 @@ const routes: Routes = [
         component: LimitViewComponent,
         resolve: {
           UIdata: UIResolverService
-        },
-        data: [{
-          ParentID: null,
-        }]
+        }
+      },
+      {
+        path:'Financing',
+        component:FinancingListComponent,
+        resolve:{
+          UIdata:UIResolverService
+        }
       },
       {
         path: "**",

@@ -12,6 +12,8 @@ import { UIService } from './ui.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FileService } from '../Shared/services/fileService';
+import { FinancingListComponent } from './financing/financing-list/financing-list.component';
+import { FinancingViewComponent } from './financing/financing-view/financing-view.component';
 
 
 @NgModule({
@@ -20,7 +22,7 @@ import { FileService } from '../Shared/services/fileService';
     AnchorListComponent, 
     AnchorEditComponent, 
     LimitListComponent, 
-    LimitViewComponent 
+    LimitViewComponent, FinancingListComponent, FinancingViewComponent 
   ],
   imports: [
     CommonModule,
