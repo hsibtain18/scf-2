@@ -17,6 +17,7 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
 import { SelectFieldComponent } from './form/form-component/selectField';
 import { DateFieldComponent } from './form/form-component/dateField';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { InnerGridComponent } from './inner-grid/inner-grid.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     TextFieldComponent,
     FileUploadComponent,
     SelectFieldComponent,
-    DateFieldComponent
+    DateFieldComponent,
+    InnerGridComponent
   ],
   imports: [
     CommonModule,
@@ -52,7 +54,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     BuilderComponent,
     FileUploadComponent,
     SelectFieldComponent,
-    BsDatepickerModule
+    BsDatepickerModule,
+    InnerGridComponent
 
   ],
   providers: [

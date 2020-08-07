@@ -7,6 +7,7 @@ import { LimitListComponent } from './limitapproval/limit-list/limit-list.compon
 import { LimitViewComponent } from './limitapproval/limit-view/limit-view.component';
 import { UIResolverService } from '../Shared/services/uiresolver.service';
 import { FinancingListComponent } from './financing/financing-list/financing-list.component';
+import { FinancingViewComponent } from './financing/financing-view/financing-view.component';
 
 
 const routes: Routes = [
@@ -54,6 +55,13 @@ const routes: Routes = [
         component:FinancingListComponent,
         resolve:{
           UIdata:UIResolverService
+        }
+      },
+      {
+        path: "Financing/View/:id",
+        component: FinancingViewComponent,
+        resolve: {
+          UIdata: UIResolverService
         }
       },
       {

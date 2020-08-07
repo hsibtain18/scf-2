@@ -36,7 +36,7 @@ export class FinancingListComponent implements OnInit {
   }
 
   View(Limit) {
-    this._router.navigate(['/User/LimitApproval/View/' + Limit.ID],{ state:{ParentID:-2,MenuID:-1,URL:"/User/LimitApproval/View/"}}) 
+    this._router.navigate(['/User/Financing/View/' + Limit.ID],{ state:{ParentID:-2,MenuID:-1,URL:"/User/Financing/View/"}}) 
   }
 
   GetGridData() {

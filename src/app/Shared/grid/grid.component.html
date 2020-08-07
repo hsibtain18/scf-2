@@ -45,7 +45,7 @@
                     </td>
 
                     <td *ngIf="options.length!=0">
-                        <div ngbDropdown class="d-inline-block">
+                        <div ngbDropdown display="bottom-left" class="d-inline-block">
                             <p class="y" id="GridDropDown" ngbDropdownToggle>Select Actions</p>
                             <div ngbDropdownMenu aria-labelledby="GridDropDown" class="options">
                                 <button [hidden]="checkCondition(data,action.DispCond)" class="border-bottom"

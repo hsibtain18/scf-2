@@ -18,7 +18,7 @@ export class HttpInterceptorService implements HttpInterceptor {
 
       request = request.clone({
         setHeaders: {
-          'Content-Type': request.body.fileType==undefined?'application/json; charset=utf-8':'multipart/form-data',
+          'Content-Type':  'application/json; charset=utf-8',
           'dataType': 'json',
         },
         headers: request.headers.set(

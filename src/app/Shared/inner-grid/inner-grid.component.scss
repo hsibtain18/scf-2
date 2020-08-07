@@ -1,0 +1,61 @@
+.innerGrid {
+    .table-responsive {
+
+        .table {
+            text-align: center;
+            margin    : 0;
+
+            th {
+                border-top      : unset;
+                background-color: #e9ecef;
+                position        : sticky;
+                top             : 0;
+                z-index         : 2;
+
+                &:last-child {
+                    position: sticky;
+                    right   : 0;
+                }
+            }
+
+            tbody {
+                tr {
+
+                    &:focus {
+                        outline: unset;
+                    }
+
+                    &:nth-child(odd) {
+                        background-color: #fff;
+                    }
+
+                    &:nth-child(even) {
+                        background-color: #e9ecef;
+                    }
+                }
+            }
+        }
+
+        .summary {
+            b {
+                padding    : 15px;
+                font-weight: 700;
+            }
+        }
+    }
+
+
+    tr th {
+        font-size  : 13px;
+        font-weight: bold;
+        text-align : center;
+    }
+
+    tr td {
+        font-size : 13px;
+        text-align: center;
+        padding   : 8px 0px;
+    }
+
+
+}

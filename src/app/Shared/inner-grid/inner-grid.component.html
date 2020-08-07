@@ -1,0 +1,41 @@
+<section class="innerGrid">
+
+
+    <div class=" tabContent col-md-12">
+        <div class="d-flex pb-2 ">
+            <h4> {{heading}} </h4>
+            <button class="btn btn-primary ml-auto"> Export </button>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-md-12  table-responsive"  id="nav-scrollbar">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let head of headers">
+                                {{head.DisplayText}}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of FileObject">
+                            <td *ngFor="let col of headers">
+                                {{data[col.Column]}}
+                            </td>
+                        </tr>
+                    </tbody>
+
+
+                </table>
+                <div class="d-flex flex-row-reverse mt-3">
+                    <div class="summary">
+                        <b>Total Price</b>
+                        <b>121561651</b>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
