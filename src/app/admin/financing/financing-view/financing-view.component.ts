@@ -66,7 +66,7 @@ export class FinancingViewComponent implements OnInit {
   }
   SaveData(action) {
     if (action == "Reject") {
-      this._dataService.PostCalls("limit/reject", { ID: this.form.get('ID').value })
+      this._dataService.PostCalls("financial/reject",  this.form.value)
         .then(val => {
           this.navigate();
         })

@@ -18,6 +18,8 @@ import { SelectFieldComponent } from './form/form-component/selectField';
 import { DateFieldComponent } from './form/form-component/dateField';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { InnerGridComponent } from './inner-grid/inner-grid.component';
+import { TreeTableModule } from 'primeng/treetable'
+import { TreeTableComponent } from './tree-table/tree-table.component';
 
 
 @NgModule({
@@ -32,7 +34,8 @@ import { InnerGridComponent } from './inner-grid/inner-grid.component';
     FileUploadComponent,
     SelectFieldComponent,
     DateFieldComponent,
-    InnerGridComponent
+    InnerGridComponent,
+    TreeTableComponent
   ],
   imports: [
     CommonModule,
@@ -41,6 +44,7 @@ import { InnerGridComponent } from './inner-grid/inner-grid.component';
     NgxSpinnerModule,
     RouterModule,
     BsDatepickerModule.forRoot(),
+    TreeTableModule
   ],
   exports: [
     HeaderComponent,
@@ -55,8 +59,9 @@ import { InnerGridComponent } from './inner-grid/inner-grid.component';
     FileUploadComponent,
     SelectFieldComponent,
     BsDatepickerModule,
-    InnerGridComponent
-
+    InnerGridComponent,
+    TreeTableModule,
+    TreeTableComponent
   ],
   providers: [
     EncryptDecryptService

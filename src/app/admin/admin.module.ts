@@ -15,7 +15,6 @@ import { FileService } from '../Shared/services/fileService';
 import { FinancingListComponent } from './financing/financing-list/financing-list.component';
 import { FinancingViewComponent } from './financing/financing-view/financing-view.component';
 
-
 @NgModule({
   declarations: [
     AdminComponent,
@@ -28,6 +27,7 @@ import { FinancingViewComponent } from './financing/financing-view/financing-vie
     CommonModule,
     AdminRoutingModule,
     SharedModule,
+    
     // BrowserAnimationsModule,
     // BsDatepickerModule.forRoot(),
   ],

@@ -45,8 +45,11 @@
                     </td>
 
                     <td *ngIf="options.length!=0">
-                        <div ngbDropdown display="bottom-left" class="d-inline-block">
+                        <!-- <div ngbDropdown display="bottom-left" class="d-inline"> -->
+                            <div ngbDropdown class="d-inline-block" style="position: static;" placement="bottom-right">
                             <p class="y" id="GridDropDown" ngbDropdownToggle>Select Actions</p>
+                            <!-- <img class="pointer" src="../../../assets/images/menu.svg" alt="menu" width="15" ngbDropdownToggle> -->
+
                             <div ngbDropdownMenu aria-labelledby="GridDropDown" class="options">
                                 <button [hidden]="checkCondition(data,action.DispCond)" class="border-bottom"
                                     ngbDropdownItem *ngFor="let action of options" (click)="sendAction(data,action)">

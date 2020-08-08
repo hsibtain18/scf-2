@@ -16,6 +16,7 @@ export class InfoPanelComponent implements OnInit {
   @Input() Status: number;
   @Input() formname: any
   buttons: any[] = []
+  textAreaList: any[]=[]
   childForm;
   constructor(public mainForm: FormGroupDirective) { }
 
@@ -23,6 +24,10 @@ export class InfoPanelComponent implements OnInit {
     this.childForm = this.mainForm.form
     this.buttons = this.fields.filter((element => {
       if (element.type == 'Button')
+        return element;
+    }))
+    this.textAreaList = this.fields.filter((element => {
+      if (element.type == 'Textarea')
         return element;
     }))
     let fieldsCtrls = {};
