@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserDataService } from '../../user-data.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-financing-view',
@@ -18,7 +19,7 @@ export class FinancingViewComponent implements OnInit {
   limitID: number
   Financing: any = []
   constructor(private route: ActivatedRoute, private _dataService: UserDataService,
-    private _router: Router
+    private _router: Router,private _toast : ToastrService
   ) {
     this.route.params.subscribe(params => {
       this.limitID = +params['id'];
@@ -68,22 +69,28 @@ export class FinancingViewComponent implements OnInit {
     if (action == "Reject") {
       this._dataService.PostCalls("financial/reject",  this.form.value)
         .then(val => {
+          this._toast.success("Rejected Successfully")
           this.navigate();
         })
     }
     if (action == "Approve") {
-      this._dataService.PostCalls("limit/approve", this.form.value)
+      this._dataService.PostCalls("financial/approve", this.form.value)
         .then((val: any) => {
-          if (val.Found) {
-
-          }
-          else {
-            this.navigate();
-
-          }
-          // this.Status=val.Status;
-          console.log(val);
+    
+          this._toast.success("Approved Successfully")
+          
+          console.log(val); 
+           this.navigate();
+ 
         })
+    }
+    if(action == "Update"){
+      this._dataService.PostCalls("financial/update",  this.form.value)
+      .then(val => {
+        this._toast.success("Updated Successfully")
+
+        this.navigate();
+      })
     }
   }
   FileUploadAPI(Action) {
@@ -103,7 +110,7 @@ export class FinancingViewComponent implements OnInit {
     }
   }
   navigate() {
-    this._router.navigate(['/User/LimitApproval'], { state: { ParentID: -1, MenuID: -1, URL: "/User/LimitApproval" } })
+    this._router.navigate(['/User/Financing'], { state: { ParentID: -1, MenuID: -1, URL: "/User/Financing" } })
 
   }
   getFileObject(inner) {

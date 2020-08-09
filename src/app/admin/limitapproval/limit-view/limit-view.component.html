@@ -4,7 +4,7 @@
             <a routerLink="/User/LimitApproval">Limit Approve</a>
         </li>
         <li class="breadcrumb-item active">
-            <a  >Add</a>
+            <a>Add</a>
         </li>
     </ol>
     <div class="container-fluid">
@@ -23,12 +23,12 @@
                                 (FileUploadEvent)="FileEvent($event)" [fileObject]="getFileObject(innerTab)"
                                 [fields]="getInnerControls(innerTab)" [DirectCall]="innerTab.Options.sendAPICall">
                             </app-file-upload>
-                           
-                        </div>
-                         <app-tree-table>
 
-                            </app-tree-table>
-                            hkbkhb
+                        </div>
+                        <!-- <app-tree-table   >
+
+                        </app-tree-table> -->
+
                     </form>
                 </ng-template>
             </li>

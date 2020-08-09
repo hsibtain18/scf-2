@@ -4,6 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserDataService } from '../../user-data.service';
 import { InfoPanelComponent } from 'src/app/Shared/info-panel/info-panel.component';
 import { DomSanitizer } from '@angular/platform-browser';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DialogBoxComponent } from 'src/app/Shared/dialog-box/dialog-box.component';
+import { DialogService } from 'src/app/Shared/services/dialog.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-anchor-edit',
@@ -27,7 +31,9 @@ export class AnchorEditComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private _dataService: UserDataService,
     private _router: Router,
-    private _domSanitizer: DomSanitizer
+    private _domSanitizer: DomSanitizer,
+    private _modalCustomService: DialogService,
+    private _toaster : ToastrService
   ) {
     this.route.params.subscribe(params => {
       this.AnchorID = +params['id'];
@@ -110,6 +116,7 @@ export class AnchorEditComponent implements OnInit {
     if (action == "Reject") {
       this._dataService.PostCalls("anchors/reject", { ID: this.form.get('ID').value })
         .then(val => {
+          this._modalCustomService.OpenTimedDialog({ heading: "Success", type: 1 });
           this.navigate();
         })
     }
@@ -117,9 +124,11 @@ export class AnchorEditComponent implements OnInit {
       this._dataService.PostCalls("anchors/save", this.form.value)
         .then((val: any) => {
           if (val.Found) {
-
+            this._modalCustomService.OpenTimedDialog({ heading: "User Already Exist", type: 2 });
           }
           else {
+            // this._modalCustomService.OpenTimedDialog({heading:"Created Successfully",type:1})
+            this._toaster.success("Created Successfully")
             this.navigate();
 
           }
@@ -131,12 +140,12 @@ export class AnchorEditComponent implements OnInit {
       this.navigate();
 
     }
-    if(action=="Send Offer") {
+    if (action == "Send Offer") {
       this.form.addControl("AnchorCode", new FormControl(this.AnchorObject.Data.AnchorCode));
 
       this._dataService.PostCalls("offer/create", this.form.value)
         .then((val: any) => {
-         this.navigate();
+          this.navigate();
           // this.Status=val.Status;
           console.log(val);
         })
@@ -154,7 +163,10 @@ export class AnchorEditComponent implements OnInit {
     console.log(val)
   }
 
+  openDialog() {
 
+    // modelRef.componentInstance.
+  }
   FileUploadAPI(Action) {
     console.log(this.form)
     if (Action.ActionValue == "cancel") {

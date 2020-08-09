@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-
+import { data } from './tempData'
 @Component({
   selector: 'app-tree-table',
   templateUrl: './tree-table.component.html',
@@ -11,6 +11,7 @@ export class TreeTableComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log(data)
   }
 
 }

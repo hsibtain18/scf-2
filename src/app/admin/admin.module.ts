@@ -14,6 +14,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FileService } from '../Shared/services/fileService';
 import { FinancingListComponent } from './financing/financing-list/financing-list.component';
 import { FinancingViewComponent } from './financing/financing-view/financing-view.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import { FinancingViewComponent } from './financing/financing-view/financing-vie
     CommonModule,
     AdminRoutingModule,
     SharedModule,
-    
+    NgbModule
     // BrowserAnimationsModule,
     // BsDatepickerModule.forRoot(),
   ],

@@ -20,6 +20,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { InnerGridComponent } from './inner-grid/inner-grid.component';
 import { TreeTableModule } from 'primeng/treetable'
 import { TreeTableComponent } from './tree-table/tree-table.component';
+import { DialogBoxComponent } from './dialog-box/dialog-box.component';
+import { DialogService } from './services/dialog.service';
 
 
 @NgModule({
@@ -35,7 +37,8 @@ import { TreeTableComponent } from './tree-table/tree-table.component';
     SelectFieldComponent,
     DateFieldComponent,
     InnerGridComponent,
-    TreeTableComponent
+    TreeTableComponent,
+    DialogBoxComponent
   ],
   imports: [
     CommonModule,
@@ -63,8 +66,11 @@ import { TreeTableComponent } from './tree-table/tree-table.component';
     TreeTableModule,
     TreeTableComponent
   ],
+  entryComponents:[
+    DialogBoxComponent
+  ],
   providers: [
-    EncryptDecryptService
+    EncryptDecryptService,DialogService
   ]
 })
 export class SharedModule { }
