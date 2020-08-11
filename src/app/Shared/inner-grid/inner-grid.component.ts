@@ -12,12 +12,14 @@ export class InnerGridComponent implements OnInit {
   @Input() panelDetailsHeaders :any = []
   @Input() Status: boolean;
   @Input() TotalAmount;
+  @Input() buttonsVisible : boolean;
   headers: any;
   constructor() { }
 
   ngOnInit(): void {
     console.log(this.FileObject);
     console.log(this.panelDetailsHeaders);
+    this.buttonsVisible = this.buttonsVisible==undefined?true:false;
     this.headers = this.panelDetailsHeaders.Headers
   }
 

@@ -23,11 +23,12 @@
                                 (FileUploadEvent)="FileEvent($event)" [fileObject]="getFileObject(innerTab)"
                                 [fields]="getInnerControls(innerTab)" [DirectCall]="innerTab.Options.sendAPICall">
                             </app-file-upload>
-                          
-                        </div>
-  <app-tree-table>
+                            <app-tree-table [HeadersTotal]="innerTab.Controls[0].Headers" *ngIf="innerTab.TypeID==16 && InvoicesList.length"
+                                [DetailList]="InvoicesList">
 
                             </app-tree-table>
+                        </div>
+
 
                     </form>
                 </ng-template>

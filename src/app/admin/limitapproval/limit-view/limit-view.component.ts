@@ -17,25 +17,34 @@ export class LimitViewComponent implements OnInit {
   active;
   limitID: number
   LimitObject: any = []
+  InvoicesList: any[] = [];
   constructor(private route: ActivatedRoute, private _dataService: UserDataService,
     private _router: Router
   ) {
     this.route.params.subscribe(params => {
       this.limitID = +params['id'];
-      this._dataService.GetCalls("buyer", this.limitID)
-        .then((data: any) => {
-          this.LimitObject = data;
-          // this.Status = data.Data.Status
-          this._dataService.GetCalls("buyer/invoices",this.limitID)
-          .then(val=>{
-            console.log(val);
-          })
+      Promise.all([
+        this._dataService.GetCalls("buyer/invoices",this.limitID),
+        this._dataService.GetCalls("buyer", this.limitID)
+      ]).then((val: any)=>{
+         this.InvoicesList = val[0]; 
+         this.LimitObject = val[1];
+      
+      })
+      // this._dataService.GetCalls("buyer", this.limitID)
+      //   .then((data: any) => {
+      //     this.LimitObject = data;
+      //     // this.Status = data.Data.Status
+      //     this._dataService.GetCalls("buyer/invoices",this.limitID)
+      //     .then(val=>{
+      //       this.InvoicesList = val;
+      //     })
  
-          this.form.addControl("ID", new FormControl(data.Data.ID));
-        })
+      //     this.form.addControl("ID", new FormControl(data.Data.ID));
+      //   })
     });
   }
-
+ 
   ngOnInit(): void {
     this.UiObject = this.route.snapshot.data.UIdata[0]
   }

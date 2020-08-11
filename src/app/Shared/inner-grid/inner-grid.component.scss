@@ -57,5 +57,30 @@
         padding   : 8px 0px;
     }
 
+    .noBorderClass {
+        border : none !important;
+        padding: 0px !important;
+
+        tr {
+            th {
+                font-size       : 13px;
+                font-weight     : bold;
+                text-align      : center;
+                background-color: #FFFFFF !important;
+                padding         : 10px 0px;
+                border-top      : 1px solid #e9ecef !important;
+            }
+
+            td {
+                font-size : 13px;
+                text-align: center;
+                padding   : 10px 0px;
+            }
+        }
+
+        tr:nth-child(even) {
+            background-color: #FFFFFF !important;
+        }
+    }
 
 }
