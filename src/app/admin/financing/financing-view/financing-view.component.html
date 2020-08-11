@@ -23,7 +23,7 @@
                                 (FileUploadEvent)="FileEvent($event)" [fileObject]="getFileObject(innerTab)"
                                 [fields]="getInnerControls(innerTab)" [DirectCall]="innerTab.Options.sendAPICall">
                             </app-file-upload> -->
-                            <app-inner-grid  [Status]="Status" *ngIf="innerTab.TypeID==14" [panelDetailsHeaders]="getHeaderObject(innerTab)" [FileObject]="getFileObject(innerTab)"  [heading]="innerTab.Options.text" ></app-inner-grid>
+                            <app-inner-grid  [Status]="Status" [TotalAmount]="this.Financing.Data.TotalAmount" *ngIf="innerTab.TypeID==14" [panelDetailsHeaders]="getHeaderObject(innerTab)" [FileObject]="getFileObject(innerTab)"  [heading]="innerTab.Options.text" ></app-inner-grid>
                         </div>
                     </form>
                 </ng-template>

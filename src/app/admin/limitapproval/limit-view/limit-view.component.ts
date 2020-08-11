@@ -26,6 +26,11 @@ export class LimitViewComponent implements OnInit {
         .then((data: any) => {
           this.LimitObject = data;
           this.Status = data.Data.Status
+          // this._dataService.GetCalls("buyer/invoices",this.limitID)
+          // .then(val=>{
+          //   console.log(val);
+          // })
+ 
           this.form.addControl("ID", new FormControl(data.Data.ID));
         })
     });

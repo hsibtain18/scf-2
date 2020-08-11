@@ -27,10 +27,10 @@
 
 
                 </table>
-                <div class="d-flex flex-row-reverse mt-3">
+                <div  *ngIf="TotalAmount" class="d-flex flex-row-reverse mt-3">
                     <div class="summary">
                         <b>Total Price</b>
-                        <b>121561651</b>
+                        <b> {{TotalAmount  | currency: ' PKR ' }}    </b>
                     </div>
 
                 </div>

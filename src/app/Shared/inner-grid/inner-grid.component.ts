@@ -11,6 +11,7 @@ export class InnerGridComponent implements OnInit {
   @Input() FileObject: [];
   @Input() panelDetailsHeaders :any = []
   @Input() Status: boolean;
+  @Input() TotalAmount;
   headers: any;
   constructor() { }
 

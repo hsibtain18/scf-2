@@ -22,7 +22,7 @@ import { TreeTableModule } from 'primeng/treetable'
 import { TreeTableComponent } from './tree-table/tree-table.component';
 import { DialogBoxComponent } from './dialog-box/dialog-box.component';
 import { DialogService } from './services/dialog.service';
-
+import { TableModule } from 'primeng/table';
 
 @NgModule({
   declarations: [
@@ -47,7 +47,8 @@ import { DialogService } from './services/dialog.service';
     NgxSpinnerModule,
     RouterModule,
     BsDatepickerModule.forRoot(),
-    TreeTableModule
+    TreeTableModule,
+    TableModule
   ],
   exports: [
     HeaderComponent,
@@ -64,13 +65,14 @@ import { DialogService } from './services/dialog.service';
     BsDatepickerModule,
     InnerGridComponent,
     TreeTableModule,
+    TableModule,
     TreeTableComponent
   ],
-  entryComponents:[
+  entryComponents: [
     DialogBoxComponent
   ],
   providers: [
-    EncryptDecryptService,DialogService
+    EncryptDecryptService, DialogService
   ]
 })
 export class SharedModule { }
