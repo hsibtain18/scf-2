@@ -8,6 +8,8 @@ import { LimitViewComponent } from './limitapproval/limit-view/limit-view.compon
 import { UIResolverService } from '../Shared/services/uiresolver.service';
 import { FinancingListComponent } from './financing/financing-list/financing-list.component';
 import { FinancingViewComponent } from './financing/financing-view/financing-view.component';
+import { ContractListComponent } from './contract/contract-list/contract-list.component';
+import { ContractViewComponent } from './contract/contract-view/contract-view.component';
 
 
 const routes: Routes = [
@@ -65,11 +67,25 @@ const routes: Routes = [
         }
       },
       {
+        path:'Contract',
+        component:ContractListComponent,
+        resolve:{
+          UIdata:UIResolverService
+        }
+      },
+      {
+        path: "Contract/View/:id",
+        component: ContractViewComponent,
+        resolve: {
+          UIdata: UIResolverService
+        }
+      },
+      {
         path: "**",
         redirectTo: 'anchor'
 
       }
-
+      
     ]
   }
 ];

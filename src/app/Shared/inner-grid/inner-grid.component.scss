@@ -1,3 +1,4 @@
+@import '.././../../assets/style/variable.scss';
 .innerGrid {
     .table-responsive {
 
@@ -83,4 +84,14 @@
         }
     }
 
+    .form-group {
+        input {
+            width: 74%;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 44px;
+            border: 1px solid $inputBorderColor;
+            text-align: center;
+        }
+    }
 }
