@@ -43,7 +43,7 @@
         </div>
         <div class="col-md-12 form-group" *ngFor="let field of textAreaList;let i=index; trackBy:trackByFn">
             <span  class="col-md-12 p-0 has-float-label">
-                <textarea class="form-control" [id]="field.name"  maxlength="2000" rows="3"
+                <textarea class="form-control" [id]="field.name" requiredforapproval="1"  maxlength="2000" rows="3"
                     [name]="field.name" [formControlName]="field.name" [placeholder]="field.label"></textarea> 
                 <label [for]="field.name"> {{field.label}} </label>
 
@@ -57,7 +57,7 @@
                 <ng-template ngFor let-button [ngForOf]="buttons">
 
                     <button
-                        *ngIf="(button.options.submit==1 && buttonsCondition(button.options.visible)); else resetButton"
+                        *ngIf="(button.options.submit==1 && buttonsCondition(button.options.visible)); else resetButton" 
                         type="submit" (click)="saveValue(button)" [disabled]="!mainForm.form.valid"
                         [class]="button.options.class">{{button.name}} </button>
 

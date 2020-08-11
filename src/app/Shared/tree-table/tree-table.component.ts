@@ -9,6 +9,7 @@ import { TreeNode } from 'primeng/api';
 export class TreeTableComponent implements OnInit {
 
   @Input() DetailList: any[]
+  @Input() heading =''
   temp: any = data;
   files: any[];
   inputs: any[]=[{name:"Hassan",value:"Syed Hassan SIbtain"},{name:"Hassan",value:"Syed Hassan SIbtain"}]
@@ -77,7 +78,8 @@ export class TreeTableComponent implements OnInit {
           ID:i,
           name: 'Item ' + i,
           size: Math.floor(Math.random() * 1000) + 1 + 'kb',
-          type: 'Type ' + i
+          type: 'Type ' + i,
+          Data:[{test:"test"},{test:"test"},{test:"test"},{test:"test"}]
         }
       );
     }

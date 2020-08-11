@@ -1,29 +1,9 @@
-<div class="col-md-12  table-responsive">
- <!-- <p-treeTable [value]="files" [columns]="temp[0].headers" [paginator]="true" [rows]="10">
-    <ng-template pTemplate="header" let-columns>
-        <tr>
-            <th *ngFor="let col of columns">
-                {{col.header}}
-            </th>
-        </tr> 
-    </ng-template>
-    <ng-template pTemplate="body" let-rowNode let-rowData="rowData" let-columns="columns">
-        <tr>
-            <td *ngFor="let col of columns; let i = index">
-                <p-treeTableToggler [rowNode]="rowNode" *ngIf="i == 0"></p-treeTableToggler>
-                {{rowData[col.field]}}
-            </td>
-            <td>ascas</td>
-        </tr>
-    </ng-template> 
-</p-treeTable>  -->
+<div class="col-md-12  tabContent">
+    <h4> {{heading}} </h4>
 
-</div> 
-<div class="table-responsive tabContent ">
     <div class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 
-        <p-table [columns]="cols" [value]="files" dataKey="ID" 
-            [paginator]="true" [rows]="10">
+        <p-table [columns]="cols" [value]="files" dataKey="ID" [paginator]="true" [rows]="10">
             <ng-template pTemplate="header" let-columns>
                 <tr class="flagText custeader">
                     <th style="width: 2.25em"></th>
@@ -36,8 +16,7 @@
                 <tr>
                     <td>
                         <a href="#" [pRowToggler]="rowData">
-                            <i
-                                [ngClass]="expanded ? 'fa fa-fw fa-chevron-circle-down' : 'fa fa-fw fa-chevron-circle-right'"></i>
+                            <i [ngClass]="expanded ? 'fa fa-fw fa-minus' : 'fa fa-fw fa-plus'"></i>
                         </a>
                     </td>
                     <td *ngFor="let col of columns">
@@ -47,19 +26,21 @@
             </ng-template>
             <ng-template pTemplate="rowexpansion" let-rowData let-columns="columns">
                 <tr>
+                   
                     <td [attr.colspan]="columns.length + 1">
                         <div class="ui-g ui-fluid ui-g-12 " style="font-size:16px;padding:20px">
-                            <div class=" ui-md-6" *ngFor="let inp  of inputs" >
-                                <span   class="col-md-12 p-0 has-float-label" >
-                                    <input class="form-control" id=" name" [value]="inp.value" disabled autocomplete="off" type="text"
-                                        name="name" placeholder="label" />
+                            <div class=" ui-md-6" *ngFor="let inp  of inputs">
+                                <span class="col-md-12 p-0 has-float-label">
+                                    <input class="form-control" id=" name" [value]="inp.value" disabled
+                                        autocomplete="off" type="text" name="name" placeholder="label" />
                                     <label for="name"> {{inp.name}} </label>
-                
+
                                 </span>
-                              
+
                             </div>
                             <div class="ui-md-12 ">
-                               
+                                {{rowData|json}}
+                                <app-inner-grid [heading]="heading"></app-inner-grid>
                             </div>
                         </div>
                     </td>
