@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ControlContainer, FormGroupDirective, Validators, FormControl } from '@angular/forms';
 
 @Component({
@@ -10,15 +10,16 @@ import { ControlContainer, FormGroupDirective, Validators, FormControl } from '@
 export class InnerGridComponent implements OnInit {
 
   @Input() heading: string
-  @Input() FileObject: [];
+  @Input() FileObject: any[];
   @Input() panelDetailsHeaders: any = []
   @Input() Status: any;
   @Input() TotalAmount;
   @Input() buttonsVisible: boolean;
   @Input() ButtonsArray: any[];
   @Input() isEditable: boolean;
+  @Output() ActionEmit = new EventEmitter();
   headers: any;
-  indexInput: number
+  indexInput: number;
   childForm;
   constructor(public mainForm: FormGroupDirective) { }
   ngOnInit(): void {
@@ -34,13 +35,18 @@ export class InnerGridComponent implements OnInit {
           break
         }
       }
-    }
 
-    this.headers.forEach(element => {
-      if (element.Editable == 1) {
-        this.childForm.addControl(element.Column, new FormControl("", Validators.required));
+      this.childForm.addControl("DetailId", new FormControl(this.FileObject[this.indexInput].ID));
+      if (this.indexInput < this.FileObject.length) {
+        this.headers.forEach(element => {
+          if (element.Editable == 1) {
+            this.childForm.addControl(element.Column, new FormControl("", Validators.required));
+          }
+        });
       }
-    });
+    }
   }
-
+  sendValue(val){
+    this.ActionEmit.emit(val.Options.name)
+  }
 }
