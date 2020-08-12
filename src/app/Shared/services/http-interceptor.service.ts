@@ -3,12 +3,16 @@ import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpErrorResponse
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap, finalize } from 'rxjs/operators';
 import { EncryptDecryptService } from './encrypt-decrypt.service';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { DialogService } from './dialog.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpInterceptorService implements HttpInterceptor {
-  constructor(private _crypto: EncryptDecryptService) { }
+  constructor(private _crypto: EncryptDecryptService,private toast: ToastrService,private _dialog:DialogService
+    ,private _router :Router) { }
   intercept(
     request: HttpRequest<any>, next: HttpHandler
   ): Observable<HttpEvent<any>> {
@@ -18,7 +22,7 @@ export class HttpInterceptorService implements HttpInterceptor {
 
       request = request.clone({
         setHeaders: {
-          'Content-Type': request.body.fileType==undefined?'application/json; charset=utf-8':'multipart/form-data',
+          'Content-Type':  'application/json; charset=utf-8',
           'dataType': 'json',
         },
         headers: request.headers.set(
@@ -28,14 +32,19 @@ export class HttpInterceptorService implements HttpInterceptor {
     }
     return next.handle(request).pipe(
       catchError((err: HttpErrorResponse) => {
-        // Checking if it is an Authentication Error (401)
         if (err.status === 401 || err.status === 498) {
-          // <Log the user out of your application code>
           if (err.status === 498) {
+            this.toast.error("Server Error")
+            localStorage.clear()
+              this._router.navigate(['auth/Login'])
           }
-          localStorage.clear()
-          // return throwError(err);
         }
+        if (err.status === 405) {
+         this._dialog.OpenTimedDialog({heading:"Network Error",type:2})
+        }
+        if (err.status === 400) {
+          this._dialog.OpenTimedDialog({heading:err.error,type:2})
+         }
         // If it is not an authentication error, just throw it
         return throwError(err);
       })

@@ -9,6 +9,7 @@ import { HttpInterceptorService } from './Shared/services/http-interceptor.servi
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ToastrModule } from 'ngx-toastr';
+import { AuthGuard } from './Guards/AuthGuard';
 @NgModule({
   declarations: [
     AppComponent,
@@ -29,6 +30,7 @@ import { ToastrModule } from 'ngx-toastr';
    
   ],
   providers: [
+    AuthGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass : HttpInterceptorService,

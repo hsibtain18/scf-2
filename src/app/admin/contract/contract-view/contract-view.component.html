@@ -1,10 +1,10 @@
 <section class="componentView">
     <ol class="breadcrumb m-3">
         <li class="breadcrumb-item">
-            <a routerLink="/User/Financing"  [state]="{ParentID: -1, MenuID: -1, URL: '/User/Financing' }">Financing  </a>
+            <a routerLink="/User/Contract"  [state]="{ParentID: -1, MenuID: -1, URL: '/User/Contract' }">Contract  </a>
         </li>
         <li class="breadcrumb-item active">
-            <a>View</a>
+            <a>Veiw</a>
         </li>
     </ol>
     <div class="container-fluid">
@@ -19,9 +19,9 @@
                                 [Status]="Status" [formname]="innerTab.Type+''+innerTab.ID"
                                 [fields]="getInnerControls(innerTab)" (onSubmit)="SaveData($event)"></app-info-panel>
                            
-                            <app-inner-grid [Status]="Status" [TotalAmount]="this.Financing.Data.TotalAmount"
+                            <app-inner-grid [Status]="Status" [TotalAmount]="this.Financing.Data.TotalAmount" [isEditable]="true"
                                 *ngIf="innerTab.TypeID==14" [panelDetailsHeaders]="getHeaderObject(innerTab)"
-                                [FileObject]="getFileObject(innerTab)" [heading]="innerTab.Options.text">
+                                [FileObject]="getFileObject(innerTab)" [ButtonsArray]="getButtons(innerTab)" [heading]="innerTab.Options.text">
                             </app-inner-grid>
                         </div>
                     </form>

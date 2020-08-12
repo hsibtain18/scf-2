@@ -58,11 +58,7 @@ html {
         height        : 100vh;
         min-height    : 100vh;
 
-        .errorMessage {
-            color   : $validationErrorColor;
-            position: absolute;
-            margin  : 0;
-        }
+      
 
         main,
         .authentication {
@@ -89,7 +85,7 @@ html {
 
     .toast-warning {
         background-color: #fdf6ec;
-        border          : 1px solid #97bb3d;
+        border          : 1px solid $textColor;
         color           : black !important;
         background-image: unset;
         box-shadow      : unset;
@@ -102,7 +98,7 @@ html {
             content            : "";
             width              : 15px;
             height             : 100%;
-            background         : #97bb3d;
+            background         : $textColor;
             // background-image: url("./assets/images/icons/icon_info.svg");
             background-size    : 20px;
             background-position: 50%;
@@ -121,10 +117,10 @@ html {
     .toast-success {
         @extend .toast-warning;
         background-color: #ffffff;
-        border          : 1px solid #97bb3d;
+        border          : 1px solid $textColor;
 
         .toast-message:before {
-            background-color   : #97bb3d;
+            background-color   : $textColor;
             color              : #6d6e72;
             background-size    : 8px;
             background-position: 20%;
@@ -174,10 +170,14 @@ html {
         height       : 50px;
         border       : 1px solid $borderColor;
         border-radius: 7px;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
         font-size    : 15px;
     }
-
+    .errorMessage {
+        color   : $validationErrorColor;
+        margin: 0;
+        padding-left: 15px;
+    }
     .has-float-label .form-control:placeholder-shown:not(:focus)+* {
         font-size: 15px;
         top      : 1.05em;
@@ -400,11 +400,13 @@ html {
                 -moz-appearance   : menulist;
                 appearance        : menulist;
             }
-
+            textarea{
+                height: 90px !important;
+            }
             input {
                 &:focus {
-                    outline: none;
-                    border : none;
+                    // outline: none;
+                    // border : none;
                 }
             }
 

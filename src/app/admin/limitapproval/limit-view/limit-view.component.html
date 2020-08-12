@@ -1,10 +1,10 @@
 <section class="componentView">
     <ol class="breadcrumb m-3">
         <li class="breadcrumb-item">
-            <a routerLink="/user/dashboard">Limit Approver</a>
+            <a routerLink="/User/LimitApproval"  [state]="{ParentID: -1, MenuID: -1, URL: '/User/LimitApproval' }">Limit Approval</a>
         </li>
         <li class="breadcrumb-item active">
-            <a routerLink="/user/dashboard">Add</a>
+            <a>Add</a>
         </li>
     </ol>
     <div class="container-fluid">
@@ -23,7 +23,13 @@
                                 (FileUploadEvent)="FileEvent($event)" [fileObject]="getFileObject(innerTab)"
                                 [fields]="getInnerControls(innerTab)" [DirectCall]="innerTab.Options.sendAPICall">
                             </app-file-upload>
+                            <app-tree-table [HeadersTotal]="innerTab.Controls[0].Headers" *ngIf="innerTab.TypeID==16 && InvoicesList.length"
+                                [DetailList]="InvoicesList">
+
+                            </app-tree-table>
                         </div>
+
+
                     </form>
                 </ng-template>
             </li>

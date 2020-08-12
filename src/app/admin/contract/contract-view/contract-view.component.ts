@@ -3,14 +3,14 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserDataService } from '../../user-data.service';
 import { ToastrService } from 'ngx-toastr';
-import { CanComponentDeactivate } from 'src/app/Guards/DeActicateGuard';
+import { DialogService } from 'src/app/Shared/services/dialog.service';
 
 @Component({
-  selector: 'app-financing-view',
-  templateUrl: './financing-view.component.html',
-  styleUrls: ['./financing-view.component.scss']
+  selector: 'app-contract-view',
+  templateUrl: './contract-view.component.html',
+  styleUrls: ['./contract-view.component.scss']
 })
-export class FinancingViewComponent implements OnInit, CanComponentDeactivate {
+export class ContractViewComponent implements OnInit {
 
   public form = new FormGroup({});
 
@@ -20,11 +20,11 @@ export class FinancingViewComponent implements OnInit, CanComponentDeactivate {
   limitID: number
   Financing: any = []
   constructor(private route: ActivatedRoute, private _dataService: UserDataService,
-    private _router: Router, private _toast: ToastrService
+    private _router: Router, private _toast: ToastrService, private _dialog: DialogService
   ) {
     this.route.params.subscribe(params => {
       this.limitID = +params['id'];
-      this._dataService.GetCalls("financial", this.limitID)
+      this._dataService.GetCalls("contractpayment", this.limitID)
         .then((data: any) => {
           this.Financing = data;
           this.Status = data.Data.Status
@@ -32,21 +32,12 @@ export class FinancingViewComponent implements OnInit, CanComponentDeactivate {
         })
     });
   }
-  canDeactivate() {
-    if (this.form.dirty) {
-      return false;
-
-    } else {
-      return true;
-    }
-  }
   ngOnInit(): void {
     this.UiObject = this.route.snapshot.data.UIdata[0]
   }
   CheckCondition(val) {
     return eval(val);
   }
-
   getInnerControls(obj) {
     let field: any[] = [];
     // this.form.addControl(obj.Type+obj.ID,this.builder.group([]))
@@ -76,18 +67,47 @@ export class FinancingViewComponent implements OnInit, CanComponentDeactivate {
     return field;
   }
   SaveData(action) {
-    if (action == "Reject") {
-      this._dataService.PostCalls("financial/reject", this.form.value)
-        .then(val => {
-          this._toast.success("Rejected Successfully")
-          this.navigate();
+    if (action == "Delivered") {
+      this._dataService.PostCalls("contractpayment/delivered", this.form.value)
+        .then((val: any) => {
+          if (val.Status == 201) { 
+            this._dialog.OpenTimedDialog({ heading: val.Message, type: 2 })
+
+          } else {
+            this._toast.success("Delivered Successfully")
+            this.navigate();
+          }
+
         })
     }
     if (action == "Approve") {
-      this._dataService.PostCalls("financial/approve", this.form.value)
+      this._dataService.PostCalls("contractpayment/approved", this.form.value)
         .then((val: any) => {
 
-          this._toast.success("Approved Successfully")
+          if (val.Status == 201) { 
+            this._dialog.OpenTimedDialog({ heading: val.Message, type: 2 })
+
+          } else {
+            this._toast.success("Approved Successfully")
+            this.navigate();
+          }
+
+          console.log(val);
+          this.navigate();
+
+        })
+    }
+    if (action == "Reject") {
+      this._dataService.PostCalls("contractpayment/rejected", this.form.value)
+        .then((val: any) => {
+
+          if (val.Status == 201) { 
+            this._dialog.OpenTimedDialog({ heading: val.Message, type: 2 })
+
+          } else {
+            this._toast.success("Rejected Successfully")
+            this.navigate();
+          }
 
           console.log(val);
           this.navigate();
@@ -120,7 +140,7 @@ export class FinancingViewComponent implements OnInit, CanComponentDeactivate {
     }
   }
   navigate() {
-    this._router.navigate(['/User/Financing'], { state: { ParentID: -1, MenuID: -1, URL: "/User/Financing" } })
+    this._router.navigate(['/User/Contract'], { state: { ParentID: -1, MenuID: -1, URL: "/User/Contract" } })
 
   }
   getFileObject(inner) {
@@ -138,5 +158,13 @@ export class FinancingViewComponent implements OnInit, CanComponentDeactivate {
       }
     })[0];
 
+  }
+  getButtons(inner) {
+    let obj = inner.Controls.filter(ele => {
+      if (ele.Type == "Button") {
+        return ele;
+      }
+    })
+    return obj;
   }
 }

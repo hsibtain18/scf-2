@@ -1,0 +1,70 @@
+<section class="innerGrid">
+
+
+    <div class=" tabContent col-md-12" [ngClass]="!buttonsVisible?'noBorderClass':''">
+        <div class="d-flex pb-2 ">
+            <h4> {{heading}} </h4>
+            <button *ngIf="buttonsVisible" class="btn btn-primary ml-auto"> Export </button>
+        </div>
+
+        <div [formGroup]="childForm">
+            <div class="row mt-2">
+                <div class="col-md-12  table-responsive" id="nav-scrollbar">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th *ngFor="let head of headers">
+                                    {{head.DisplayText}}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let data of FileObject;let i=index">
+                                <td *ngFor="let col of headers">
+                                    <!-- {{col.Editable}}
+                                {{Status}} -->
+                                    <!-- <ng-template *ngIf="col.Editable==1 ; else justText">
+                                    <span>
+                                        <input type="text" value="12">
+                                    </span>
+                                </ng-template>
+                                <ng-template #justText> -->
+                                    <div *ngIf="col.Editable==1 && i==indexInput">
+                                        <span class="form-group"  *ngIf="col.TextType=='date'">
+                                            <input type="text" [formControlName]="col.Column" class="form-control"
+                                                bsDatepicker readonly
+                                                [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'cust-date' ,adaptivePosition: true  }">
+                                        </span>
+                                        <div class="form-group amountInput" style="position: absolute;" *ngIf="col.TextType=='text'">
+                                            <input type="text" [id]="col.Column"  [formControlName]="col.Column" class="form-control"
+                                                 >
+                                                 <label [for]="col.Column" class="amount">PKR</label>
+                                        </div>
+                                    </div>
+                                    <span> {{data[col.Column]}} </span>
+                                    <!-- </ng-template> -->
+                                </td>
+                            </tr>
+                        </tbody>
+
+
+                    </table>
+                    <div *ngIf="TotalAmount" class="d-flex flex-row-reverse mt-3">
+                        <div class="summary">
+                            <b>Total Price</b>
+                            <b> {{TotalAmount  | currency: ' PKR ' }} </b>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="d-flex flex-row-reverse bd-highlight">
+                <ng-template ngFor let-button [ngForOf]="ButtonsArray">
+                    <button [class]="button.Options.class" *ngIf="button.Options.submit==1"
+                        [disabled]="!mainForm.form.valid"> {{button.Options.name}} </button>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</section>

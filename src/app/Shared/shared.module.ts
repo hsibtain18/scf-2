@@ -17,7 +17,13 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
 import { SelectFieldComponent } from './form/form-component/selectField';
 import { DateFieldComponent } from './form/form-component/dateField';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-
+import { InnerGridComponent } from './inner-grid/inner-grid.component';
+import { TreeTableModule } from 'primeng/treetable'
+import { TreeTableComponent } from './tree-table/tree-table.component';
+import { DialogBoxComponent } from './dialog-box/dialog-box.component';
+import { DialogService } from './services/dialog.service';
+import { TableModule } from 'primeng/table';
+// import { TreeTableModule } from 'primeng/treetable';
 
 @NgModule({
   declarations: [
@@ -30,7 +36,10 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     TextFieldComponent,
     FileUploadComponent,
     SelectFieldComponent,
-    DateFieldComponent
+    DateFieldComponent,
+    InnerGridComponent,
+    TreeTableComponent,
+    DialogBoxComponent
   ],
   imports: [
     CommonModule,
@@ -39,6 +48,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     NgxSpinnerModule,
     RouterModule,
     BsDatepickerModule.forRoot(),
+    TreeTableModule,
+    TableModule
   ],
   exports: [
     HeaderComponent,
@@ -52,11 +63,17 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     BuilderComponent,
     FileUploadComponent,
     SelectFieldComponent,
-    BsDatepickerModule
-
+    BsDatepickerModule,
+    InnerGridComponent,
+    TreeTableModule,
+    TableModule,
+    TreeTableComponent
+  ],
+  entryComponents: [
+    DialogBoxComponent
   ],
   providers: [
-    EncryptDecryptService
+    EncryptDecryptService, DialogService
   ]
 })
 export class SharedModule { }

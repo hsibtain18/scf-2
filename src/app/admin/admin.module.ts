@@ -14,7 +14,10 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FileService } from '../Shared/services/fileService';
 import { FinancingListComponent } from './financing/financing-list/financing-list.component';
 import { FinancingViewComponent } from './financing/financing-view/financing-view.component';
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ContractListComponent } from './contract/contract-list/contract-list.component';
+import { ContractViewComponent } from './contract/contract-view/contract-view.component';
+import { DeactivateGuard } from '../Guards/DeActicateGuard';
 
 @NgModule({
   declarations: [
@@ -22,15 +25,16 @@ import { FinancingViewComponent } from './financing/financing-view/financing-vie
     AnchorListComponent, 
     AnchorEditComponent, 
     LimitListComponent, 
-    LimitViewComponent, FinancingListComponent, FinancingViewComponent 
+    LimitViewComponent, FinancingListComponent, FinancingViewComponent, ContractListComponent, ContractViewComponent 
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
     SharedModule,
+    NgbModule
     // BrowserAnimationsModule,
     // BsDatepickerModule.forRoot(),
   ],
-  providers:[UIService,FileService]
+  providers:[UIService,FileService,DeactivateGuard]
 })
 export class AdminModule { }

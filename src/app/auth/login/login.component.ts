@@ -69,6 +69,7 @@ export class LoginComponent implements OnInit {
           sessionStorage.setItem("SCFUserToken", JSON.stringify(token.access_token));
           this._route.navigate([sideMenu[0].URL], { state: { ParentID: -1, MenuID: -1, URL: sideMenu[0].URL } });
           console.log(sideMenu[0]);
+          this.toast.success("success","title");
         }
       })
       .catch(error => {

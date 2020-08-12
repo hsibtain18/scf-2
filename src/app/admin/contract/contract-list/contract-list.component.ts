@@ -3,11 +3,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UserDataService } from '../../user-data.service';
 
 @Component({
-  selector: 'app-financing-list',
-  templateUrl: './financing-list.component.html',
-  styleUrls: ['./financing-list.component.scss']
+  selector: 'app-contract-list',
+  templateUrl: './contract-list.component.html',
+  styleUrls: ['./contract-list.component.scss']
 })
-export class FinancingListComponent implements OnInit {
+export class ContractListComponent implements OnInit {
 
   public column: any = [];
   public list = [];
@@ -29,14 +29,14 @@ export class FinancingListComponent implements OnInit {
     this.constObject["Heading"] = UI.Heading;
     this.constObject["Headers"] = UI.Controls[0].Options.Headers;
     this.constObject["Options"] = UI.Controls[0].Options.ActionItems;
-    this.constObject["Api"] = "financial/search" 
+    this.constObject["Api"] = "contractpayment/search" 
     this.constObject["ButtonsArray"] =  UI.Controls[0].Controls;
 
     // this.GetGridData();
   }
 
   View(Limit) {
-    this._router.navigate(['/User/Financing/View/' + Limit.ID],{ state:{ParentID:-2,MenuID:-1,URL:"/User/Financing/View/"}}) 
+    this._router.navigate(['/User/Contract/View/' + Limit.ID],{ state:{ParentID:-2,MenuID:-1,URL:"/User/Contract/View/"}}) 
   }
 
   GetGridData() {

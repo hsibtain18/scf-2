@@ -9,14 +9,15 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-  userDetail : any = []
-  constructor(private _sharedService : SharedService,
-    private _router : Router) { }
+  userDetail: any = []
+  constructor(public _sharedService: SharedService,
+    private _router: Router) { }
 
   ngOnInit(): void {
     this.userDetail = this._sharedService.getUserData();
   }
-  Logout(){
+  Logout() {
+    this._sharedService.Logout();
     this._router.navigate(["/auth/login"])
   }
 }

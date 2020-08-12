@@ -7,6 +7,10 @@ import { LimitListComponent } from './limitapproval/limit-list/limit-list.compon
 import { LimitViewComponent } from './limitapproval/limit-view/limit-view.component';
 import { UIResolverService } from '../Shared/services/uiresolver.service';
 import { FinancingListComponent } from './financing/financing-list/financing-list.component';
+import { FinancingViewComponent } from './financing/financing-view/financing-view.component';
+import { ContractListComponent } from './contract/contract-list/contract-list.component';
+import { ContractViewComponent } from './contract/contract-view/contract-view.component';
+import { DeactivateGuard } from '../Guards/DeActicateGuard';
 
 
 const routes: Routes = [
@@ -33,7 +37,7 @@ const routes: Routes = [
         component: AnchorEditComponent,
         resolve: {
           UIdata: UIResolverService
-        }
+        }, canDeactivate: [DeactivateGuard]
       },
       {
         path: "LimitApproval",
@@ -50,10 +54,31 @@ const routes: Routes = [
         }
       },
       {
-        path:'Financing',
-        component:FinancingListComponent,
-        resolve:{
-          UIdata:UIResolverService
+        path: 'Financing',
+        component: FinancingListComponent,
+        resolve: {
+          UIdata: UIResolverService
+        }
+      },
+      {
+        path: "Financing/View/:id",
+        component: FinancingViewComponent,
+        resolve: {
+          UIdata: UIResolverService
+        }
+      },
+      {
+        path: 'Contract',
+        component: ContractListComponent,
+        resolve: {
+          UIdata: UIResolverService
+        }
+      },
+      {
+        path: "Contract/View/:id",
+        component: ContractViewComponent,
+        resolve: {
+          UIdata: UIResolverService
         }
       },
       {

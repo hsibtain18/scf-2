@@ -1,0 +1,26 @@
+.treeTable {
+    tr {
+        th {
+            font-size       : 13px;
+            font-weight     : bold;
+            text-align      : center;
+            background-color: #FFFFFF;
+            padding: 10px 0px;
+            border-left: none;
+            border-right: none;
+        }
+
+        td {
+            font-size: 13px;
+            text-align: center;
+            padding: 10px 0px;
+            border-left: none;
+            border-right: none;
+            background: #FFF;
+        }
+    }
+
+    // tr:nth-child(even) {
+    //     background-color: #e9ecef;
+    // }
+}

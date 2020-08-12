@@ -6,6 +6,7 @@ import { FileService } from '../services/fileService';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import * as _ from 'lodash';
 import * as XLSX from 'xlsx'
+import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
 @Component({
   selector: 'app-grid',
   templateUrl: './grid.component.html',
@@ -95,24 +96,31 @@ export class GridComponent implements OnInit {
       // for (var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
       // var bstr = arr.join("");
 
-      obj["FileData"] =  fileReader.result;
-      obj["action"]= action
+      obj["FileData"] = fileReader.result;
+      obj["action"] = action
       this.Action.emit(obj)
     }
   }
   exportCSV() {
-    this._UserService.PostCalls("anchors/export", { ID: -1, fileType: "text/comma-separated-values" })
-      .then((res: any) => {
-        console.log(res)
-        var hiddenElement = document.createElement('a');
+    this.showSpinner = true;
 
-        hiddenElement.href = 'data:attachment/csv,' + encodeURI(res);
-        hiddenElement.target = '_blank';
-        hiddenElement.download = 'orders.csv';
-        hiddenElement.click();
-      
+    this._UserService.PostCalls(this.ApiRoute, { PageNumber: 0, TotalRecords: 2147483647 })
+      // this._UserService.PostCalls("anchors/export", { ID: -1, fileType: "text/comma-separated-values" })
+      .then((res: any) => {
+        let header = []
+        Object.keys(res.Data[0]).forEach((key, idx) => {
+          header.push(key);
+        });
+        let options = {
+          headers: header,
+        }
+        new Angular5Csv(res.Data, 'export', options);
+        this.showSpinner = false;
+
       })
       .catch(err => {
+        this.showSpinner = false;
+
         console.log(err);
       })
 
@@ -126,31 +134,30 @@ export class GridComponent implements OnInit {
       this.ButtonsAction.emit(Options)
     }
   }
-  file:File;
+  file: File;
   filelist: any;
-  addfile(event)     
-  {    
-    
-  this.file= event.target.files[0];     
-  let fileReader = new FileReader();    
-  fileReader.readAsArrayBuffer(this.file);     
-  fileReader.onload = (e) => {    
-      this.arrayBuffer = fileReader.result;    
-      var data = new Uint8Array(this.arrayBuffer);    
-      var arr = new Array();    
-      for(var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);    
-      var bstr = arr.join("");    
-      var workbook : any = XLSX.read(bstr, {type:"binary"}); 
-      for(let v = 0 ; v < workbook.length ;v++){
+  addfile(event) {
 
-      }   
-      var first_sheet_name = workbook.SheetNames[0];    
-      var worksheet = workbook.Sheets[first_sheet_name];    
-      console.log(XLSX.utils.sheet_to_json(worksheet,{raw:true}));    
-        var arraylist = XLSX.utils.sheet_to_json(worksheet,{raw:true});     
-            this.filelist = [];    
-            console.log(this.filelist)    
-    
-  }    
-}
+    this.file = event.target.files[0];
+    let fileReader = new FileReader();
+    fileReader.readAsArrayBuffer(this.file);
+    fileReader.onload = (e) => {
+      this.arrayBuffer = fileReader.result;
+      var data = new Uint8Array(this.arrayBuffer);
+      var arr = new Array();
+      for (var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
+      var bstr = arr.join("");
+      var workbook: any = XLSX.read(bstr, { type: "binary" });
+      for (let v = 0; v < workbook.length; v++) {
+
+      }
+      var first_sheet_name = workbook.SheetNames[0];
+      var worksheet = workbook.Sheets[first_sheet_name];
+      console.log(XLSX.utils.sheet_to_json(worksheet, { raw: true }));
+      var arraylist = XLSX.utils.sheet_to_json(worksheet, { raw: true });
+      this.filelist = [];
+      console.log(this.filelist)
+
+    }
+  }
 }

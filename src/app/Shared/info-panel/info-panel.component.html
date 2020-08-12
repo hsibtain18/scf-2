@@ -8,14 +8,13 @@
 
         <div class="col-md-6" *ngFor="let field of fields;let i=index; trackBy:trackByFn">
             <div class="form-group col-md-12 p-0 input-group " [ngSwitch]="field.type">
-
-                <!-- inputs -->
                 <span *ngSwitchCase="'TextBox'" class="col-md-12 p-0 has-float-label">
                     <input class="form-control" [id]="field.name" autocomplete="off" [type]="field.inputType"
                         [name]="field.name" [formControlName]="field.name" [placeholder]="field.label" />
                     <label [for]="field.name"> {{field.label}} </label>
 
                 </span>
+              
 
                 <span class="col-md-12 p-0 has-float-label" *ngSwitchCase="'Select'">
                     <select [name]="field.name" [id]="field.name" [formControlName]="field.name"
@@ -42,6 +41,14 @@
                 </span>
             </div>
         </div>
+        <div class="col-md-12 form-group" *ngFor="let field of textAreaList;let i=index; trackBy:trackByFn">
+            <span  class="col-md-12 p-0 has-float-label">
+                <textarea class="form-control" [id]="field.name" requiredforapproval="1"  maxlength="2000" rows="3"
+                    [name]="field.name" [formControlName]="field.name" [placeholder]="field.label"></textarea> 
+                <label [for]="field.name"> {{field.label}} </label>
+
+            </span>
+        </div>
     </div>
     <div class="row d-flex" *ngIf="buttons.length!=0">
         <div class="col-md-12 p-0">
@@ -50,12 +57,12 @@
                 <ng-template ngFor let-button [ngForOf]="buttons">
 
                     <button
-                        *ngIf="(button.options.submit==1 && buttonsCondition(button.options.visible)); else resetButton"
-                        type="submit" (click)="saveValue(button)" [disabled]="!mainForm.form.valid"
+                        *ngIf="(button.options.submit==1 && buttonsCondition(button.options.visible)); else resetButton" 
+                        type="button" (click)="saveValue(button)" [disabled]="!mainForm.form.valid"
                         [class]="button.options.class">{{button.name}} </button>
 
                     <ng-template #resetButton>
-                        <button type="submit" *ngIf="buttonsCondition(button.options.visible)"
+                        <button type="button" *ngIf="buttonsCondition(button.options.visible)"
                             (click)="saveValue(button)" [class]="button.options.class">
                             {{button.name}} </button>
 
