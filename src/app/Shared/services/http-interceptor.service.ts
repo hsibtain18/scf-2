@@ -43,7 +43,7 @@ export class HttpInterceptorService implements HttpInterceptor {
          this._dialog.OpenTimedDialog({heading:"Network Error",type:2})
         }
         if (err.status === 400) {
-          this._dialog.OpenTimedDialog({heading:err.error,type:2})
+          this._dialog.OpenTimedDialog({heading:err.error,type:4})
          }
         // If it is not an authentication error, just throw it
         return throwError(err);
