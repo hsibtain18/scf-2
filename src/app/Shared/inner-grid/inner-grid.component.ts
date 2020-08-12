@@ -49,4 +49,7 @@ export class InnerGridComponent implements OnInit {
   sendValue(val){
     this.ActionEmit.emit(val.Options.name)
   }
+  buttonsCondition(val) {
+    return eval(val)
+  }
 }

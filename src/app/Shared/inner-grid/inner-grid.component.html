@@ -29,7 +29,7 @@
                                     </span>
                                 </ng-template>
                                 <ng-template #justText> -->
-                                    <div *ngIf="col.Editable==1 && i==indexInput">
+                                    <div *ngIf="(col.Editable==1 && i==indexInput && Status==4) ;else notShow ">
                                         <span class="form-group"  *ngIf="col.TextType=='date'">
                                             <input type="text" [formControlName]="col.Column" class="form-control"
                                                 bsDatepicker readonly
@@ -41,8 +41,9 @@
                                                  <label [for]="col.Column" class="amount">PKR</label>
                                         </div>
                                     </div>
+                                    <ng-template #notShow>
                                     <span> {{data[col.Column]}} </span>
-                                    <!-- </ng-template> -->
+                                     </ng-template>
                                 </td>
                             </tr>
                         </tbody>
@@ -61,7 +62,7 @@
             </div>
             <div class="d-flex flex-row-reverse bd-highlight">
                 <ng-template ngFor let-button [ngForOf]="ButtonsArray">
-                    <button [class]="button.Options.class" *ngIf="button.Options.submit==1" (click)="sendValue(button)"
+                    <button [class]="button.Options.class" *ngIf="button.Options.submit==1 && buttonsCondition(button.Options.visible)" (click)="sendValue(button)"
                         [disabled]="!mainForm.form.valid"> {{button.Options.name}} </button>
                 </ng-template> 
             </div>
