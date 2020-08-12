@@ -20,7 +20,7 @@
                                 [fields]="getInnerControls(innerTab)" (onSubmit)="SaveData($event)"></app-info-panel>
                            
                             <app-inner-grid [Status]="Status" [TotalAmount]="this.Financing.Data.TotalAmount" [isEditable]="true"
-                                *ngIf="innerTab.TypeID==14" [panelDetailsHeaders]="getHeaderObject(innerTab)"
+                                *ngIf="innerTab.TypeID==14" [panelDetailsHeaders]="getHeaderObject(innerTab)"(ActionEmit)="SaveData($event)"
                                 [FileObject]="getFileObject(innerTab)" [ButtonsArray]="getButtons(innerTab)" [heading]="innerTab.Options.text">
                             </app-inner-grid>
                         </div>

@@ -4,13 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserDataService } from '../../user-data.service';
 import { ToastrService } from 'ngx-toastr';
 import { DialogService } from 'src/app/Shared/services/dialog.service';
+import { CanComponentDeactivate } from 'src/app/Guards/DeActicateGuard';
 
 @Component({
   selector: 'app-contract-view',
   templateUrl: './contract-view.component.html',
   styleUrls: ['./contract-view.component.scss']
 })
-export class ContractViewComponent implements OnInit {
+export class ContractViewComponent implements OnInit, CanComponentDeactivate {
 
   public form = new FormGroup({});
 
@@ -31,6 +32,14 @@ export class ContractViewComponent implements OnInit {
           this.form.addControl("ID", new FormControl(data.Data.ID));
         })
     });
+  }
+  canDeactivate() {
+    if (this.form.dirty) {
+      return false;
+
+    } else {
+      return true;
+    }
   }
   ngOnInit(): void {
     this.UiObject = this.route.snapshot.data.UIdata[0]
@@ -70,7 +79,7 @@ export class ContractViewComponent implements OnInit {
     if (action == "Delivered") {
       this._dataService.PostCalls("contractpayment/delivered", this.form.value)
         .then((val: any) => {
-          if (val.Status == 201) { 
+          if (val.Status == 201) {
             this._dialog.OpenTimedDialog({ heading: val.Message, type: 2 })
 
           } else {
@@ -84,7 +93,7 @@ export class ContractViewComponent implements OnInit {
       this._dataService.PostCalls("contractpayment/approved", this.form.value)
         .then((val: any) => {
 
-          if (val.Status == 201) { 
+          if (val.Status == 201) {
             this._dialog.OpenTimedDialog({ heading: val.Message, type: 2 })
 
           } else {
@@ -101,7 +110,16 @@ export class ContractViewComponent implements OnInit {
       this._dataService.PostCalls("contractpayment/rejected", this.form.value)
         .then((val: any) => {
 
-          if (val.Status == 201) { 
+          console.log(val);
+          this.navigate();
+
+        })
+    }
+    if (action == "Update") {
+      this._dataService.PostCalls("contractpayment/update", this.form.value)
+        .then((val: any) => {
+
+          if (val.Status == 201) {
             this._dialog.OpenTimedDialog({ heading: val.Message, type: 2 })
 
           } else {
@@ -109,17 +127,6 @@ export class ContractViewComponent implements OnInit {
             this.navigate();
           }
 
-          console.log(val);
-          this.navigate();
-
-        })
-    }
-    if (action == "Update") {
-      this._dataService.PostCalls("financial/update", this.form.value)
-        .then(val => {
-          this._toast.success("Updated Successfully")
-
-          this.navigate();
         })
     }
   }
