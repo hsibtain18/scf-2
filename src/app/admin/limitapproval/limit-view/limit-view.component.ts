@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserDataService } from '../../user-data.service';
+import { CanComponentDeactivate } from 'src/app/Guards/DeActicateGuard';
 
 @Component({
   selector: 'app-limit-view',
   templateUrl: './limit-view.component.html',
   styleUrls: ['./limit-view.component.scss']
 })
-export class LimitViewComponent implements OnInit {
+export class LimitViewComponent implements OnInit,CanComponentDeactivate {
 
   public form = new FormGroup({});
 
@@ -44,7 +45,14 @@ export class LimitViewComponent implements OnInit {
       //   })
     });
   }
- 
+  canDeactivate() {
+    if (this.form.dirty) {
+      return false;
+
+    } else {
+      return true;
+    }
+  }
   ngOnInit(): void {
     this.UiObject = this.route.snapshot.data.UIdata[0]
   }

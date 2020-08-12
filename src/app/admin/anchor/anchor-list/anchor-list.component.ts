@@ -86,13 +86,7 @@ export class AnchorListComponent implements OnInit {
   exportCSV() {
     this._UserService.PostCalls("anchors/export", {ID:-1 ,fileType:"text/comma-separated-values"})
       .then((res: any) => {
-        // console.log("val;")
-        // var hiddenElement = document.createElement('a');
 
-        // hiddenElement.href = 'data:attachment/csv,' + encodeURI(val);
-        // hiddenElement.target = '_blank';
-        // hiddenElement.download = 'orders.csv';
-        // hiddenElement.click();
         if(res.data && res.data.length){
           let typedArray = new Uint8Array(res);
           const stringChar = typedArray.reduce((data, byte)=> {

@@ -1,7 +1,7 @@
 <section class="componentView">
     <ol class="breadcrumb m-3">
         <li class="breadcrumb-item">
-            <a routerLink="/User/Anchor">Anchor Onboarding</a>
+            <a routerLink="/User/Anchor" [state]="{ParentID: -1, MenuID: -1, URL: '/User/Anchor' }" >Anchor Onboarding</a>
         </li>
         <li class="breadcrumb-item active">
             View
@@ -38,3 +38,4 @@
 
     </div>
 </section>
+<ngx-spinner [visible]="showSpinner" [config]="spinnerConfig"></ngx-spinner>

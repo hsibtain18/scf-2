@@ -30,15 +30,16 @@
                                 </ng-template>
                                 <ng-template #justText> -->
                                     <div *ngIf="col.Editable==1 && i==indexInput">
-                                        <span class="form-group" *ngIf="col.TextType=='date'">
+                                        <span class="form-group"  *ngIf="col.TextType=='date'">
                                             <input type="text" [formControlName]="col.Column" class="form-control"
                                                 bsDatepicker readonly
                                                 [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'cust-date' ,adaptivePosition: true  }">
                                         </span>
-                                        <span class="form-group" *ngIf="col.TextType=='text'">
-                                            <input type="text" [formControlName]="col.Column" class="form-control"
+                                        <div class="form-group amountInput" style="position: absolute;" *ngIf="col.TextType=='text'">
+                                            <input type="text" [id]="col.Column"  [formControlName]="col.Column" class="form-control"
                                                  >
-                                        </span>
+                                                 <label [for]="col.Column" class="amount">PKR</label>
+                                        </div>
                                     </div>
                                     <span> {{data[col.Column]}} </span>
                                     <!-- </ng-template> -->

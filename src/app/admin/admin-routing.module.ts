@@ -10,6 +10,7 @@ import { FinancingListComponent } from './financing/financing-list/financing-lis
 import { FinancingViewComponent } from './financing/financing-view/financing-view.component';
 import { ContractListComponent } from './contract/contract-list/contract-list.component';
 import { ContractViewComponent } from './contract/contract-view/contract-view.component';
+import { DeactivateGuard } from '../Guards/DeActicateGuard';
 
 
 const routes: Routes = [
@@ -36,7 +37,7 @@ const routes: Routes = [
         component: AnchorEditComponent,
         resolve: {
           UIdata: UIResolverService
-        }
+        }, canDeactivate: [DeactivateGuard]
       },
       {
         path: "LimitApproval",
@@ -53,10 +54,10 @@ const routes: Routes = [
         }
       },
       {
-        path:'Financing',
-        component:FinancingListComponent,
-        resolve:{
-          UIdata:UIResolverService
+        path: 'Financing',
+        component: FinancingListComponent,
+        resolve: {
+          UIdata: UIResolverService
         }
       },
       {
@@ -67,10 +68,10 @@ const routes: Routes = [
         }
       },
       {
-        path:'Contract',
-        component:ContractListComponent,
-        resolve:{
-          UIdata:UIResolverService
+        path: 'Contract',
+        component: ContractListComponent,
+        resolve: {
+          UIdata: UIResolverService
         }
       },
       {
@@ -85,7 +86,7 @@ const routes: Routes = [
         redirectTo: 'anchor'
 
       }
-      
+
     ]
   }
 ];

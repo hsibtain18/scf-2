@@ -13,13 +13,16 @@ export class DialogBoxComponent implements OnInit {
     public activeModal: NgbActiveModal,
   ) { 
 
-    setTimeout(()=>{
-      activeModal.close();
-    },2000);
+
   }
 
   ngOnInit(): void {
     console.log(this.DataObject);
+    if(this.DataObject.type!=3){
+      setTimeout(()=>{
+        this.activeModal.close();
+      },2000);
+    }
   }
 
 }

@@ -17,6 +17,7 @@ import { FinancingViewComponent } from './financing/financing-view/financing-vie
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ContractListComponent } from './contract/contract-list/contract-list.component';
 import { ContractViewComponent } from './contract/contract-view/contract-view.component';
+import { DeactivateGuard } from '../Guards/DeActicateGuard';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,6 @@ import { ContractViewComponent } from './contract/contract-view/contract-view.co
     // BrowserAnimationsModule,
     // BsDatepickerModule.forRoot(),
   ],
-  providers:[UIService,FileService]
+  providers:[UIService,FileService,DeactivateGuard]
 })
 export class AdminModule { }

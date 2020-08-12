@@ -1,4 +1,5 @@
 @import '.././../../assets/style/variable.scss';
+
 .innerGrid {
     .table-responsive {
 
@@ -32,6 +33,43 @@
 
                     &:nth-child(even) {
                         background-color: #e9ecef;
+                    }
+
+                    td {
+                        .form-group {
+                            input {
+                                width        : 74%;
+                                margin-left  : auto;
+                                margin-right : auto;
+                                border-radius: 44px;
+                                border       : 1px solid $inputBorderColor;
+                                text-align   : center;
+
+                                &:disabled {
+                                    background: #FFFFFF;
+                                }
+
+                            }
+
+                            .amountInput {
+                                position: relative !important;
+                            }
+
+                            .amount {
+                                position   : absolute;
+                                left       : 57px;
+                                font-weight: bold;
+                                font-size  : 15px;
+                                color      : #444;
+                                top        : 11px;
+                            }
+
+                            .custImput {
+                                position: relative;
+
+
+                            }
+                        }
                     }
                 }
             }
@@ -86,12 +124,29 @@
 
     .form-group {
         input {
-            width: 74%;
-            margin-left: auto;
-            margin-right: auto;
+            width        : 74%;
+            margin-left  : auto;
+            margin-right : auto;
             border-radius: 44px;
-            border: 1px solid $inputBorderColor;
-            text-align: center;
+            border       : 1px solid $inputBorderColor;
+            text-align   : center;
+
+            &:disabled {
+                background: #FFFFFF;
+            }
+        }
+
+        .custImput {
+            position: relative;
+
+            .amount {
+                position   : absolute;
+                left       : 10px;
+                font-weight: bold;
+                font-size  : 0.8em;
+                color      : #444;
+                top        : 9px;
+            }
         }
     }
 }

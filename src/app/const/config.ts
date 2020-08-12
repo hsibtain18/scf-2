@@ -9,4 +9,4 @@ export const loadingConfig = {
     bgColor:"#76767633",
     size: "60px",
     color: "#843C8E"
-  };
+  }; 

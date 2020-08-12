@@ -81,10 +81,33 @@ export class ContractViewComponent implements OnInit {
         })
     }
     if (action == "Approve") {
-      this._dataService.PostCalls("financial/approve", this.form.value)
+      this._dataService.PostCalls("contractpayment/approved", this.form.value)
         .then((val: any) => {
 
-          this._toast.success("Approved Successfully")
+          if (val.Status == 201) { 
+            this._dialog.OpenTimedDialog({ heading: val.Message, type: 2 })
+
+          } else {
+            this._toast.success("Approved Successfully")
+            this.navigate();
+          }
+
+          console.log(val);
+          this.navigate();
+
+        })
+    }
+    if (action == "Reject") {
+      this._dataService.PostCalls("contractpayment/rejected", this.form.value)
+        .then((val: any) => {
+
+          if (val.Status == 201) { 
+            this._dialog.OpenTimedDialog({ heading: val.Message, type: 2 })
+
+          } else {
+            this._toast.success("Rejected Successfully")
+            this.navigate();
+          }
 
           console.log(val);
           this.navigate();

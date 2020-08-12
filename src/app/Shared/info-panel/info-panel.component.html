@@ -58,11 +58,11 @@
 
                     <button
                         *ngIf="(button.options.submit==1 && buttonsCondition(button.options.visible)); else resetButton" 
-                        type="submit" (click)="saveValue(button)" [disabled]="!mainForm.form.valid"
+                        type="button" (click)="saveValue(button)" [disabled]="!mainForm.form.valid"
                         [class]="button.options.class">{{button.name}} </button>
 
                     <ng-template #resetButton>
-                        <button type="submit" *ngIf="buttonsCondition(button.options.visible)"
+                        <button type="button" *ngIf="buttonsCondition(button.options.visible)"
                             (click)="saveValue(button)" [class]="button.options.class">
                             {{button.name}} </button>
 

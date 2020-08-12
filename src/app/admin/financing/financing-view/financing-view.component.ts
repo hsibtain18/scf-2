@@ -3,13 +3,14 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserDataService } from '../../user-data.service';
 import { ToastrService } from 'ngx-toastr';
+import { CanComponentDeactivate } from 'src/app/Guards/DeActicateGuard';
 
 @Component({
   selector: 'app-financing-view',
   templateUrl: './financing-view.component.html',
   styleUrls: ['./financing-view.component.scss']
 })
-export class FinancingViewComponent implements OnInit {
+export class FinancingViewComponent implements OnInit, CanComponentDeactivate {
 
   public form = new FormGroup({});
 
@@ -19,7 +20,7 @@ export class FinancingViewComponent implements OnInit {
   limitID: number
   Financing: any = []
   constructor(private route: ActivatedRoute, private _dataService: UserDataService,
-    private _router: Router,private _toast : ToastrService
+    private _router: Router, private _toast: ToastrService
   ) {
     this.route.params.subscribe(params => {
       this.limitID = +params['id'];
@@ -31,12 +32,21 @@ export class FinancingViewComponent implements OnInit {
         })
     });
   }
+  canDeactivate() {
+    if (this.form.dirty) {
+      return false;
+
+    } else {
+      return true;
+    }
+  }
   ngOnInit(): void {
     this.UiObject = this.route.snapshot.data.UIdata[0]
   }
   CheckCondition(val) {
     return eval(val);
   }
+
   getInnerControls(obj) {
     let field: any[] = [];
     // this.form.addControl(obj.Type+obj.ID,this.builder.group([]))
@@ -67,7 +77,7 @@ export class FinancingViewComponent implements OnInit {
   }
   SaveData(action) {
     if (action == "Reject") {
-      this._dataService.PostCalls("financial/reject",  this.form.value)
+      this._dataService.PostCalls("financial/reject", this.form.value)
         .then(val => {
           this._toast.success("Rejected Successfully")
           this.navigate();
@@ -76,21 +86,21 @@ export class FinancingViewComponent implements OnInit {
     if (action == "Approve") {
       this._dataService.PostCalls("financial/approve", this.form.value)
         .then((val: any) => {
-    
+
           this._toast.success("Approved Successfully")
-          
-          console.log(val); 
-           this.navigate();
- 
+
+          console.log(val);
+          this.navigate();
+
         })
     }
-    if(action == "Update"){
-      this._dataService.PostCalls("financial/update",  this.form.value)
-      .then(val => {
-        this._toast.success("Updated Successfully")
+    if (action == "Update") {
+      this._dataService.PostCalls("financial/update", this.form.value)
+        .then(val => {
+          this._toast.success("Updated Successfully")
 
-        this.navigate();
-      })
+          this.navigate();
+        })
     }
   }
   FileUploadAPI(Action) {
@@ -127,6 +137,6 @@ export class FinancingViewComponent implements OnInit {
         return ele;
       }
     })[0];
-     
+
   }
 }

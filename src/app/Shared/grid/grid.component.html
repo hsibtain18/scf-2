@@ -51,7 +51,7 @@
                             <!-- <img class="pointer" src="../../../assets/images/menu.svg" alt="menu" width="15" ngbDropdownToggle> -->
 
                             <div ngbDropdownMenu aria-labelledby="GridDropDown" class="options">
-                                <button [hidden]="checkCondition(data,action.DispCond)" class="border-bottom"
+                                <button [hidden]="checkCondition(data,action.DispCond)" 
                                     ngbDropdownItem *ngFor="let action of options" (click)="sendAction(data,action)">
                                     {{action.ActionItem}} </button>
 

@@ -8,6 +8,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DialogBoxComponent } from 'src/app/Shared/dialog-box/dialog-box.component';
 import { DialogService } from 'src/app/Shared/services/dialog.service';
 import { ToastrService } from 'ngx-toastr';
+import { CanComponentDeactivate } from 'src/app/Guards/DeActicateGuard';
+import { loadingConfig } from 'src/app/const/config';
 
 @Component({
   selector: 'app-anchor-edit',
@@ -15,7 +17,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./anchor-edit.component.scss'],
 
 })
-export class AnchorEditComponent implements OnInit {
+export class AnchorEditComponent implements OnInit, CanComponentDeactivate {
 
 
 
@@ -28,21 +30,30 @@ export class AnchorEditComponent implements OnInit {
   AnchorObject: any = []
   AnchorID: number;
   sendObject: any = {};
+  public showSpinner: boolean = false;
+  public spinnerConfig: any;
   constructor(private route: ActivatedRoute,
     private _dataService: UserDataService,
     private _router: Router,
     private _domSanitizer: DomSanitizer,
     private _modalCustomService: DialogService,
-    private _toaster : ToastrService
+    private _toaster: ToastrService
   ) {
     this.route.params.subscribe(params => {
       this.AnchorID = +params['id'];
       if (this.AnchorID) {
+        this.showSpinner = true;
+
         this._dataService.GetCalls("anchors", this.AnchorID)
           .then((data: any) => {
             this.AnchorObject = data;
             this.Status = data.Data.Status
             this.form.addControl("ID", new FormControl(data.Data.ID));
+            this.showSpinner = false;
+
+          }).catch(err => {
+            this.showSpinner = false;
+
           })
       }
       else {
@@ -55,10 +66,17 @@ export class AnchorEditComponent implements OnInit {
 
 
   }
+  canDeactivate() {
+    if (this.form.dirty) {
+      return false;
 
+    } else {
+      return true;
+    }
+  }
   ngOnInit(): void {
     this.UiObject = this.route.snapshot.data.UIdata[0]
-
+    this.spinnerConfig = loadingConfig;
     // this.UiObject = await this.getUiData();
     // await this.CreateForm()
 
@@ -86,6 +104,7 @@ export class AnchorEditComponent implements OnInit {
       f.type = element.Type;
       f.name = element.Options.name;
       f.label = element.Options.label;
+      f.validation = element.Options.validation;
       f.inputType = element.Options.texttype != null ? element.Options.texttype : 'text'
       f.readonly = element.Options.readonly;
       if (this.Status >= 0 && this.AnchorObject.Data[element.Options.name] != null) {
@@ -112,17 +131,24 @@ export class AnchorEditComponent implements OnInit {
   SaveData(action) {
     // this.Mapper(Event);
 
+    this.showSpinner = true;
 
     if (action == "Reject") {
+
       this._dataService.PostCalls("anchors/reject", { ID: this.form.get('ID').value })
         .then(val => {
-          this._modalCustomService.OpenTimedDialog({ heading: "Success", type: 1 });
+          this._toaster.success("Rejected Successfully")
+          this.showSpinner = false;
           this.navigate();
+        }).catch(err => {
+          this.showSpinner = false;
+
         })
     }
     if (action == "Create") {
       this._dataService.PostCalls("anchors/save", this.form.value)
         .then((val: any) => {
+          this.showSpinner = false;
           if (val.Found) {
             this._modalCustomService.OpenTimedDialog({ heading: "User Already Exist", type: 2 });
           }
@@ -134,6 +160,9 @@ export class AnchorEditComponent implements OnInit {
           }
           // this.Status=val.Status;
           console.log(val);
+        }).catch(err => {
+          this.showSpinner = false;
+
         })
     }
     if (action == "Cancel") {
@@ -145,16 +174,19 @@ export class AnchorEditComponent implements OnInit {
 
       this._dataService.PostCalls("offer/create", this.form.value)
         .then((val: any) => {
-          this.navigate();
-          // this.Status=val.Status;
-          console.log(val);
+
+          if (val.Status == 201) {
+            this._modalCustomService.OpenTimedDialog({ heading: val.Message, type: 2 });
+          }
+          else {
+            this.navigate();
+          }
+          this.showSpinner = false;
+        }).catch(err => {
+          this.showSpinner = false;
+
         })
     }
-
-
-    console.log(this.form.value);
-
-
   }
   getForm(val) {
     return this.form.get(val);
@@ -163,10 +195,6 @@ export class AnchorEditComponent implements OnInit {
     console.log(val)
   }
 
-  openDialog() {
-
-    // modelRef.componentInstance.
-  }
   FileUploadAPI(Action) {
     console.log(this.form)
     if (Action.ActionValue == "cancel") {
@@ -179,28 +207,40 @@ export class AnchorEditComponent implements OnInit {
       this._dataService.PostCalls("offer/deleteagreement", { ID: Action.ID, AnchorCode: this.AnchorObject.Data.AnchorCode })
         .then(val => {
           this.navigate();
+        }).catch(err => {
+          this.showSpinner = false;
+
         })
 
     }
-    else {
+    if (Action.ActionValue == "save") {
       this.form.addControl("AnchorCode", new FormControl(this.AnchorObject.Data.AnchorCode));
       console.log(this.form.controls['signed'].value)
       if (this.form.controls['signed'].value == true) {
         this._dataService.PostCalls("offer/signedoffer", this.form.value)
           .then(val => {
             this.navigate()
+            this.showSpinner = false;
+
+          }).catch(err => {
+            this.showSpinner = false;
 
           })
       } else {
         this._dataService.PostCalls("offer/agreement", this.form.value)
           .then(val => {
+            this.showSpinner = false;
             this.navigate()
+          }).catch(err => {
+            this.showSpinner = false;
+
           })
       }
 
     }
   }
   navigate() {
+    this.form.reset();
     this._router.navigate(['/User/Anchor'], { state: { ParentID: -1, MenuID: -1, URL: "/User/Anchor" } })
 
   }

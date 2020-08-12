@@ -32,19 +32,19 @@ export class HttpInterceptorService implements HttpInterceptor {
     }
     return next.handle(request).pipe(
       catchError((err: HttpErrorResponse) => {
-        // Checking if it is an Authentication Error (401)
         if (err.status === 401 || err.status === 498) {
-          // <Log the user out of your application code>
           if (err.status === 498) {
             this.toast.error("Server Error")
             localStorage.clear()
               this._router.navigate(['auth/Login'])
           }
-          // return throwError(err);
         }
         if (err.status === 405) {
          this._dialog.OpenTimedDialog({heading:"Network Error",type:2})
         }
+        if (err.status === 400) {
+          this._dialog.OpenTimedDialog({heading:err.error,type:2})
+         }
         // If it is not an authentication error, just throw it
         return throwError(err);
       })

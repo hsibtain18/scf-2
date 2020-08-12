@@ -16,7 +16,7 @@ export class InfoPanelComponent implements OnInit {
   @Input() Status: number;
   @Input() formname: any
   buttons: any[] = []
-  textAreaList: any[]=[]
+  textAreaList: any[] = []
   childForm;
   constructor(public mainForm: FormGroupDirective) { }
 
@@ -40,7 +40,8 @@ export class InfoPanelComponent implements OnInit {
         }
         else {
           this.childForm.addControl(f.name, new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) }, Validators.required));
-
+          // let str = f.validation
+          // console.log(f.validation.split(","))
         }
       }
 
@@ -49,7 +50,7 @@ export class InfoPanelComponent implements OnInit {
 
   }
   dateRangeCreated(temp, field) {
-    this.childForm.addControl(field.options.endDate, new FormControl(new Date(temp[1]))); 
+    this.childForm.addControl(field.options.endDate, new FormControl(new Date(temp[1])));
     this.childForm.addControl(field.options.startDate, new FormControl(new Date(temp[0])));
 
 
