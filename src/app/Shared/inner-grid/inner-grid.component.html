@@ -35,7 +35,7 @@
                                                 bsDatepicker readonly
                                                 [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'cust-date' ,adaptivePosition: true  }">
                                         </span>
-                                        <div class="form-group amountInput" style="position: absolute;" *ngIf="col.TextType=='text'">
+                                        <div class="form-group amountInput" style="position: absolute;" *ngIf="col.TextType=='number'">
                                             <input type="text" [id]="col.Column"  [formControlName]="col.Column" class="form-control"
                                                  >
                                                  <label [for]="col.Column" class="amount">PKR</label>
