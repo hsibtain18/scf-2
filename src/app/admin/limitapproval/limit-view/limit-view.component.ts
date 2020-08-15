@@ -37,6 +37,7 @@ export class LimitViewComponent implements OnInit, CanComponentDeactivate {
         this.InvoicesList = val[0];
         this.LimitObject = val[1];
         this.Status = val[1].Data.Status
+        this.form.addControl("ID", new FormControl(val[1].Data.ID));
 
 
       })

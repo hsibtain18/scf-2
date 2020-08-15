@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators, FormBuilder, ControlContainer, Form
 import { formatDate } from '@angular/common';
 import { DialogService } from '../services/dialog.service';
 import { ToastrService } from 'ngx-toastr';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-file-upload',
@@ -70,6 +71,7 @@ export class FileUploadComponent implements OnInit {
     const name = this.fields[0].name
 
 
+    console.log(this.GetFileObjectName("File").name)
     if (this.ValidateFile(event.target.files[0])) {
       this.childForm.get(name).enable()
       const FileName = event.target.files[0].name.substring(0, event.target.files[0].name.length - 4);
@@ -77,7 +79,7 @@ export class FileUploadComponent implements OnInit {
       // this.childForm.patchValue({ [name]: event.target.files[0].name.split('.')[0] }); // added []
       this.childForm.patchValue({
         [this.fields[0].name]: FileName,
-        [this.fields[1].name]: this.fileEvent(event),
+        [this.GetFileObjectName("File").name]: this.fileEvent(event),
       })
       this.upload = false;
 
@@ -172,6 +174,13 @@ export class FileUploadComponent implements OnInit {
 
   }
 
+  GetFileObjectName(type) {
+    return this.fields.filter(el => {
+      if (el.type == "File") {
+        return el.name;
+      }
+    })[0]
+  }
   SendCall(action) {
     let obj = {
       directCall: this.DirectCall,
