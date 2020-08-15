@@ -26,7 +26,7 @@ export class LimitViewComponent implements OnInit, CanComponentDeactivate {
   public spinnerConfig: any;
   constructor(private route: ActivatedRoute, private _dataService: UserDataService,
     private _router: Router, private _modalCustomService: DialogService,
-    private _toaster: ToastrService
+    private _toastService: ToastrService
   ) {
     this.route.params.subscribe(params => {
       this.limitID = +params['id'];
@@ -36,6 +36,8 @@ export class LimitViewComponent implements OnInit, CanComponentDeactivate {
       ]).then((val: any) => {
         this.InvoicesList = val[0];
         this.LimitObject = val[1];
+        this.Status = val[1].Data.Status
+
 
       })
       // this._dataService.GetCalls("buyer", this.limitID)
@@ -100,7 +102,7 @@ export class LimitViewComponent implements OnInit, CanComponentDeactivate {
     if (action == "Reject") {
       this._dataService.PostCalls("limit/reject", { ID: this.form.get('ID').value })
         .then(val => {
-          this._toaster.success("Rejected Successfully")
+          this._toastService.success("Rejected Successfully")
           this.showSpinner = false;
           this.navigate();
         })
@@ -114,7 +116,7 @@ export class LimitViewComponent implements OnInit, CanComponentDeactivate {
           }
           else {
             // this._modalCustomService.OpenTimedDialog({heading:"Created Successfully",type:1})
-            this._toaster.success("Approved Successfully")
+            this._toastService.success("Approved Successfully")
             this.navigate();
 
           }
@@ -124,7 +126,8 @@ export class LimitViewComponent implements OnInit, CanComponentDeactivate {
     }
   }
   FileUploadAPI(Action) {
-    console.log(this.form)
+    this.showSpinner = true;
+
     if (Action.ActionValue == "cancel") {
       this.navigate();
 
@@ -133,10 +136,13 @@ export class LimitViewComponent implements OnInit, CanComponentDeactivate {
       this.showSpinner = true;
       this._dataService.PostCalls("limit/agreement", this.form.value)
         .then(val => {
-          this.showSpinner = true;
-          this._toaster.success("Saved Successfully")
+          this.showSpinner = false;
+          this._toastService.success("Saved Successfully")
 
           this.navigate();
+
+        }).catch(err => {
+          this.showSpinner = false;
 
         })
 

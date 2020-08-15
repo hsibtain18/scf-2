@@ -35,7 +35,7 @@ export class InfoPanelComponent implements OnInit {
       if (f.type != 'checkbox' && f.type != 'Button') {
         if (f.type == 'DateRangePicker') {
           // fieldsCtrls[f.name] = new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) })
-          this.childForm.addControl(f.name, new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) }, f.validators));
+          this.childForm.addControl(f.name, new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) }, Validators.required));
 
         }
         else {

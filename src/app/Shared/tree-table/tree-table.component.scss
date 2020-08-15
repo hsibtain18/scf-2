@@ -1,3 +1,5 @@
+@import '../../../assets/style/variable.scss';
+
 .treeTable {
     tr {
         th {
@@ -5,18 +7,22 @@
             font-weight     : bold;
             text-align      : center;
             background-color: #FFFFFF;
-            padding: 10px 0px;
-            border-left: none;
-            border-right: none;
+            padding         : 10px 0px;
+            border-left     : none;
+            border-right    : none;
         }
 
         td {
-            font-size: 13px;
-            text-align: center;
-            padding: 10px 0px;
-            border-left: none;
+            font-size   : 13px;
+            text-align  : center;
+            padding     : 10px 0px;
+            border-left : none;
             border-right: none;
-            background: #FFF;
+            background  : #FFF;
+
+            .fa {
+                color: $textColor !important;
+            }
         }
     }
 

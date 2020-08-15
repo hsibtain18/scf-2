@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { UserDataService } from 'src/app/admin/user-data.service';
 import { loadingConfig } from 'src/app/const/config';
 import { Router } from '@angular/router';
@@ -7,12 +7,14 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import * as _ from 'lodash';
 import * as XLSX from 'xlsx'
 import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
+import { SharedService } from '../services/sharedService';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-grid',
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.scss']
 })
-export class GridComponent implements OnInit {
+export class GridComponent implements OnInit ,OnDestroy {
   @Input() UIObject;
   buttonsArray: any[];
   value: any[] = [];
@@ -34,12 +36,25 @@ export class GridComponent implements OnInit {
   fileUploadForm: FormGroup;
   fileInputLabel: string;
   arrayBuffer: any;
+  subscription: Subscription;
   constructor(
     private _UserService: UserDataService,
     private _router: Router,
-    private _fileService: FileService,
+    private _sharedService: SharedService,
     private formBuilder: FormBuilder
-  ) { }
+  ) {
+    this._sharedService.ClearActionStatus();
+    this.subscription = this._sharedService.GetActionStatus().subscribe(Action => {
+      if (Action) {
+        this.GetGridData();
+        this._sharedService.ClearActionStatus();
+
+      }
+    });
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
   ngOnInit(): void {
     this.fileUploadForm = this.formBuilder.group({
@@ -53,6 +68,7 @@ export class GridComponent implements OnInit {
     this.ApiRoute = this.UIObject.Api;
     this.buttonsArray = this.UIObject.ButtonsArray;
     this.GetGridData()
+
   }
 
   GetGridData() {
@@ -79,6 +95,10 @@ export class GridComponent implements OnInit {
     this.GetGridData()
   }
   sendAction(col: any, action: any) {
+    console.log(action);
+    if (action.ActionItem != 'View') {
+      this.GetGridData();
+    }
     this.Action.emit({ data: col, action: action })
   }
   checkCondition(data, option) {

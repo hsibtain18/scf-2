@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserDataService } from '../../user-data.service';
+import { SharedService } from 'src/app/Shared/services/sharedService';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-contract-list',
@@ -18,7 +20,10 @@ export class ContractListComponent implements OnInit {
   constructor(
     private _router: Router,
     private _UserService: UserDataService,
-    private route: ActivatedRoute 
+    private route: ActivatedRoute ,
+    private _sharedService : SharedService,
+    private _toastService: ToastrService
+
   ) {
     
    }
@@ -54,7 +59,9 @@ export class ContractListComponent implements OnInit {
     if (data.action.ActionItem == "Reject") {
       this._UserService.PostCalls("limit/reject", { ID: data.data.ID })
         .then(val => {
-          this.GetGridData();
+          this._toastService.success("Rejected Successfully")
+
+          this._sharedService.SetActionStatus(true)
         })
 
     }

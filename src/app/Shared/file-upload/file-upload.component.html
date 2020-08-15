@@ -12,7 +12,7 @@
                         id="mFileOffer" (change)=onFileChange($event) accept=".pdf" #hiddenFile />
 
                 </span>
-
+                <p class="fileSize">File Type: PDF only. Max File Size: 15 MB</p>
             </div>
             <div class="col-md-2 text-right ">
                 <button class="btn btn-primary  mr-2" type="button" (click)="hiddenFile.click()">Browse</button>
@@ -20,6 +20,28 @@
             </div>
         </div>
         <div class="row d-flex">
+
+            <div class="col-md-4" *ngFor="let field of fields.slice(1);let i=index; trackBy:trackByFn">
+
+                <div class="form-group col-md-12 p-0 input-group " [ngSwitch]="field.type">
+                    <!-- inputs -->
+                    <span *ngSwitchCase="'TextBox'" class="col-md-12 p-0 has-float-label">
+                        <input class="form-control" [id]="field.name" autocomplete="off" [type]="field.inputType"
+                            [name]="field.name" [formControlName]="field.name" [placeholder]="field.label" />
+                        <label [for]="field.name"> {{field.label}} </label>
+
+                    </span>
+
+
+
+                    <span class="col-md-12 p-0 has-float-label" *ngSwitchCase="'DatePicker'">
+                        <input type="text" readonly [placeholder]="field.label" class="form-control" bsDatepicker
+                            [formControlName]="field.name"
+                            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'cust-date' ,adaptivePosition: true  }">
+                        <label [for]="field.name"> {{field.label}} </label>
+                    </span>
+                </div>
+            </div>
             <div class="col-md-3 " *ngIf="(fields.length==4 && Status!=4 )">
                 <fieldset data-role="controlgroup">
                     <input type="checkbox" [name]="fields[3].name" [id]="fields[3].name"
@@ -29,28 +51,6 @@
 
                 </fieldset>
             </div>
-            <div class="col-md-4" *ngFor="let field of fields.slice(1);let i=index; trackBy:trackByFn">
-                <div class="form-group col-md-12 p-0 input-group " [ngSwitch]="field.type">
-    
-                    <!-- inputs -->
-                    <span *ngSwitchCase="'TextBox'" class="col-md-12 p-0 has-float-label">
-                        <input class="form-control" [id]="field.name" autocomplete="off" [type]="field.inputType"
-                            [name]="field.name" [formControlName]="field.name" [placeholder]="field.label" />
-                        <label [for]="field.name"> {{field.label}} </label>
-    
-                    </span>
-    
-                 
-                    
-                    <span class="col-md-12 p-0 has-float-label" *ngSwitchCase="'DatePicker'">
-                        <input type="text" readonly [placeholder]="field.label" class="form-control" bsDatepicker
-                            [formControlName]="field.name"
-                            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'cust-date' ,adaptivePosition: true  }">
-                        <label [for]="field.name"> {{field.label}} </label>
-                    </span>
-                </div>
-            </div>
-         
             <div class="col-md-12 p-0 text-right">
                 <button class="btn btn-primary " (click)="SendCall('save')"
                     [disabled]="!childForm.controls[fields[0].name].valid" type="submit">Save </button>
@@ -94,7 +94,7 @@
                         <p class="y" id="GridDropDown" ngbDropdownToggle>Select Actions</p>
                         <div ngbDropdownMenu aria-labelledby="GridDropDown">
                             <button *ngIf="File.ID" (click)="FileUploadEvent.emit(File)" ngbDropdownItem>View</button>
-                            <button   *ngIf="CheckCondition(options.Options.optionDelete)" (click)="DeleteFile(File,i)"
+                            <button *ngIf="CheckCondition(options.Options.optionDelete)" (click)="DeleteFile(File,i)"
                                 ngbDropdownItem>Delete </button>
 
                         </div>
