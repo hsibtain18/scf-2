@@ -91,13 +91,12 @@ export class GridComponent implements OnInit {
     fileReader.readAsArrayBuffer(file);
     fileReader.onload = (e) => {
       this.arrayBuffer = fileReader.result;
-      var data = new Uint8Array(this.arrayBuffer);
-      var arr = new Array();
-      for (var i = 0; i != data.length; ++i) 
-        arr[i] = String.fromCharCode(data[i]);
-      var bstr = arr.join("");
+      var data = new ArrayBuffer(this.arrayBuffer);
+      // var arr = new Array();
+      // for (var i = 0; i != data.length; ++i) arr[i] = String.fromCharCode(data[i]);
+      // var bstr = arr.join("");
 
-      obj["FileData"] = { data: bstr, name: file.name, type: file.type };
+      obj["FileData"] = fileReader.result;
       obj["action"] = action
       this.Action.emit(obj)
     }
