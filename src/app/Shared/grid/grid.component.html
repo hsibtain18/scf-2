@@ -26,7 +26,7 @@
         </div>
     </div>
     <div class="gridArea table-responsive" id="nav-scrollbar">
-        <table class="table">
+        <table class="table" *ngIf="(value.length!=0)">
             <thead>
                 <!-- <ng-container *ngFor="let group of header"> -->
                 <tr>
@@ -51,9 +51,9 @@
                             <!-- <img class="pointer" src="../../../assets/images/menu.svg" alt="menu" width="15" ngbDropdownToggle> -->
 
                             <div ngbDropdownMenu aria-labelledby="GridDropDown" class="options">
-                                <button [hidden]="checkCondition(data,action.DispCond)" 
+                                <p [hidden]="checkCondition(data,action.DispCond)" 
                                     ngbDropdownItem *ngFor="let action of options" (click)="sendAction(data,action)">
-                                    {{action.ActionItem}} </button>
+                                    {{action.ActionItem}} </p>
 
                             </div>
                         </div>
@@ -61,7 +61,7 @@
                     </td>
                 </tr>
                 <tr class="text-center" *ngIf="(value.length!=0 && TotalCount>value.length)">
-                    <td colspan="6"> <button class="btn" (click)="paginateEvent()">Load More</button></td>
+                    <td colspan="6"> <button class="btn loadmore" (click)="paginateEvent()">Load More</button></td>
                 </tr>
 
             </tbody>

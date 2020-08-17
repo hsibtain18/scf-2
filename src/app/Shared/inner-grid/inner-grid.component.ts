@@ -36,8 +36,9 @@ export class InnerGridComponent implements OnInit {
         }
       }
 
-      this.childForm.addControl("DetailId", new FormControl(this.FileObject[this.indexInput].ID));
       if (this.indexInput < this.FileObject.length) {
+        this.childForm.addControl("DetailId", new FormControl(this.FileObject[this.indexInput].ID));
+
         this.headers.forEach(element => {
           if (element.Editable == 1) {
             this.childForm.addControl(element.Column, new FormControl("", Validators.required));
@@ -46,7 +47,7 @@ export class InnerGridComponent implements OnInit {
       }
     }
   }
-  sendValue(val){
+  sendValue(val) {
     this.ActionEmit.emit(val.Options.name)
   }
   buttonsCondition(val) {

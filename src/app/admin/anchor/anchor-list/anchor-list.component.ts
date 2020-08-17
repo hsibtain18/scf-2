@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UserDataService } from '../../user-data.service';
 import { loadingConfig } from 'src/app/const/config';
 import { DomSanitizer } from '@angular/platform-browser';
+import { SharedService } from 'src/app/Shared/services/sharedService';
 
 @Component({
   selector: 'app-anchor-list',
@@ -24,7 +25,8 @@ export class AnchorListComponent implements OnInit {
     private _router: Router,
     private _UserService: UserDataService,
     private route: ActivatedRoute,
-    private _domSanitizer: DomSanitizer
+    private _domSanitizer: DomSanitizer,
+    private _sharedService : SharedService
   ) {
 
   }
@@ -48,21 +50,6 @@ export class AnchorListComponent implements OnInit {
     this._router.navigate(['/User/Anchor/View/' + anchor.data.ID],{ state:{ParentID:-2,MenuID:-1,URL:"/User/Anchor/View/"}})
   }
 
-  GetGridData() {
-    this.showSpinner = true;
-
-    this._UserService.PostCalls("anchors/search", this.filterObject)
-      .then((val: any) => {
-        this.list = val.Data;
-        this.show = true
-        this.showSpinner = false;
-        this.totalCount = val.AnchorCount.anchorcount;
-      })
-      .catch(err => {
-        this.showSpinner = false;
-
-      })
-  }
 
   getButtonsArray(){
 
@@ -75,7 +62,7 @@ export class AnchorListComponent implements OnInit {
     if (data.action.ActionItem == "Reject") {
       this._UserService.PostCalls("anchors/reject", { ID: data.data.ID })
         .then(val => {
-          this.GetGridData();
+          this._sharedService.SetActionStatus(true);
         })
 
     }

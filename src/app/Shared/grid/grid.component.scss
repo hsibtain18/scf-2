@@ -53,6 +53,21 @@
         font-size : 13px;
         text-align: center;
         padding   : 15px 0px;
+
+        p {
+            margin-bottom: 0px;
+            text-align   : center;
+        }
+
+        .loadmore {
+            height   : 21px;
+            font-size: 12px;
+            padding  : 0;
+
+            &:focus {
+                outline: none;
+            }
+        }
     }
 
 }

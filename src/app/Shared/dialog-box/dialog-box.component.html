@@ -18,6 +18,10 @@
             <img src="../../../assets/images/Image 2.svg" alt="">
             <p> {{DataObject.heading}} </p>
         </div>
+        <div class="text-center" *ngIf="DataObject.type==4">
+            <img src="../../../assets/images/allerror.png" alt="">
+            <p> {{DataObject.heading}} </p>
+        </div>
 
         <div class="modal-body" *ngIf="DataObject.buttons">
             <div class="d-flex justify-content-center">

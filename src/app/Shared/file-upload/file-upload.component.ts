@@ -1,6 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, ControlContainer, FormGroupDirective } from '@angular/forms';
 import { formatDate } from '@angular/common';
+import { DialogService } from '../services/dialog.service';
+import { ToastrService } from 'ngx-toastr';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-file-upload',
@@ -25,8 +28,9 @@ export class FileUploadComponent implements OnInit {
   name: string = ""
   hideTable = true;
   FileObject: any[] = []
-  constructor(private mainForm: FormGroupDirective) {
-
+  constructor(private mainForm: FormGroupDirective,
+    private _modalCustomService: ToastrService) {
+    let str = "Test.abcdefghi"
   }
 
   ngOnInit(): void {
@@ -59,32 +63,46 @@ export class FileUploadComponent implements OnInit {
     // this.onValueChange()
   }
 
-  onValueChange() {
-    this.childForm.valueChanges.subscribe(val => {
-      console.log(val);
-    })
-  }
   CheckCondition(condition) {
     return eval(condition);
   }
   onFileChange(event) {
 
     const name = this.fields[0].name
-    this.childForm.get(name).enable()
-    // this.childForm.patchValue({ [name]: event.target.files[0].name.split('.')[0] }); // added []
-    this.childForm.patchValue({
-      [this.fields[0].name]: event.target.files[0].name.split('.')[0],
-      [this.fields[1].name]: this.fileEvent(event),
-    })
-    this.upload = false;
 
+
+    console.log(this.GetFileObjectName("File").name)
+    if (this.ValidateFile(event.target.files[0])) {
+      this.childForm.get(name).enable()
+      const FileName = event.target.files[0].name.substring(0, event.target.files[0].name.length - 4);
+
+      // this.childForm.patchValue({ [name]: event.target.files[0].name.split('.')[0] }); // added []
+      this.childForm.patchValue({
+        [this.fields[0].name]: FileName,
+        [this.GetFileObjectName("File").name]: this.fileEvent(event),
+      })
+      this.upload = false;
+
+
+    }
 
 
   }
   trackByFn(index: any, item: any) {
     return index;
   }
+  ValidateFile(file) {
 
+    if (file == null || file.length == 0 || Math.round(file.size * 100 / (1024 * 1024) / 100) > 15) {
+      this._modalCustomService.error("Invalid File")
+      return;
+    }
+    if (file.type.toLowerCase().indexOf('pdf') == -1) {
+      this._modalCustomService.error("Invalid File")
+      return;
+    }
+    return true
+  }
 
   public fileEvent(event): any {
 
@@ -139,13 +157,13 @@ export class FileUploadComponent implements OnInit {
 
     return fileObjDetail;
   }
-  DeleteFile(File ,index) {
-    if (File.ID == undefined ) {
+  DeleteFile(File, index) {
+    if (File.ID == undefined) {
       console.log("delete");
-      this.fileObject.splice(index,1)
+      this.fileObject.splice(index, 1)
       this.childForm.get(this.fields[0].name).reset();
     }
-    else{
+    else {
       let obj = {
         ID: File.ID,
         ActionValue: "delete"
@@ -156,6 +174,13 @@ export class FileUploadComponent implements OnInit {
 
   }
 
+  GetFileObjectName(type) {
+    return this.fields.filter(el => {
+      if (el.type == "File") {
+        return el.name;
+      }
+    })[0]
+  }
   SendCall(action) {
     let obj = {
       directCall: this.DirectCall,

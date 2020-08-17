@@ -39,7 +39,7 @@ export class InfoPanelComponent implements OnInit {
 
         }
         else {
-          this.childForm.addControl(f.name, new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) }, Validators.required));
+          this.childForm.addControl(f.name, new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) },Validators.required));
           // let str = f.validation
           // console.log(f.validation.split(","))
         }

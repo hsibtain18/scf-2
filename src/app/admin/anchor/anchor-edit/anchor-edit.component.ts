@@ -104,7 +104,7 @@ export class AnchorEditComponent implements OnInit, CanComponentDeactivate {
       f.type = element.Type;
       f.name = element.Options.name;
       f.label = element.Options.label;
-      f.validation = element.Options.validation;
+      f.validators = element.Options.validators;
       f.inputType = element.Options.texttype != null ? element.Options.texttype : 'text'
       f.readonly = element.Options.readonly;
       if (this.Status >= 0 && this.AnchorObject.Data[element.Options.name] != null) {
@@ -150,7 +150,7 @@ export class AnchorEditComponent implements OnInit, CanComponentDeactivate {
         .then((val: any) => {
           this.showSpinner = false;
           if (val.Found) {
-            this._modalCustomService.OpenTimedDialog({ heading: "User Already Exist", type: 2 });
+            this._modalCustomService.OpenTimedDialog({ heading: "User Already Exist", type: 4 });
           }
           else {
             // this._modalCustomService.OpenTimedDialog({heading:"Created Successfully",type:1})
@@ -176,7 +176,7 @@ export class AnchorEditComponent implements OnInit, CanComponentDeactivate {
         .then((val: any) => {
 
           if (val.Status == 201) {
-            this._modalCustomService.OpenTimedDialog({ heading: val.Message, type: 2 });
+            this._modalCustomService.OpenTimedDialog({ heading: val.Message, type: 4 });
           }
           else {
             this.navigate();

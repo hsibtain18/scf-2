@@ -3,13 +3,16 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserDataService } from '../../user-data.service';
 import { CanComponentDeactivate } from 'src/app/Guards/DeActicateGuard';
+import { DialogService } from 'src/app/Shared/services/dialog.service';
+import { ToastrService } from 'ngx-toastr';
+import { loadingConfig } from 'src/app/const/config';
 
 @Component({
   selector: 'app-limit-view',
   templateUrl: './limit-view.component.html',
   styleUrls: ['./limit-view.component.scss']
 })
-export class LimitViewComponent implements OnInit,CanComponentDeactivate {
+export class LimitViewComponent implements OnInit, CanComponentDeactivate {
 
   public form = new FormGroup({});
 
@@ -19,18 +22,24 @@ export class LimitViewComponent implements OnInit,CanComponentDeactivate {
   limitID: number
   LimitObject: any = []
   InvoicesList: any[] = [];
+  public showSpinner: boolean = false;
+  public spinnerConfig: any;
   constructor(private route: ActivatedRoute, private _dataService: UserDataService,
-    private _router: Router
+    private _router: Router, private _modalCustomService: DialogService,
+    private _toastService: ToastrService
   ) {
     this.route.params.subscribe(params => {
       this.limitID = +params['id'];
       Promise.all([
-        this._dataService.GetCalls("buyer/invoices",this.limitID),
+        this._dataService.GetCalls("buyer/invoices", this.limitID),
         this._dataService.GetCalls("buyer", this.limitID)
-      ]).then((val: any)=>{
-         this.InvoicesList = val[0]; 
-         this.LimitObject = val[1];
-      
+      ]).then((val: any) => {
+        this.InvoicesList = val[0];
+        this.LimitObject = val[1];
+        this.Status = val[1].Data.Status
+        this.form.addControl("ID", new FormControl(val[1].Data.ID));
+
+
       })
       // this._dataService.GetCalls("buyer", this.limitID)
       //   .then((data: any) => {
@@ -40,7 +49,7 @@ export class LimitViewComponent implements OnInit,CanComponentDeactivate {
       //     .then(val=>{
       //       this.InvoicesList = val;
       //     })
- 
+
       //     this.form.addControl("ID", new FormControl(data.Data.ID));
       //   })
     });
@@ -55,6 +64,7 @@ export class LimitViewComponent implements OnInit,CanComponentDeactivate {
   }
   ngOnInit(): void {
     this.UiObject = this.route.snapshot.data.UIdata[0]
+    this.spinnerConfig = loadingConfig;
   }
   CheckCondition(val) {
     return eval(val);
@@ -89,19 +99,25 @@ export class LimitViewComponent implements OnInit,CanComponentDeactivate {
     return field;
   }
   SaveData(action) {
+    this.showSpinner = true;
     if (action == "Reject") {
       this._dataService.PostCalls("limit/reject", { ID: this.form.get('ID').value })
         .then(val => {
+          this._toastService.success("Rejected Successfully")
+          this.showSpinner = false;
           this.navigate();
         })
     }
     if (action == "Approve") {
       this._dataService.PostCalls("limit/approve", this.form.value)
         .then((val: any) => {
-          if (val.Found) {
-
+          this.showSpinner = false;
+          if (val.Status == 201) {
+            this._modalCustomService.OpenTimedDialog({ heading: val.Messages, type: 4 });
           }
           else {
+            // this._modalCustomService.OpenTimedDialog({heading:"Created Successfully",type:1})
+            this._toastService.success("Approved Successfully")
             this.navigate();
 
           }
@@ -111,15 +127,23 @@ export class LimitViewComponent implements OnInit,CanComponentDeactivate {
     }
   }
   FileUploadAPI(Action) {
-    console.log(this.form)
+    this.showSpinner = true;
+
     if (Action.ActionValue == "cancel") {
       this.navigate();
 
     }
     if (Action.ActionValue == "save") {
+      this.showSpinner = true;
       this._dataService.PostCalls("limit/agreement", this.form.value)
         .then(val => {
+          this.showSpinner = false;
+          this._toastService.success("Saved Successfully")
+
           this.navigate();
+
+        }).catch(err => {
+          this.showSpinner = false;
 
         })
 

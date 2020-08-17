@@ -109,7 +109,13 @@ export class ContractViewComponent implements OnInit, CanComponentDeactivate {
     if (action == "Reject") {
       this._dataService.PostCalls("contractpayment/rejected", this.form.value)
         .then((val: any) => {
+          if (val.Status == 201) {
+            this._dialog.OpenTimedDialog({ heading: val.Message, type: 2 })
 
+          } else {
+            this._toast.success("Rejected Successfully")
+            this.navigate();
+          }
           console.log(val);
           this.navigate();
 
@@ -123,7 +129,7 @@ export class ContractViewComponent implements OnInit, CanComponentDeactivate {
             this._dialog.OpenTimedDialog({ heading: val.Message, type: 2 })
 
           } else {
-            this._toast.success("Rejected Successfully")
+            this._toast.success("Updated Successfully")
             this.navigate();
           }
 
