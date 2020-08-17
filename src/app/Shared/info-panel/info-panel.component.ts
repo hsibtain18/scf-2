@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators, ControlContainer, FormGroupDirective } from '@angular/forms';
+import { FormCreateService } from '../services/form-create.service';
 
 @Component({
   selector: 'app-info-panel',
@@ -18,7 +19,8 @@ export class InfoPanelComponent implements OnInit {
   buttons: any[] = []
   textAreaList: any[] = []
   childForm;
-  constructor(public mainForm: FormGroupDirective) { }
+  constructor(public mainForm: FormGroupDirective,
+    private FormCreate: FormCreateService) { }
 
   ngOnInit(): void {
     this.childForm = this.mainForm.form
@@ -33,21 +35,51 @@ export class InfoPanelComponent implements OnInit {
     let fieldsCtrls = {};
     for (let f of this.fields) {
       if (f.type != 'checkbox' && f.type != 'Button') {
-        if (f.type == 'DateRangePicker') {
-          // fieldsCtrls[f.name] = new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) })
-          this.childForm.addControl(f.name, new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) }, Validators.required));
-
-        }
-        else {
-          this.childForm.addControl(f.name, new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) },Validators.required));
-          // let str = f.validation
-          // console.log(f.validation.split(","))
-        }
+        // if (f.type == 'DateRangePicker') {
+        //   this.childForm.addControl(f.name, new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) }, Validators.required));
+        // }
+        // else {
+        console.log()
+        this.childForm.addControl(f.name, new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) }, this.SetValidators(f.validators)));
+        // }
       }
 
     }
 
 
+  }
+
+  SetValidators(rules: any) {
+    let validators: any = []
+    if (rules != null) {
+      let valRules = rules.split(',')
+      for (let rules of valRules) {
+        if (rules.indexOf("required") >= 0) {
+          validators.push(Validators.required)
+        }
+        if (rules.indexOf("pattern()") >= 0) {
+          let pattern = rules.split('|')
+          validators.push(Validators.pattern(pattern[1]))
+        }
+        if (rules.indexOf("min()") >= 0) {
+          let pattern = rules.split('|')
+          validators.push(Validators.min(pattern[1]))
+        }
+        if (rules.indexOf("max()") >= 0) {
+          let pattern = rules.split('|')
+          validators.push(Validators.max(pattern[1]))
+        }
+        if (rules.indexOf("min()") >= 0) {
+          let pattern = rules.split('|')
+          validators.push(Validators.min(pattern[1]))
+        }
+        if (rules.indexOf("max()") >= 0) {
+          let pattern = rules.split('|')
+          validators.push(Validators.max(pattern[1]))
+        }
+      }
+    }
+    return validators
   }
   dateRangeCreated(temp, field) {
     this.childForm.addControl(field.options.endDate, new FormControl(new Date(temp[1])));

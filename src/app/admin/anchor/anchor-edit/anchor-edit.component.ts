@@ -218,8 +218,13 @@ export class AnchorEditComponent implements OnInit, CanComponentDeactivate {
       console.log(this.form.controls['signed'].value)
       if (this.form.controls['signed'].value == true) {
         this._dataService.PostCalls("offer/signedoffer", this.form.value)
-          .then(val => {
-            this.navigate()
+          .then((val: any) => {
+            if (val.Status == 201) {
+              this._modalCustomService.OpenTimedDialog({ heading: val.Message, type: 4 });
+            }
+            else {
+              this.navigate();
+            }
             this.showSpinner = false;
 
           }).catch(err => {
@@ -228,9 +233,14 @@ export class AnchorEditComponent implements OnInit, CanComponentDeactivate {
           })
       } else {
         this._dataService.PostCalls("offer/agreement", this.form.value)
-          .then(val => {
+          .then((val: any) => {
+            if (val.Status == 201) {
+              this._modalCustomService.OpenTimedDialog({ heading: val.Message, type: 4 });
+            }
+            else {
+              this.navigate();
+            }
             this.showSpinner = false;
-            this.navigate()
           }).catch(err => {
             this.showSpinner = false;
 

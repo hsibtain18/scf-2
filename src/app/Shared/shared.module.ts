@@ -23,6 +23,7 @@ import { TreeTableComponent } from './tree-table/tree-table.component';
 import { DialogBoxComponent } from './dialog-box/dialog-box.component';
 import { DialogService } from './services/dialog.service';
 import { TableModule } from 'primeng/table';
+import { FormCreateService } from './services/form-create.service';
 // import { TreeTableModule } from 'primeng/treetable';
 
 @NgModule({
@@ -73,7 +74,7 @@ import { TableModule } from 'primeng/table';
     DialogBoxComponent
   ],
   providers: [
-    EncryptDecryptService, DialogService
+    EncryptDecryptService, DialogService ,FormCreateService
   ]
 })
 export class SharedModule { }

@@ -41,11 +41,11 @@ export class FileUploadComponent implements OnInit {
         if (f.type != "Collection") {
           // fieldsCtrls[f.name] = new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) })
           if (f.type == "Checkbox") {
-            this.childForm.addControl(f.name, new FormControl(false, Validators.required));
+            this.childForm.addControl(f.name, new FormControl(false, this.SetValidators(f.validators)));
 
           }
           else {
-            this.childForm.addControl(f.name, new FormControl({ value: "", disabled: false }, Validators.required));
+            this.childForm.addControl(f.name, new FormControl({ value: "", disabled: false }, this.SetValidators(f.validators)));
 
           }
 
@@ -103,7 +103,38 @@ export class FileUploadComponent implements OnInit {
     }
     return true
   }
-
+  SetValidators(rules: any) {
+    let validators: any = []
+    if (rules != null) {
+      let valRules = rules.split(',')
+      for (let rules of valRules) {
+        if (rules.indexOf("required") >= 0) {
+          validators.push(Validators.required)
+        }
+        if (rules.indexOf("pattern()") >= 0) {
+          let pattern = rules.split('|')
+          validators.push(Validators.pattern(pattern[1]))
+        }
+        if (rules.indexOf("min()") >= 0) {
+          let pattern = rules.split('|')
+          validators.push(Validators.min(pattern[1]))
+        }
+        if (rules.indexOf("max()") >= 0) {
+          let pattern = rules.split('|')
+          validators.push(Validators.max(pattern[1]))
+        }
+        if (rules.indexOf("min()") >= 0) {
+          let pattern = rules.split('|')
+          validators.push(Validators.min(pattern[1]))
+        }
+        if (rules.indexOf("max()") >= 0) {
+          let pattern = rules.split('|')
+          validators.push(Validators.max(pattern[1]))
+        }
+      }
+    }
+    return validators
+  }
   public fileEvent(event): any {
 
     var fileObjDetail: any = {};
