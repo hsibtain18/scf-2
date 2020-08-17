@@ -58,7 +58,7 @@ export class LimitListComponent implements OnInit {
 
     }
     if (data.action.action== "upload") {
-      this._UserService.PostCalls("buyer/upload", {FileData:data["FileData"]})
+      this._UserService.PostCalls("buyer/upload", { FileData: data["FileData"]})
         .then(val => {
           this.GetGridData();
         })
