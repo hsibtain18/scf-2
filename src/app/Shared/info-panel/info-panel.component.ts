@@ -15,7 +15,8 @@ export class InfoPanelComponent implements OnInit {
   @Input() fields: any[] = [];
   @Input() heading: string = "";
   @Input() Status: number;
-  @Input() formname: any
+  @Input() formname: any;
+  @Input() DataObject: any
   buttons: any[] = []
   textAreaList: any[] = []
   childForm;
@@ -62,20 +63,43 @@ export class InfoPanelComponent implements OnInit {
           validators.push(Validators.pattern(pattern[1]))
         }
         if (rules.indexOf("min()") >= 0) {
-          let pattern = rules.split('|')
+          let pattern: any = rules.split('|')
+          const str: String = pattern[1]
+          if (pattern[1].match("^[0-9]*$")) {
+          }
           validators.push(Validators.min(pattern[1]))
         }
         if (rules.indexOf("max()") >= 0) {
           let pattern = rules.split('|')
-          validators.push(Validators.max(pattern[1]))
+          if (!pattern[1].match("^[0-9]*$")) {
+            let val = pattern[1].split('-')  // for multi check 
+            console.log(val.length);
+            if (val.length == 2) {
+              console.log(val[0],this.DataObject[val[0]],val[1], this.DataObject[val[1]]);
+
+              if (this.DataObject[val[0]] > this.DataObject[val[1]]) {
+                validators.push(Validators.max(this.DataObject[val[1]]))
+              }
+              else {
+                validators.push(Validators.max(this.DataObject[val[0]]))
+
+              }
+            }
+            else {
+              validators.push(Validators.max(this.DataObject[pattern[1]]))
+            }
+          }
+          else {
+            validators.push(Validators.max(pattern[1]))
+          }
         }
-        if (rules.indexOf("min()") >= 0) {
+        if (rules.indexOf("maxLength()") >= 0) {
           let pattern = rules.split('|')
-          validators.push(Validators.min(pattern[1]))
+          validators.push(Validators.maxLength(pattern[1]))
         }
-        if (rules.indexOf("max()") >= 0) {
+        if (rules.indexOf("minLength()") >= 0) {
           let pattern = rules.split('|')
-          validators.push(Validators.max(pattern[1]))
+          validators.push(Validators.minLength(pattern[1]))
         }
       }
     }

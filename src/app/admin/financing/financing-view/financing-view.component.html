@@ -16,7 +16,7 @@
                     <form [formGroup]="form">
                         <div class=" " *ngFor="let innerTab of tabs.Controls">
                             <app-info-panel *ngIf="innerTab.TypeID==8" [heading]="innerTab.Options.text"
-                                [Status]="Status" [formname]="innerTab.Type+''+innerTab.ID"
+                                [Status]="Status" [formname]="innerTab.Type+''+innerTab.ID" [DataObject]="Financing.Data"
                                 [fields]="getInnerControls(innerTab)" (onSubmit)="SaveData($event)"></app-info-panel>
                            
                             <app-inner-grid [Status]="Status" [TotalAmount]="this.Financing.Data.TotalAmount"

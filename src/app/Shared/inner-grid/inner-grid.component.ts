@@ -24,8 +24,6 @@ export class InnerGridComponent implements OnInit {
   constructor(public mainForm: FormGroupDirective) { }
   ngOnInit(): void {
     this.childForm = this.mainForm.form
-    console.log(this.ButtonsArray);
-    console.log(this.isEditable);
     this.buttonsVisible = this.buttonsVisible == undefined ? true : false;
     this.headers = this.panelDetailsHeaders.Headers
     if (this.isEditable) {

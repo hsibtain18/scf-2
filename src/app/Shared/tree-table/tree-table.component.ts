@@ -19,8 +19,6 @@ export class TreeTableComponent implements OnInit {
   constructor() { }
 
   async ngOnInit(): Promise<any> {
-    console.log(this.HeadersTotal)
-    console.log(this.DetailList)
     this.cols = await this.getHeaders(1);
     this.cols2 = await this.getHeaders(2);
     this.cols3 = await this.getHeaders(3);

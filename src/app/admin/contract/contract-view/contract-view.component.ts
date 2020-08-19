@@ -56,6 +56,7 @@ export class ContractViewComponent implements OnInit, CanComponentDeactivate {
       let f: any = {}
       f.type = element.Type;
       f.name = element.Options.name;
+      f.validators = element.Options.validators;
       f.label = element.Options.label;
       f.inputType = element.Options.texttype != null ? element.Options.texttype : 'text'
       f.readonly = element.Options.readonly;

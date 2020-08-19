@@ -35,7 +35,7 @@ export class FileUploadComponent implements OnInit {
 
   ngOnInit(): void {
     this.childForm = this.mainForm.form;
-    console.log(this.fileObject);
+    console.log(this.DirectCall);
     if (this.fileObject.length == 0 || this.fileObject.length < this.options.Options.maxFiles) {
       for (let f of this.fields) {
         if (f.type != "Collection") {
