@@ -28,20 +28,20 @@
           padding     : 15px 0;
           color       : #6D6E71;
           position    : relative;
-          padding-left: 25px;
+          padding-left: 22px;
           font-size   : 13px;
 
           &:hover {
             color: #1D2025;
 
             &::before {
-              width     : 2.5px;
-              height    : 30px;
+              width     : 2px;
+              height    : 17px;
               content   : '';
               background: #6D6E71;
               position  : absolute;
               left      : 0;
-              top       : 12px;
+              top       : 14px;
             }
           }
 
@@ -49,12 +49,12 @@
             color: #1D2025;
 
             &::before {
-              width     : 2.5px;
-              height    : 30px;
-              content   : '';
+              width     : 2px;
+              height    : 17px;
+              content   : "";
               position  : absolute;
               left      : 0;
-              top       : 12px;
+              top       : 14px;
               background: $textColor;
             }
 

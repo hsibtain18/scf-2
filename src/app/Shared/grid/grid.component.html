@@ -2,7 +2,7 @@
     <div class="contentHeader d-flex">
         <div class="heading col-md-3">
             <div class="row">
-                <h3> {{UIObject.Heading}} </h3>
+                <p> {{UIObject.Heading}} </p>
             </div>
 
         </div>
@@ -51,7 +51,7 @@
                             <!-- <img class="pointer" src="../../../assets/images/menu.svg" alt="menu" width="15" ngbDropdownToggle> -->
 
                             <div ngbDropdownMenu aria-labelledby="GridDropDown" class="options">
-                                <p [hidden]="checkCondition(data,action.DispCond)" 
+                                <p  class="drop" [hidden]="checkCondition(data,action.DispCond)" 
                                     ngbDropdownItem *ngFor="let action of options" (click)="sendAction(data,action)">
                                     {{action.ActionItem}} </p>
 

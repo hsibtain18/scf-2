@@ -58,7 +58,7 @@ html {
         height        : 100vh;
         min-height    : 100vh;
 
-      
+
 
         main,
         .authentication {
@@ -173,11 +173,13 @@ html {
         margin-bottom: 20px;
         font-size    : 15px;
     }
+
     .errorMessage {
-        color   : $validationErrorColor;
-        margin: 0;
+        color       : $validationErrorColor;
+        margin      : 0;
         padding-left: 15px;
     }
+
     .has-float-label .form-control:placeholder-shown:not(:focus)+* {
         font-size: 15px;
         top      : 1.05em;
@@ -190,15 +192,17 @@ html {
         font-size : 12px;
         background: white;
         padding   : 0px 2px;
+        font-size : 11px;
 
     }
 
     .form-control {
-        height          : 45px;
+        height          : 40px;
         color           : #7e7e7e;
         font-size       : 14px;
         background-color: white !important;
         padding-left    : 16px;
+        font-size       : 13px;
 
         /* Chrome, Safari, Edge, Opera */
         &[type=number]::-webkit-outer-spin-button,
@@ -239,8 +243,9 @@ html {
 .componentView {
     .breadcrumb {
         background-color: unset;
-        padding         : .75rem 0rem;
+        padding         : 0.75rem 0rem 0rem 0rem;
         color           : $textColor;
+        font-size       : 12px;
 
         .breadcrumb-item {
             a[href] {
@@ -268,10 +273,10 @@ html {
     }
 
     .contentHeader {
-        border-bottom: 1.5px solid $borderColor;
+        border-bottom: 1px solid $borderColor;
 
         .heading {
-            h3 {
+            p {
                 color      : $textColor;
                 font-size  : 16px;
                 padding-top: 14px;
@@ -289,8 +294,10 @@ html {
                 margin-left     : 15px;
 
                 &-primary {
-                    height: 37px;
-                    width : 155px;
+                    height       : 35px;
+                    width        : 130px;
+                    border-radius: 7px;
+                    font-size    : 13px;
                 }
             }
         }
@@ -301,9 +308,9 @@ html {
 
         .nav-link.active {
             color           : $textColor;
-            border-bottom   : 2px solid $textColor !important;
+            border-bottom   : 1px solid $textColor !important;
             background-color: transparent;
-            font-size       : 15px;
+            font-size       : 16px;
             font-weight     : 600;
         }
 
@@ -316,7 +323,7 @@ html {
             border       : none !important;
             border-bottom: 1px solid $borderColor !important;
             color        : $UnselectedColor;
-            font-size    : 15px;
+            font-size    : 16px;
             font-weight  : 500;
 
 
@@ -340,7 +347,7 @@ html {
         border       : 1.5px solid $borderColor;
         background   : $backgroundColor;
         height       : auto;
-        padding      : 30px;
+        padding      : 20px 25px 20px 25px;
         margin-bottom: 50px;
 
         h4 {
@@ -357,6 +364,7 @@ html {
                 z-index      : 1;
                 margin-bottom: unset;
                 color        : $textColor;
+                font-size    : 11px;
 
                 &::after {
                     content   : "";
@@ -376,9 +384,10 @@ html {
                 margin-bottom   : 20px;
                 border          : 1px solid #ced4da;
                 border-radius   : .25rem;
-                height          : 45px;
+                height          : 40px;
                 border-radius   : 5px;
                 background-color: #ffffff;
+                font-size       : 13px;
 
                 &.validationError {
                     border-color: $validationErrorColor;
@@ -400,9 +409,11 @@ html {
                 -moz-appearance   : menulist;
                 appearance        : menulist;
             }
-            textarea{
+
+            textarea {
                 height: 90px !important;
             }
+
             input {
                 &:focus {
                     // outline: none;
@@ -435,7 +446,7 @@ html {
                 height: 37px;
                 width : 155px;
             }
-            
+
         }
 
         .customGrid {
@@ -455,6 +466,10 @@ html {
         }
 
 
+    }
+
+    .Tab-contentArea {
+        padding-top: 15px;
     }
 }
 

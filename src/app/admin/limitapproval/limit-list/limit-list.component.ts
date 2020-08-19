@@ -59,6 +59,9 @@ export class LimitListComponent implements OnInit {
     if (data.action.action == "upload") {
       this._UserService.PostCalls("buyer/upload", { FileData: data["FileData"] })
         .then(val => {
+          this._toastService.success("Uploaded Successfully")
+          this._sharedService.SetActionStatus(true);
+
         })
 
     }

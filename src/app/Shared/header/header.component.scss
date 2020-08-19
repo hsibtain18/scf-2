@@ -1,19 +1,28 @@
 @import '../../../assets/style/variable.scss';
 
 .navbar .navbar-brand .logo {
-    width: 70%;
+    width: 15%;
 }
 
 header {
-    box-shadow   : 0px 0px 7px -2px #7a7979;
-    border-bottom: 1.5px solid #a7a7a7;
-    z-index      : 3;
-    position     : relative;
+    box-shadow: 0px 0px 7px -2px #7a7979;
+    z-index   : 3;
+    position  : relative;
 
 
     svg {
-        height: 25px;
+        height: 22px;
         fill  : red;
         cursor: pointer;
+    }
+
+    .flex-column {
+        h5 {
+            font-size: 18px;
+        }
+
+        small {
+            font-size: 11px;
+        }
     }
 }

@@ -5,15 +5,51 @@
 
     }
 
-    .chkbox {
-        padding-left: 10px;
-        font-weight : bold;
+    tr th {
+        font-size  : 13px;
+        font-weight: bold;
+        text-align : center;
+    }
+
+    tr td {
+        font-size : 13px;
+        text-align: center;
+        padding   : 15px 0px;
+
+        p {
+
+            margin-bottom   : 0px;
+            // text-align   : left;
+            // font-size    : 13px;
+
+        }
+
+        .drop {
+            padding      : 9px 15px;
+            margin-bottom: 0px;
+            text-align   : left;
+            font-size    : 13px;
+        }
+
+        .dropdown-menu {
+            // .show {
+            padding: 0px !important;
+
+        }
+
+
+        .chkbox {
+            padding-left: 10px;
+            font-weight : bold;
+        }
     }
 }
-.fileSize{
+
+.fileSize {
     font-size: 12px;
-    padding: 0px 10px;
+    padding  : 0px 10px;
 }
+
 .table thead th {
     border: none;
 }

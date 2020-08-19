@@ -5,6 +5,7 @@
 
         &.table-responsive {
             max-height: 100%;
+            margin-top: 15px;
 
             .table {
                 text-align: center;
@@ -12,7 +13,7 @@
 
                 th {
                     border-top      : unset;
-                    background-color: #e9ecef;
+                    background-color: #f0f0f0;
                     position        : sticky;
                     top             : 0;
                     z-index         : 2;
@@ -35,7 +36,7 @@
                         }
 
                         &:nth-child(even) {
-                            background-color: #e9ecef;
+                            background-color: #f0f0f0;
                         }
                     }
                 }
@@ -55,8 +56,24 @@
         padding   : 15px 0px;
 
         p {
+
+            margin-bottom   : 0px;
+            // text-align   : left;
+            // font-size    : 13px;
+
+        }
+
+        .drop {
+            padding      : 9px 15px;
             margin-bottom: 0px;
-            text-align   : center;
+            text-align   : left;
+            font-size    : 13px;
+        }
+
+        .dropdown-menu {
+            // .show {
+                padding: 0px !important;
+            
         }
 
         .loadmore {

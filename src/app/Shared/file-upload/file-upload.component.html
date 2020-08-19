@@ -89,12 +89,12 @@
 
                 <td>
                     {{options.sendAPICall}}
-                    <div ngbDropdown class="d-inline-block">
+                    <div ngbDropdown class="d-inline-block"  style="position: static;" placement="bottom-right">
                         <p class="y" id="GridDropDown" ngbDropdownToggle>Select Actions</p>
                         <div ngbDropdownMenu aria-labelledby="GridDropDown">
-                            <button *ngIf="File.ID" (click)="FileUploadEvent.emit(File)" ngbDropdownItem>View</button>
-                            <button *ngIf="CheckCondition(options.Options.optionDelete)" (click)="DeleteFile(File,i)"
-                                ngbDropdownItem>Delete </button>
+                            <p class="drop" *ngIf="File.ID" (click)="FileUploadEvent.emit(File)" ngbDropdownItem>View</p>
+                            <p  class="drop"  *ngIf="CheckCondition(options.Options.optionDelete)" (click)="DeleteFile(File,i)"
+                                ngbDropdownItem>Delete </p>
 
                         </div>
                     </div>
