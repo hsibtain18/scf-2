@@ -11,7 +11,7 @@
 
         <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
             <li *ngFor="let tabs of UiObject.Controls[0].Controls" [ngbNavItem]="tabs.ID">
-                <a class="navlinks" *ngIf="CheckCondition(tabs)" ngbNavLink> {{tabs.Options.text}} </a>
+                <a class="navlinks" *ngIf="CheckCondition(tabs.Options.visible)" ngbNavLink> {{tabs.Options.text}} </a>
                 <ng-template ngbNavContent>
                     <form [formGroup]="form">
                         <div *ngFor="let innerTab of tabs.Controls">

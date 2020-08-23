@@ -9,12 +9,13 @@ import * as XLSX from 'xlsx'
 import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
 import { SharedService } from '../services/sharedService';
 import { Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-grid',
   templateUrl: './grid.component.html',
   styleUrls: ['./grid.component.scss']
 })
-export class GridComponent implements OnInit ,OnDestroy {
+export class GridComponent implements OnInit, OnDestroy {
   @Input() UIObject;
   buttonsArray: any[];
   value: any[] = [];
@@ -41,7 +42,8 @@ export class GridComponent implements OnInit ,OnDestroy {
     private _UserService: UserDataService,
     private _router: Router,
     private _sharedService: SharedService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private _modalCustomService: ToastrService
   ) {
     this._sharedService.ClearActionStatus();
     this.subscription = this._sharedService.GetActionStatus().subscribe(Action => {
@@ -107,20 +109,34 @@ export class GridComponent implements OnInit ,OnDestroy {
   onFileChange(File: any, action) {
     let obj = {};
     let file = File.target.files[0];
-    let fileReader = new FileReader();
-    fileReader.readAsArrayBuffer(file);
-    fileReader.onload = (e) => {
-      this.arrayBuffer = fileReader.result;
-      var data = new Uint8Array(this.arrayBuffer);
-      var arr = new Array();
-      for (var i = 0; i != data.length; ++i) 
-        arr[i] = String.fromCharCode(data[i]);
-      var bstr = arr.join("");
+    if (this.ValidateFile(File.target.files[0])) {
+      let fileReader = new FileReader();
+      fileReader.readAsArrayBuffer(file);
+      fileReader.onload = (e) => {
+        this.arrayBuffer = fileReader.result;
+        var data = new Uint8Array(this.arrayBuffer);
+        var arr = new Array();
+        for (var i = 0; i != data.length; ++i)
+          arr[i] = String.fromCharCode(data[i]);
+        var bstr = arr.join("");
 
-      obj["FileData"] = { data: bstr, name: file.name, type: file.type };
-      obj["action"] = action
-      this.Action.emit(obj)
+        obj["FileData"] = { data: bstr, name: file.name, type: file.type };
+        obj["action"] = action
+        this.Action.emit(obj)
+      }
     }
+  }
+  ValidateFile(file) {
+
+    if (file == null || file.length == 0 || Math.round(file.size * 100 / (1024 * 1024) / 100) > 15) {
+      this._modalCustomService.error("Invalid File")
+      return;
+    }
+    if (file.type.toLowerCase().indexOf('spreadsheetml') == -1) {
+      this._modalCustomService.error("Invalid File")
+      return;
+    }
+    return true
   }
   exportCSV() {
     this.showSpinner = true;

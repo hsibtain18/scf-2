@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators, ControlContainer, FormGroupDirective } from '@angular/forms';
 import { FormCreateService } from '../services/form-create.service';
 import { UserDataService } from 'src/app/admin/user-data.service';
+import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'app-info-panel',
@@ -21,10 +22,13 @@ export class InfoPanelComponent implements OnInit {
   buttons: any[] = []
   textAreaList: any[] = []
   childForm;
-  constructor(public mainForm: FormGroupDirective,private _dataService :UserDataService,
+  GroupedData : any[];
+  dropdownValues: any[]=[];
+  constructor(public mainForm: FormGroupDirective, private _dataService: UserDataService,
     private FormCreate: FormCreateService) { }
 
- async ngOnInit(): Promise<any> {
+  async ngOnInit(): Promise<any> {
+    this.dropdownValues.splice(0,1);
     this.childForm = this.mainForm.form
     this.buttons = this.fields.filter((element => {
       if (element.type == 'Button')
@@ -35,39 +39,47 @@ export class InfoPanelComponent implements OnInit {
         return element;
     }))
     let fieldsCtrls = {};
-    for (let f of this.fields) {
+    // for (let f of this.fields) {
+
+
+    // }
+    this.fields.forEach(async f => {
       if (f.type != 'checkbox' && f.type != 'Button') {
-        // if (f.type == 'DateRangePicker') {
-        //   this.childForm.addControl(f.name, new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) }, Validators.required));
-        // }
-        // else {
-          if(f.type=="Select"){
-            // f.DropdownOptions = await this.getSelectOptions(f.options.dataSource);
-          }
-        this.childForm.addControl(f.name, new FormControl({ value: f.value ? f.value : null, disabled: this.checkEval(f) }, this.SetValidators(f.validators)));
-        // }
+        if (f.type == "Select") {
+          this.childForm.addControl(f.name, new FormControl({ value: f.value ? f.value : null, disabled: this.checkEval(f) }, this.SetValidators(f.validators)));
+          this.getSelectOptions(f);
+          // console.log((f.options.optionsData.split('-')))
+        }
+        if(f.type=="GroupSelect"){
+          this.childForm.addControl(f.name, new FormControl({ value: f.value ? f.value : null, disabled: this.checkEval(f) }, this.SetValidators(f.validators)));
+          this.getSelectGroupedOptions();
+        }
+        else {
+          this.childForm.addControl(f.name, new FormControl({ value: f.value ? f.value : null, disabled: this.checkEval(f) }, this.SetValidators(f.validators)));
+        }
       }
-
-    }
-
+    })
 
   }
-getSelectOptions(dataSource){
-  return new Promise((resolve,reject)=>{
-    this._dataService.GetCalls("utility/",dataSource)
-    .then(val=>{
-      resolve(val)
+  getSelectOptions(f) {
+    return new Promise((resolve, reject) => {
+      this._dataService.GetCalls("utility/", f.options.dataSource)
+        .then((val: any) => {
+          // this.childForm.addControl(f.name, new FormControl({ value: f.value ? f.value : null, disabled: this.checkEval(f) }, this.SetValidators(f.validators)));
+          f.DropdownOptions = val
+          this.dropdownValues[f.options.dataSource]=val;
+          console.log(this.dropdownValues)
+          resolve()
+        })
     })
-  })
-}
-getSelectGroupedOptions(dataSource){
-  return new Promise((resolve,reject)=>{
-    this._dataService.GetCalls("utility/",dataSource)
-    .then(val=>{
-      resolve(val)
-    })
-  })
-}
+  }
+  getSelectGroupedOptions() {
+      this._dataService.PostCalls("financial/anchorslist", {})
+        .then((val: any) => {
+          this.GroupedData = val;
+        })
+    
+  }
   SetValidators(rules: any) {
     let validators: any = []
     if (rules != null) {
@@ -93,7 +105,7 @@ getSelectGroupedOptions(dataSource){
             let val = pattern[1].split('-')  // for multi check 
             console.log(val.length);
             if (val.length == 2) {
-              console.log(val[0],this.DataObject[val[0]],val[1], this.DataObject[val[1]]);
+              console.log(val[0], this.DataObject[val[0]], val[1], this.DataObject[val[1]]);
 
               if (this.DataObject[val[0]] > this.DataObject[val[1]]) {
                 validators.push(Validators.max(this.DataObject[val[1]]))
@@ -124,9 +136,10 @@ getSelectGroupedOptions(dataSource){
     return validators
   }
   dateRangeCreated(temp, field) {
-    this.childForm.addControl(field.options.endDate, new FormControl(new Date(temp[1])));
-    this.childForm.addControl(field.options.startDate, new FormControl(new Date(temp[0])));
-
+    if (temp) {
+      this.childForm.addControl(field.options.endDate, new FormControl(new Date(temp[1])));
+      this.childForm.addControl(field.options.startDate, new FormControl(new Date(temp[0])));
+    }
 
   }
   getForm() {

@@ -111,6 +111,14 @@ export class FinancingViewComponent implements OnInit, CanComponentDeactivate {
           this.navigate();
         })
     }
+    if (action == "Create") {
+      this._dataService.PostCalls("financial/createorder", this.form.value)
+        .then(val => {
+          this._toast.success("Created Successfully")
+
+          this.navigate();
+        })
+    }
   }
   FileUploadAPI(Action) {
     console.log(this.form)

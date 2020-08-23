@@ -19,9 +19,9 @@
                 <span class="col-md-12 p-0 has-float-label" *ngSwitchCase="'Select'">
                     <select [name]="field.name" [id]="field.name" [formControlName]="field.name"
                         class="form-control">label
-                        <option [value]="" selected disabled> Select {{field.label}} </option>
-                        <option value="1"    > Select {{field.label}} </option>
-                        <!-- <option *ngFor="let op of field.DropdownOptions" [value]="op.ID"> {{op.Name}} </option> -->
+                        <option value="" selected disabled> Select {{field.label}} </option>
+                        <!-- <option value="1"    > Select {{field.label}} </option> -->
+                        <option *ngFor="let op of dropdownValues[field.options.dataSource]" [value]="op.Name"> {{op.Name}} </option>
                     </select>
                     <label [for]="field.name">{{field.label}}</label>
 
@@ -29,14 +29,10 @@
                 <span class="col-md-12 p-0 has-float-label" *ngSwitchCase="'GroupSelect'">
 
                     <select [id]="field.name" [formControlName]="field.name"  class="form-control">
-                        <optgroup label="Swedish Cars">
-                            <option value="volvo">Volvo</option>
-                            <option value="saab">Saab</option>
+                        <optgroup *ngFor="let main of GroupedData"  [label]="main.CompanyName">
+                          <option *ngFor="let sub of main.Buyers" [value]="sub.BuyerCode" > {{sub.BuyerCompanyName}} </option>
                         </optgroup>
-                        <optgroup label="German Cars">
-                            <option value="mercedes">Mercedes</option>
-                            <option value="audi">Audi</option>
-                        </optgroup>
+                       
                     </select>
                     <label [for]="field.name">{{field.label}}</label>
                 </span>

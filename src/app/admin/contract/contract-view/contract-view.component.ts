@@ -148,6 +148,20 @@ export class ContractViewComponent implements OnInit, CanComponentDeactivate {
 
         })
     }
+    if (action == "Create") {
+      this._dataService.PostCalls("contractpayment/received", this.form.value)
+        .then((val: any) => {
+
+          if (val.Status == 201) {
+            this._dialog.OpenTimedDialog({ heading: val.Message, type: 2 })
+
+          } else {
+            this._toast.success("Created Successfully") 
+            this.navigate();
+          }
+
+        })
+    }
   }
   FileUploadAPI(Action) {
     console.log(this.form)
