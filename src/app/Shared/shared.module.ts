@@ -24,6 +24,7 @@ import { DialogBoxComponent } from './dialog-box/dialog-box.component';
 import { DialogService } from './services/dialog.service';
 import { TableModule } from 'primeng/table';
 import { FormCreateService } from './services/form-create.service';
+import { EditTableComponent } from './edit-table/edit-table.component';
 // import { TreeTableModule } from 'primeng/treetable';
 
 @NgModule({
@@ -40,7 +41,8 @@ import { FormCreateService } from './services/form-create.service';
     DateFieldComponent,
     InnerGridComponent,
     TreeTableComponent,
-    DialogBoxComponent
+    DialogBoxComponent,
+    EditTableComponent
   ],
   imports: [
     CommonModule,
@@ -68,7 +70,10 @@ import { FormCreateService } from './services/form-create.service';
     InnerGridComponent,
     TreeTableModule,
     TableModule,
-    TreeTableComponent
+    TreeTableComponent,
+    EditTableComponent,
+    
+
   ],
   entryComponents: [
     DialogBoxComponent

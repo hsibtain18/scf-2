@@ -17,19 +17,28 @@ export class FinancingViewComponent implements OnInit, CanComponentDeactivate {
   public UiObject: any = []
   public Status: any;
   active;
-  limitID: number
-  Financing: any = []
+  financeID: number
+  Financing: any = [];
+  BreadCrumbs = ""
   constructor(private route: ActivatedRoute, private _dataService: UserDataService,
     private _router: Router, private _toast: ToastrService
   ) {
     this.route.params.subscribe(params => {
-      this.limitID = +params['id'];
-      this._dataService.GetCalls("financial", this.limitID)
+      this.financeID = +params['id'];
+      if(this.financeID){
+         this._dataService.GetCalls("financial", this.financeID)
         .then((data: any) => {
           this.Financing = data;
           this.Status = data.Data.Status
           this.form.addControl("ID", new FormControl(data.Data.ID));
+          this.BreadCrumbs = "View"
         })
+      }
+      else{
+        this.Status=-2;
+        this.BreadCrumbs = "Create"
+      }
+     
     });
   }
   canDeactivate() {
@@ -60,16 +69,15 @@ export class FinancingViewComponent implements OnInit, CanComponentDeactivate {
       f.label = element.Options.label;
       f.inputType = element.Options.texttype != null ? element.Options.texttype : 'text'
       f.readonly = element.Options.readonly;
-      if (this.Financing.Data[element.Options.name] != null) {
+      if (this.Status>-2 && this.Financing.Data[element.Options.name] != null) {
         f.value = this.Financing.Data[element.Options.name]
       }
       if (element.Type != 'Button') {
         // tempArray.insert(element.Options.name, new FormControl({ value: f.value ? f.value : '', disabled: eval(f.readonly) }, Validators.required));
         // this.form.addControl(element.Options.name, new FormControl({ value: f.value ? f.value : '', disabled: eval(f.readonly) }, Validators.required));
       }
-      if (element.Type == 'DateRangePicker' || element.Type == 'Button') {
-        f.options = element.Options;
-      }
+      f.options = element.Options;
+
       field.push(f);
 
     });

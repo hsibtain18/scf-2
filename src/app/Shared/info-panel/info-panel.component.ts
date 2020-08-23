@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators, ControlContainer, FormGroupDirective } from '@angular/forms';
 import { FormCreateService } from '../services/form-create.service';
+import { UserDataService } from 'src/app/admin/user-data.service';
 
 @Component({
   selector: 'app-info-panel',
@@ -20,10 +21,10 @@ export class InfoPanelComponent implements OnInit {
   buttons: any[] = []
   textAreaList: any[] = []
   childForm;
-  constructor(public mainForm: FormGroupDirective,
+  constructor(public mainForm: FormGroupDirective,private _dataService :UserDataService,
     private FormCreate: FormCreateService) { }
 
-  ngOnInit(): void {
+ async ngOnInit(): Promise<any> {
     this.childForm = this.mainForm.form
     this.buttons = this.fields.filter((element => {
       if (element.type == 'Button')
@@ -40,8 +41,10 @@ export class InfoPanelComponent implements OnInit {
         //   this.childForm.addControl(f.name, new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) }, Validators.required));
         // }
         // else {
-        console.log()
-        this.childForm.addControl(f.name, new FormControl({ value: f.value ? f.value : "", disabled: this.checkEval(f) }, this.SetValidators(f.validators)));
+          if(f.type=="Select"){
+            // f.DropdownOptions = await this.getSelectOptions(f.options.dataSource);
+          }
+        this.childForm.addControl(f.name, new FormControl({ value: f.value ? f.value : null, disabled: this.checkEval(f) }, this.SetValidators(f.validators)));
         // }
       }
 
@@ -49,7 +52,22 @@ export class InfoPanelComponent implements OnInit {
 
 
   }
-
+getSelectOptions(dataSource){
+  return new Promise((resolve,reject)=>{
+    this._dataService.GetCalls("utility/",dataSource)
+    .then(val=>{
+      resolve(val)
+    })
+  })
+}
+getSelectGroupedOptions(dataSource){
+  return new Promise((resolve,reject)=>{
+    this._dataService.GetCalls("utility/",dataSource)
+    .then(val=>{
+      resolve(val)
+    })
+  })
+}
   SetValidators(rules: any) {
     let validators: any = []
     if (rules != null) {

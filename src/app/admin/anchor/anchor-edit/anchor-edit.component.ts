@@ -112,16 +112,23 @@ export class AnchorEditComponent implements OnInit, CanComponentDeactivate {
       }
       if (element.Type != 'Button') {
       }
-      if (element.Type == 'DateRangePicker' || element.Type == 'Button') {
-        f.options = element.Options;
-      }
+      // if (element.Type == 'DateRangePicker' || element.Type == 'Button') {
+      f.options = element.Options;
+      // }
       field.push(f);
 
     });
 
     return field;
   }
-
+  getSelectOptions(dataSource) {
+    return new Promise((resolve, reject) => {
+      this._dataService.GetCalls("utility/", dataSource)
+        .then(val => {
+          resolve(val)
+        })
+    })
+  }
   getChildComponent(TypeID) {
     if (TypeID == 8) {
       return InfoPanelComponent;

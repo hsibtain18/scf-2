@@ -1,0 +1,46 @@
+<div [formGroup]="childForm" class=" tabContent col-md-12">
+    <div class="d-flex pb-2">
+        <h4> {{heading}} </h4>
+        <button class="btn btn-primary ml-auto" (click)="addNewRow()"> Add </button>
+
+    </div>
+
+    <!-- <form-builder   [fields]="fields"  [form]="getForm()" ></form-builder> -->
+    <div [formGroup]="childForm">
+        <div class="row mt-2">
+            <div class="col-md-12  table-responsive" id="nav-scrollbar">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th *ngFor="let head of panelDetailsHeaders">
+                                {{head.DisplayText}}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody [formArrayName]="formObject" >
+                        <tr *ngFor="let data of DataObject;let i=index" [formGroupName]="i">
+                            <td *ngFor="let col of panelDetailsHeaders">
+                                <span *ngIf="!col.Editable; else formgroups"> {{i+1}} </span>
+                                <!-- {{data[col.Column]}} -->
+
+                                <ng-template #formgroups class="px-2" >
+                                    <span class="form-group" *ngIf="col.TextType=='text'">
+                                        <input type="number" [placeholder]="col.DisplayText"  [formControlName]="col.Column"  class="form-control">
+                                    </span>
+                                    <span class="form-group" *ngIf="col.TextType=='date'">
+                                        <input type="text" [placeholder]="col.DisplayText" [formControlName]="col.Column" class="form-control"
+                                            bsDatepicker readonly
+                                            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'cust-date' ,adaptivePosition: true  }">
+                                    </span>
+                                    <span class="form-group"  *ngIf="col.TextType=='alpha'">
+                                        <input type="text" [placeholder]="col.DisplayText" [formControlName]="col.Column"  class="form-control">
+                                    </span>
+                                    
+                                </ng-template>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>

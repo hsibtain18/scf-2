@@ -18,19 +18,29 @@ export class ContractViewComponent implements OnInit, CanComponentDeactivate {
   public UiObject: any = []
   public Status: any;
   active;
-  limitID: number
+  contractID: number
   Financing: any = []
+  BreadCrumbs = ""
   constructor(private route: ActivatedRoute, private _dataService: UserDataService,
     private _router: Router, private _toast: ToastrService, private _dialog: DialogService
   ) {
     this.route.params.subscribe(params => {
-      this.limitID = +params['id'];
-      this._dataService.GetCalls("contractpayment", this.limitID)
+      this.contractID = +params['id'];
+      if(this.contractID){
+         this._dataService.GetCalls("contractpayment", this.contractID)
         .then((data: any) => {
           this.Financing = data;
           this.Status = data.Data.Status
+          this.BreadCrumbs = "View";
           this.form.addControl("ID", new FormControl(data.Data.ID));
         })
+      }
+      else{
+        this.BreadCrumbs = "Create"
+        this.Status = -2
+
+      }
+     
     });
   }
   canDeactivate() {
@@ -60,16 +70,18 @@ export class ContractViewComponent implements OnInit, CanComponentDeactivate {
       f.label = element.Options.label;
       f.inputType = element.Options.texttype != null ? element.Options.texttype : 'text'
       f.readonly = element.Options.readonly;
-      if (this.Financing.Data[element.Options.name] != null) {
+      if ( this.Status >-2 && this.Financing.Data[element.Options.name] != null) {
         f.value = this.Financing.Data[element.Options.name]
       }
       if (element.Type != 'Button') {
         // tempArray.insert(element.Options.name, new FormControl({ value: f.value ? f.value : '', disabled: eval(f.readonly) }, Validators.required));
         // this.form.addControl(element.Options.name, new FormControl({ value: f.value ? f.value : '', disabled: eval(f.readonly) }, Validators.required));
       }
-      if (element.Type == 'DateRangePicker' || element.Type == 'Button') {
-        f.options = element.Options;
-      }
+      // if (element.Type == 'DateRangePicker' || element.Type == 'Button') {
+      //   f.options = element.Options;
+      // }
+      f.options = element.Options;
+
       field.push(f);
 
     });

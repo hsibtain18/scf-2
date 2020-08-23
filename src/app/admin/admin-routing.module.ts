@@ -68,6 +68,13 @@ const routes: Routes = [
         }
       },
       {
+        path: "Financing/Create",
+        component: FinancingViewComponent,
+        resolve: {
+          UIdata: UIResolverService
+        }
+      },
+      {
         path: 'Contract',
         component: ContractListComponent,
         resolve: {
@@ -76,6 +83,13 @@ const routes: Routes = [
       },
       {
         path: "Contract/View/:id",
+        component: ContractViewComponent,
+        resolve: {
+          UIdata: UIResolverService
+        }
+      },
+      {
+        path: "Contract/Create",
         component: ContractViewComponent,
         resolve: {
           UIdata: UIResolverService
