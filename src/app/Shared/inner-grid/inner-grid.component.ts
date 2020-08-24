@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ControlContainer, FormGroupDirective, Validators, FormControl } from '@angular/forms';
+import { Angular5Csv } from 'angular5-csv/dist/Angular5-csv';
 
 @Component({
   selector: 'app-inner-grid',
@@ -50,5 +51,21 @@ export class InnerGridComponent implements OnInit {
   }
   buttonsCondition(val) {
     return eval(val)
+  }
+
+  exportCSV() {
+ 
+        let header = []
+        Object.keys(this.FileObject[0]).forEach((key, idx) => {
+          header.push(key);
+        });
+        let options = {
+          headers: header,
+        }
+        new Angular5Csv(this.FileObject, 'export', options);
+
+     
+
+
   }
 }
