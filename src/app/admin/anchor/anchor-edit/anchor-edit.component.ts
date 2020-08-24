@@ -208,6 +208,8 @@ export class AnchorEditComponent implements OnInit, CanComponentDeactivate {
   }
 
   FileUploadAPI(Action) {
+    this.form.addControl("AnchorCode", new FormControl(this.AnchorObject.Data.AnchorCode));
+    this.form.controls['AnchorCode'].enable();
     //console.log(this.form)
     if (Action.ActionValue == "cancel") {
       this.navigate()
