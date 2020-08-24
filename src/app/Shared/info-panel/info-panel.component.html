@@ -99,8 +99,7 @@
                         class="form-control">label
                         <option value="" selected disabled> Select {{field.label}} </option>
                         <!-- <option value="1"    > Select {{field.label}} </option> -->
-                        <option *ngFor="let op of dropdownValues[field.options.dataSource]" [value]="op.ID">
-                            {{op.Name}} </option>
+                        <option *ngFor="let op of dropdownValues[field.options.dataSource]" [value]="op.ID"> {{op.Name}} </option>
                     </select>
                     <label [for]="field.name">{{field.label}}</label>
 
