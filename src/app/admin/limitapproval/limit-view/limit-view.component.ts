@@ -21,7 +21,7 @@ export class LimitViewComponent implements OnInit, CanComponentDeactivate {
   active;
   limitID: number
   LimitObject: any = []
-  InvoicesList: any[] = [];
+  InvoicesList: any = [];
   public showSpinner: boolean = false;
   public spinnerConfig: any;
   constructor(private route: ActivatedRoute, private _dataService: UserDataService,

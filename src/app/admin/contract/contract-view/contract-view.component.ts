@@ -174,6 +174,7 @@ export class ContractViewComponent implements OnInit, CanComponentDeactivate {
             this._toast.success("Created Successfully")
             this.navigate();
           }
+          this.form.controls['OrderNumber'].disable();
 
         })
     }

@@ -153,6 +153,8 @@ export class AnchorEditComponent implements OnInit, CanComponentDeactivate {
         })
     }
     if (action == "Create") {
+      this.form.controls['AnchorCode'].enable();
+
       this._dataService.PostCalls("anchors/save", this.form.value)
         .then((val: any) => {
           this.showSpinner = false;
@@ -178,9 +180,11 @@ export class AnchorEditComponent implements OnInit, CanComponentDeactivate {
     }
     if (action == "Send Offer") {
       this.form.addControl("AnchorCode", new FormControl(this.AnchorObject.Data.AnchorCode));
+      this.form.controls['AnchorCode'].enable();
 
       this._dataService.PostCalls("offer/create", this.form.value)
         .then((val: any) => {
+          this.form.controls['AnchorCode'].disable();
 
           if (val.Status == 201) {
             this._modalCustomService.OpenTimedDialog({ heading: val.Message, type: 4 });
@@ -191,6 +195,7 @@ export class AnchorEditComponent implements OnInit, CanComponentDeactivate {
           this.showSpinner = false;
         }).catch(err => {
           this.showSpinner = false;
+          this.form.controls['AnchorCode'].disable();
 
         })
     }
