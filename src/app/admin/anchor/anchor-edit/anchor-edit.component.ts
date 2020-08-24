@@ -139,8 +139,7 @@ export class AnchorEditComponent implements OnInit, CanComponentDeactivate {
     // this.Mapper(Event);
 
     this.showSpinner = true;
-    this.form.addControl("AnchorCode", new FormControl(this.AnchorObject.Data.AnchorCode));
-    this.form.controls['AnchorCode'].enable();
+
     if (action == "Reject") {
 
       this._dataService.PostCalls("anchors/reject", { ID: this.form.get('ID').value })
@@ -154,7 +153,7 @@ export class AnchorEditComponent implements OnInit, CanComponentDeactivate {
         })
     }
     if (action == "Create") {
-      this.form.controls['AnchorCode'].enable();
+      // this.form.controls['AnchorCode'].enable();
 
       this._dataService.PostCalls("anchors/save", this.form.value)
         .then((val: any) => {
@@ -181,7 +180,8 @@ export class AnchorEditComponent implements OnInit, CanComponentDeactivate {
     }
     if (action == "Send Offer") {
 
-
+      this.form.addControl("AnchorCode", new FormControl(this.AnchorObject.Data.AnchorCode));
+      this.form.controls['AnchorCode'].enable();
       this._dataService.PostCalls("offer/create", this.form.value)
         .then((val: any) => {
           this.form.controls['AnchorCode'].disable();
