@@ -50,8 +50,8 @@ export class GridComponent implements OnInit, OnDestroy {
       if (Action) {
         this.GetGridData();
         this._sharedService.ClearActionStatus();
-
       }
+      this.showSpinner = false;
     });
   }
   ngOnDestroy(): void {
@@ -97,6 +97,8 @@ export class GridComponent implements OnInit, OnDestroy {
     this.GetGridData()
   }
   sendAction(col: any, action: any) {
+    this.showSpinner = true;
+
     console.log(action);
     if (action.ActionItem != 'View') {
       this.GetGridData();
@@ -168,7 +170,11 @@ export class GridComponent implements OnInit, OnDestroy {
       this._router.navigate([Options.route], { state: { ParentID: -2, MenuID: -1, URL: Options.route } });
     }
     else {
-      this.ButtonsAction.emit(Options)
+
+      let obj = {};
+      obj["action"] = Options
+      this.Action.emit(obj)
+      // this.ButtonsAction.emit(Options)
     }
   }
   file: File;

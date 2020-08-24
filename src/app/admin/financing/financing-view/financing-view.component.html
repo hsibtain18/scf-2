@@ -7,11 +7,11 @@
             <a> {{BreadCrumbs}} </a>
         </li>
     </ol>
-    <div class="container-fluid">
-
-        <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+    <div class="container-fluid"   *ngIf="BreadCrumbs">
+{{active}}
+        <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs" (navChange)="check($event)" >
             <li *ngFor="let tabs of UiObject.Controls[0].Controls" [ngbNavItem]="tabs.ID">
-                <a class="navlinks" *ngIf="CheckCondition(tabs.Options.visible)" ngbNavLink> {{tabs.Options.text}} </a>
+                <a class="navlinks" *ngIf="SetActive(tabs)" ngbNavLink> {{tabs.Options.text}} </a>
                 <ng-template ngbNavContent>
                     <form [formGroup]="form">
                         <div *ngFor="let innerTab of tabs.Controls">

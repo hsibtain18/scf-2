@@ -26,7 +26,7 @@ import { TableModule } from 'primeng/table';
 import { FormCreateService } from './services/form-create.service';
 import { EditTableComponent } from './edit-table/edit-table.component';
 // import { TreeTableModule } from 'primeng/treetable';
-
+import {TooltipModule} from 'primeng/tooltip';
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -52,7 +52,8 @@ import { EditTableComponent } from './edit-table/edit-table.component';
     RouterModule,
     BsDatepickerModule.forRoot(),
     TreeTableModule,
-    TableModule
+    TableModule,
+    TooltipModule
   ],
   exports: [
     HeaderComponent,
@@ -72,7 +73,7 @@ import { EditTableComponent } from './edit-table/edit-table.component';
     TableModule,
     TreeTableComponent,
     EditTableComponent,
-    
+    TooltipModule
 
   ],
   entryComponents: [

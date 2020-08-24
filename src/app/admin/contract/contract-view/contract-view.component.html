@@ -1,31 +1,37 @@
 <section class="componentView">
     <ol class="breadcrumb m-3">
         <li class="breadcrumb-item">
-            <a routerLink="/User/Contract"  [state]="{ParentID: -1, MenuID: -1, URL: '/User/Contract' }">Contract  </a>
+            <a routerLink="/User/Contract" [state]="{ParentID: -1, MenuID: -1, URL: '/User/Contract' }">Contract </a>
         </li>
         <li class="breadcrumb-item active">
             <a> {{BreadCrumbs}} </a>
         </li>
     </ol>
-    <div class="container-fluid">
-
+    <div class="container-fluid" *ngIf="BreadCrumbs">
         <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
             <li *ngFor="let tabs of UiObject.Controls[0].Controls" [ngbNavItem]="tabs.ID">
-                <a class="navlinks" *ngIf="CheckCondition(tabs.Options.visible)" ngbNavLink> {{tabs.Options.text}} </a>
+                <a class="navlinks" *ngIf="SetActive(tabs)" ngbNavLink> {{tabs.Options.text}} </a>
                 <ng-template ngbNavContent>
                     <form [formGroup]="form">
                         <div class=" " *ngFor="let innerTab of tabs.Controls">
-                            <app-info-panel *ngIf="innerTab.TypeID==8" [heading]="innerTab.Options.text"
-                                [Status]="Status" [formname]="innerTab.Type+''+innerTab.ID"
-                                [fields]="getInnerControls(innerTab)" (onSubmit)="SaveData($event)"></app-info-panel>
-                           
-                            <app-inner-grid [Status]="Status" [TotalAmount]="this.Financing.Data.TotalAmount" [isEditable]="true"
-                                *ngIf="innerTab.TypeID==14" [panelDetailsHeaders]="getHeaderObject(innerTab) "(ActionEmit)="SaveData($event)"
-                                [FileObject]="getFileObject(innerTab)" [ButtonsArray]="getButtons(innerTab)" [heading]="innerTab.Options.text">
-                            </app-inner-grid>
+                            <div class=" " *ngIf="CheckCondition(innerTab.Options.visible)">
 
-                            <app-edit-table  [panelDetailsHeaders]="getHeaderObject(innerTab)"  *ngIf="innerTab.TypeID==18" [heading]="innerTab.Options.text"></app-edit-table>
-                            
+                                <app-info-panel *ngIf="innerTab.TypeID==8" [heading]="innerTab.Options.text"
+                                    [Status]="Status" [formname]="innerTab.Type+''+innerTab.ID" [DataObject]="Contract.Data"
+                                    [fields]="getInnerControls(innerTab)" (onSubmit)="SaveData($event)">
+                                </app-info-panel>
+
+                                <app-inner-grid [Status]="Status" [TotalAmount]="this.Contract.Data.TotalAmount"
+                                    [isEditable]="true" *ngIf="innerTab.TypeID==14"
+                                    [panelDetailsHeaders]="getHeaderObject(innerTab) " (ActionEmit)="SaveData($event)"
+                                    [FileObject]="getFileObject(innerTab)" [ButtonsArray]="getButtons(innerTab)"
+                                    [heading]="innerTab.Options.text">
+                                </app-inner-grid>
+
+                                <app-edit-table [panelDetailsHeaders]="getHeaderObject(innerTab)"
+                                    *ngIf="innerTab.TypeID==18" [heading]="innerTab.Options.text"></app-edit-table>
+
+                            </div>
                         </div>
                     </form>
                 </ng-template>

@@ -22,13 +22,13 @@ export class InfoPanelComponent implements OnInit {
   buttons: any[] = []
   textAreaList: any[] = []
   childForm;
-  GroupedData : any[];
-  dropdownValues: any[]=[];
+  GroupedData: any[];
+  dropdownValues: any[] = [];
   constructor(public mainForm: FormGroupDirective, private _dataService: UserDataService,
     private FormCreate: FormCreateService) { }
 
   async ngOnInit(): Promise<any> {
-    this.dropdownValues.splice(0,1);
+    this.dropdownValues.splice(0, 1);
     this.childForm = this.mainForm.form
     this.buttons = this.fields.filter((element => {
       if (element.type == 'Button')
@@ -50,7 +50,7 @@ export class InfoPanelComponent implements OnInit {
           this.getSelectOptions(f);
           // console.log((f.options.optionsData.split('-')))
         }
-        if(f.type=="GroupSelect"){
+        if (f.type == "GroupSelect") {
           this.childForm.addControl(f.name, new FormControl({ value: f.value ? f.value : null, disabled: this.checkEval(f) }, this.SetValidators(f.validators)));
           this.getSelectGroupedOptions();
         }
@@ -67,18 +67,18 @@ export class InfoPanelComponent implements OnInit {
         .then((val: any) => {
           // this.childForm.addControl(f.name, new FormControl({ value: f.value ? f.value : null, disabled: this.checkEval(f) }, this.SetValidators(f.validators)));
           f.DropdownOptions = val
-          this.dropdownValues[f.options.dataSource]=val;
+          this.dropdownValues[f.options.dataSource] = val;
           console.log(this.dropdownValues)
           resolve()
         })
     })
   }
   getSelectGroupedOptions() {
-      this._dataService.PostCalls("financial/anchorslist", {})
-        .then((val: any) => {
-          this.GroupedData = val;
-        })
-    
+    this._dataService.PostCalls("financial/anchorslist", {})
+      .then((val: any) => {
+        this.GroupedData = val;
+      })
+
   }
   SetValidators(rules: any) {
     let validators: any = []
@@ -151,6 +151,12 @@ export class InfoPanelComponent implements OnInit {
   }
   buttonsCondition(val) {
     return eval(val)
+  }
+  inputCondition(val) {
+    if (val) {
+      return eval(val)
+    }
+    return true;
   }
   saveValue(val) {
     // console.log(val)

@@ -19,28 +19,28 @@ export class ContractViewComponent implements OnInit, CanComponentDeactivate {
   public Status: any;
   active;
   contractID: number
-  Financing: any = []
+  Contract: any = []
   BreadCrumbs = ""
   constructor(private route: ActivatedRoute, private _dataService: UserDataService,
     private _router: Router, private _toast: ToastrService, private _dialog: DialogService
   ) {
     this.route.params.subscribe(params => {
       this.contractID = +params['id'];
-      if(this.contractID){
-         this._dataService.GetCalls("contractpayment", this.contractID)
-        .then((data: any) => {
-          this.Financing = data;
-          this.Status = data.Data.Status
-          this.BreadCrumbs = "View";
-          this.form.addControl("ID", new FormControl(data.Data.ID));
-        })
+      if (this.contractID) {
+        this._dataService.GetCalls("contractpayment", this.contractID)
+          .then((data: any) => {
+            this.Contract = data;
+            this.Status = data.Data.Status
+            this.BreadCrumbs = "View";
+            this.form.addControl("ID", new FormControl(data.Data.ID));
+          })
       }
-      else{
-        this.BreadCrumbs = "Create"
-        this.Status = -2
+      // else {
+      //   this.BreadCrumbs = "Create"
+      //   this.Status = -2
 
-      }
-     
+      // }
+
     });
   }
   canDeactivate() {
@@ -70,8 +70,8 @@ export class ContractViewComponent implements OnInit, CanComponentDeactivate {
       f.label = element.Options.label;
       f.inputType = element.Options.texttype != null ? element.Options.texttype : 'text'
       f.readonly = element.Options.readonly;
-      if ( this.Status >-2 && this.Financing.Data[element.Options.name] != null) {
-        f.value = this.Financing.Data[element.Options.name]
+      if (this.Status > -2 && this.Contract.Data[element.Options.name] != null) {
+        f.value = this.Contract.Data[element.Options.name]
       }
       if (element.Type != 'Button') {
         // tempArray.insert(element.Options.name, new FormControl({ value: f.value ? f.value : '', disabled: eval(f.readonly) }, Validators.required));
@@ -88,8 +88,17 @@ export class ContractViewComponent implements OnInit, CanComponentDeactivate {
 
     return field;
   }
+  SetActive(Tab) {
+    let condition = eval(Tab.Options.visible)
+    if (!this.active && condition) {
+      this.active = Tab.ID
+    }
+    return condition
+  }
   SaveData(action) {
-    if (action == "Delivered") {
+    this.form.addControl("OrderNumber", new FormControl(this.Contract.Data.OrderNumber))
+    this.form.addControl("BuyerCode", new FormControl(this.Contract.Data.BuyerCode))
+    if (action == "Deliver") {
       this._dataService.PostCalls("contractpayment/delivered", this.form.value)
         .then((val: any) => {
           if (val.Status == 201) {
@@ -148,7 +157,8 @@ export class ContractViewComponent implements OnInit, CanComponentDeactivate {
 
         })
     }
-    if (action == "Create") {
+    if (action == "receive") {
+      this.form.controls['OrderNumber'].enable();
       this._dataService.PostCalls("contractpayment/received", this.form.value)
         .then((val: any) => {
 
@@ -156,7 +166,7 @@ export class ContractViewComponent implements OnInit, CanComponentDeactivate {
             this._dialog.OpenTimedDialog({ heading: val.Message, type: 2 })
 
           } else {
-            this._toast.success("Created Successfully") 
+            this._toast.success("Created Successfully")
             this.navigate();
           }
 
@@ -189,7 +199,7 @@ export class ContractViewComponent implements OnInit, CanComponentDeactivate {
         return ele.Options.name;
       }
     })
-    return this.Financing[obj[0].Options.name];
+    return this.Contract[obj[0].Options.name];
   }
   getHeaderObject(inner) {
     return inner.Controls.filter(ele => {

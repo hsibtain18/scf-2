@@ -4,6 +4,8 @@ import { UserDataService } from '../../user-data.service';
 import { SharedService } from 'src/app/Shared/services/sharedService';
 import { ToastrService } from 'ngx-toastr';
 import { loadingConfig } from 'src/app/const/config';
+import * as XLSX from 'xlsx'
+import { DialogService } from 'src/app/Shared/services/dialog.service';
 
 @Component({
   selector: 'app-limit-list',
@@ -24,7 +26,8 @@ export class LimitListComponent implements OnInit {
     private _UserService: UserDataService,
     private route: ActivatedRoute,
     private _sharedService: SharedService,
-    private _toastService: ToastrService
+    private _toastService: ToastrService,
+    private _modalCustomService: DialogService,
   ) {
 
   }
@@ -57,7 +60,7 @@ export class LimitListComponent implements OnInit {
     if (data.action.ActionItem == "Reject") {
       this._UserService.PostCalls("limit/reject", { ID: data.data.ID })
         .then(val => {
-          this.showSpinner = false;
+          // this.showSpinner = false;
 
           this._toastService.success("Rejected Successfully")
           this._sharedService.SetActionStatus(true);
@@ -69,11 +72,23 @@ export class LimitListComponent implements OnInit {
     }
     if (data.action.action == "upload") {
       this._UserService.PostCalls("buyer/upload", { FileData: data["FileData"] })
-        .then(val => {
-          this.showSpinner = true;
+        .then((val: any) => {
+          // this.showSpinner = true;
+          if (val.data) {
+            // this._modalCustomService.OpenTimedDialog({ heading: val.message, type: 4 });
+            this._toastService.error(val.message)
+            let wb = XLSX.utils.book_new()
+            for (let sheet of val.data.Sheets) {
+              let ws = XLSX.utils.aoa_to_sheet(sheet.data);
+              XLSX.utils.book_append_sheet(wb, ws, sheet.name);
+            }
+            XLSX.writeFile(wb, "ErrorFile.xls");
+          }
+          else {
+            this._toastService.success("Uploaded Successfully")
+            this._sharedService.SetActionStatus(true);
+          }
 
-          this._toastService.success("Uploaded Successfully")
-          this._sharedService.SetActionStatus(true);
 
         })
         .catch(err => {
@@ -81,6 +96,12 @@ export class LimitListComponent implements OnInit {
         })
     }
 
+    if (data.action.action == "template") {
+      let link = document.createElement("a");
+      link.download = "filename";
+      link.href = "assets/downloadFIle/template.xlsx";
+      link.click();
+    }
     console.log(data);
   }
 }

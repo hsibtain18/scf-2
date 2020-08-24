@@ -25,20 +25,20 @@ export class FinancingViewComponent implements OnInit, CanComponentDeactivate {
   ) {
     this.route.params.subscribe(params => {
       this.financeID = +params['id'];
-      if(this.financeID){
-         this._dataService.GetCalls("financial", this.financeID)
-        .then((data: any) => {
-          this.Financing = data;
-          this.Status = data.Data.Status
-          this.form.addControl("ID", new FormControl(data.Data.ID));
-          this.BreadCrumbs = "View"
-        })
+      if (this.financeID) {
+        this._dataService.GetCalls("financial", this.financeID)
+          .then((data: any) => {
+            this.Financing = data;
+            this.Status = data.Data.Status
+            this.form.addControl("ID", new FormControl(data.Data.ID));
+            this.BreadCrumbs = "View"
+          })
       }
-      else{
-        this.Status=-2;
+      else {
+        this.Status = -2;
         this.BreadCrumbs = "Create"
       }
-     
+
     });
   }
   canDeactivate() {
@@ -69,7 +69,7 @@ export class FinancingViewComponent implements OnInit, CanComponentDeactivate {
       f.label = element.Options.label;
       f.inputType = element.Options.texttype != null ? element.Options.texttype : 'text'
       f.readonly = element.Options.readonly;
-      if (this.Status>-2 && this.Financing.Data[element.Options.name] != null) {
+      if (this.Status > -2 && this.Financing.Data[element.Options.name] != null) {
         f.value = this.Financing.Data[element.Options.name]
       }
       if (element.Type != 'Button') {
@@ -119,6 +119,18 @@ export class FinancingViewComponent implements OnInit, CanComponentDeactivate {
           this.navigate();
         })
     }
+  }
+
+  check(Tab) {
+    console.log(Tab)
+  }
+  SetActive(Tab) {
+    let condition = eval(Tab.Options.visible)
+    console.log(this.Status)
+    if (!this.active && condition) {
+      this.active = Tab.ID
+    }
+    return condition
   }
   FileUploadAPI(Action) {
     console.log(this.form)

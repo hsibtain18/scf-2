@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UserDataService } from '../../user-data.service';
 import { SharedService } from 'src/app/Shared/services/sharedService';
 import { ToastrService } from 'ngx-toastr';
+import { DialogService } from 'src/app/Shared/services/dialog.service';
 
 @Component({
   selector: 'app-contract-list',
@@ -20,13 +21,13 @@ export class ContractListComponent implements OnInit {
   constructor(
     private _router: Router,
     private _UserService: UserDataService,
-    private route: ActivatedRoute ,
-    private _sharedService : SharedService,
-    private _toastService: ToastrService
-
+    private route: ActivatedRoute,
+    private _sharedService: SharedService,
+    private _toastService: ToastrService,
+    private _dialog: DialogService
   ) {
-    
-   }
+
+  }
 
 
   ngOnInit(): void {
@@ -34,22 +35,16 @@ export class ContractListComponent implements OnInit {
     this.constObject["Heading"] = UI.Heading;
     this.constObject["Headers"] = UI.Controls[0].Options.Headers;
     this.constObject["Options"] = UI.Controls[0].Options.ActionItems;
-    this.constObject["Api"] = "contractpayment/search" 
-    this.constObject["ButtonsArray"] =  UI.Controls[0].Controls;
+    this.constObject["Api"] = "contractpayment/search"
+    this.constObject["ButtonsArray"] = UI.Controls[0].Controls;
 
     // this.GetGridData();
   }
 
   View(Limit) {
-    this._router.navigate(['/User/Contract/View/' + Limit.ID],{ state:{ParentID:-2,MenuID:-1,URL:"/User/Contract/View/"}}) 
+    this._router.navigate(['/User/Contract/View/' + Limit.ID], { state: { ParentID: -2, MenuID: -1, URL: "/User/Contract/View/" } })
   }
 
-  GetGridData() {
-    this._UserService.PostCalls("limit/search", this.filterObject)
-      .then((val: any) => {
-        this.list = val;
-      })
-  }
 
   openAction(data: any) {
     if (data.action.ActionItem == "View") {
@@ -65,14 +60,46 @@ export class ContractListComponent implements OnInit {
         })
 
     }
-    if (data.action.action== "upload") {
-      this._UserService.PostCalls("buyer/upload", {FileData:data["FileData"]})
-        .then(val => {
-          this.GetGridData();
+    if (data.action.ActionItem == "Deliver") {
+      this._UserService.PostCalls("contractpayment/delivered", { ID: data.data.ID })
+        .then((val: any) => {
+          if (val.Status == 201) {
+            this._dialog.OpenTimedDialog({ heading: val.Message, type: 2 })
+
+          } else {
+            this._toastService.success("Delivered Successfully")
+            this._sharedService.SetActionStatus(true)
+
+          }
+
         })
-
     }
+    if (data.action.ActionItem == "Approve") {
+      this._UserService.PostCalls("contractpayment/approved", { ID: data.data.ID })
+        .then((val: any) => {
+          if (val.Status == 201) {
+            this._dialog.OpenTimedDialog({ heading: val.Message, type: 2 })
 
-    console.log(data);
+          } else {
+            this._toastService.success("Approved Successfully")
+            this._sharedService.SetActionStatus(true)
+
+          }
+
+        })
+    }
+    if (data.action.ActionItem == "Reject") {
+      this._UserService.PostCalls("contractpayment/rejected", { ID: data.data.ID })
+        .then((val: any) => {
+          if (val.Status == 201) {
+            this._dialog.OpenTimedDialog({ heading: val.Message, type: 2 })
+
+          } else {
+            this._toastService.success("Rejected Successfully")
+            this._sharedService.SetActionStatus(true)
+
+          }
+        })
+    }
   }
 }
