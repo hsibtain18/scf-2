@@ -51,15 +51,6 @@ export class ContractListComponent implements OnInit {
       this.View(data.data);
 
     }
-    if (data.action.ActionItem == "Reject") {
-      this._UserService.PostCalls("limit/reject", { ID: data.data.ID })
-        .then(val => {
-          this._toastService.success("Rejected Successfully")
-
-          this._sharedService.SetActionStatus(true)
-        })
-
-    }
     if (data.action.ActionItem == "Deliver") {
       this._UserService.PostCalls("contractpayment/delivered", { ID: data.data.ID })
         .then((val: any) => {
