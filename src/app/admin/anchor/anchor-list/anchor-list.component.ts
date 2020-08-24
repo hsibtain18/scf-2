@@ -67,7 +67,7 @@ export class AnchorListComponent implements OnInit {
 
     }
 
-    console.log(data);
+    //console.log(data);
   }
 
   exportCSV() {
@@ -90,7 +90,7 @@ export class AnchorListComponent implements OnInit {
         }
       })
       .catch(err=>{
-        console.log(err);
+        //console.log(err);
       })
 
 

@@ -123,7 +123,7 @@ export class LimitViewComponent implements OnInit, CanComponentDeactivate {
 
           }
           // this.Status=val.Status;
-          console.log(val);
+          //console.log(val);
         })
     }
   }
@@ -164,6 +164,6 @@ export class LimitViewComponent implements OnInit, CanComponentDeactivate {
     return this.LimitObject[obj[0].Options.name];
   }
   FileEvent(value) {
-    console.log(value)
+    //console.log(value)
   }
 }

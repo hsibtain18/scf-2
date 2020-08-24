@@ -48,7 +48,7 @@ export class InfoPanelComponent implements OnInit {
         if (f.type == "Select") {
           this.childForm.addControl(f.name, new FormControl({ value: f.value ? f.value : null, disabled: this.checkEval(f) }, this.SetValidators(f.validators)));
           this.getSelectOptions(f);
-          // console.log((f.options.optionsData.split('-')))
+          // //console.log((f.options.optionsData.split('-')))
         }
         if (f.type == "GroupSelect") {
           this.childForm.addControl(f.name, new FormControl({ value: f.value ? f.value : null, disabled: this.checkEval(f) }, this.SetValidators(f.validators)));
@@ -68,7 +68,7 @@ export class InfoPanelComponent implements OnInit {
           // this.childForm.addControl(f.name, new FormControl({ value: f.value ? f.value : null, disabled: this.checkEval(f) }, this.SetValidators(f.validators)));
           f.DropdownOptions = val
           this.dropdownValues[f.options.dataSource] = val;
-          console.log(this.dropdownValues)
+          //console.log(this.dropdownValues)
           resolve()
         })
     })
@@ -103,9 +103,9 @@ export class InfoPanelComponent implements OnInit {
           let pattern = rules.split('|')
           if (!pattern[1].match("^[0-9]*$")) {
             let val = pattern[1].split('-')  // for multi check 
-            console.log(val.length);
+            //console.log(val.length);
             if (val.length == 2) {
-              console.log(val[0], this.DataObject[val[0]], val[1], this.DataObject[val[1]]);
+              //console.log(val[0], this.DataObject[val[0]], val[1], this.DataObject[val[1]]);
 
               if (this.DataObject[val[0]] > this.DataObject[val[1]]) {
                 validators.push(Validators.max(this.DataObject[val[1]]))
@@ -159,7 +159,7 @@ export class InfoPanelComponent implements OnInit {
     return true;
   }
   saveValue(val) {
-    // console.log(val)
+    // //console.log(val)
     this.onSubmit.emit(val.name)
   }
   trackByFn(index: any, item: any) {

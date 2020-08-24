@@ -17,7 +17,7 @@ export class DialogBoxComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.DataObject);
+    //console.log(this.DataObject);
     if(this.DataObject.type!=3){
       setTimeout(()=>{
         this.activeModal.close();

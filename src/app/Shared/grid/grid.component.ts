@@ -99,7 +99,7 @@ export class GridComponent implements OnInit, OnDestroy {
   sendAction(col: any, action: any) {
     this.showSpinner = true;
 
-    console.log(action);
+    //console.log(action);
     if (action.ActionItem != 'View') {
       this.GetGridData();
     }
@@ -160,7 +160,7 @@ export class GridComponent implements OnInit, OnDestroy {
       .catch(err => {
         this.showSpinner = false;
 
-        console.log(err);
+        //console.log(err);
       })
 
 
@@ -196,10 +196,10 @@ export class GridComponent implements OnInit, OnDestroy {
       }
       var first_sheet_name = workbook.SheetNames[0];
       var worksheet = workbook.Sheets[first_sheet_name];
-      console.log(XLSX.utils.sheet_to_json(worksheet, { raw: true }));
+      //console.log(XLSX.utils.sheet_to_json(worksheet, { raw: true }));
       var arraylist = XLSX.utils.sheet_to_json(worksheet, { raw: true });
       this.filelist = [];
-      console.log(this.filelist)
+      //console.log(this.filelist)
 
     }
   }

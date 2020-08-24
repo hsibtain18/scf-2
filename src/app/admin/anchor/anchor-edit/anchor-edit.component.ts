@@ -89,7 +89,7 @@ export class AnchorEditComponent implements OnInit, CanComponentDeactivate {
           this.form.addControl(ele.Type + ele.ID, new FormGroup({}))
         });
       });
-      console.log(this.form)
+      //console.log(this.form)
 
     })
 
@@ -166,7 +166,7 @@ export class AnchorEditComponent implements OnInit, CanComponentDeactivate {
 
           }
           // this.Status=val.Status;
-          console.log(val);
+          //console.log(val);
         }).catch(err => {
           this.showSpinner = false;
 
@@ -199,11 +199,11 @@ export class AnchorEditComponent implements OnInit, CanComponentDeactivate {
     return this.form.get(val);
   }
   change(val) {
-    console.log(val)
+    //console.log(val)
   }
 
   FileUploadAPI(Action) {
-    console.log(this.form)
+    //console.log(this.form)
     if (Action.ActionValue == "cancel") {
       this.navigate()
 
@@ -222,7 +222,7 @@ export class AnchorEditComponent implements OnInit, CanComponentDeactivate {
     }
     if (Action.ActionValue == "save") {
       this.form.addControl("AnchorCode", new FormControl(this.AnchorObject.Data.AnchorCode));
-      console.log(this.form.controls['signed'].value)
+      //console.log(this.form.controls['signed'].value)
       if (this.form.controls['signed'].value == true) {
         this._dataService.PostCalls("offer/signedoffer", this.form.value)
           .then((val: any) => {
@@ -301,7 +301,7 @@ export class AnchorEditComponent implements OnInit, CanComponentDeactivate {
           downloadLink.download = fileName;
           downloadLink.click();
         }
-        console.log(res);
+        //console.log(res);
       })
   }
 }

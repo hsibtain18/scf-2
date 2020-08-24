@@ -66,6 +66,6 @@ export class FinancingListComponent implements OnInit {
 
     }
 
-    console.log(data);
+    //console.log(data);
   }
 }

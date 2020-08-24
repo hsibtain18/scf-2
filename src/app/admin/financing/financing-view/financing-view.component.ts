@@ -14,7 +14,7 @@ export class FinancingViewComponent implements OnInit, CanComponentDeactivate {
 
   public form = new FormGroup({});
 
-  public UiObject: any = []
+  public UiObject: any = {}
   public Status: any;
   active;
   financeID: number
@@ -51,6 +51,12 @@ export class FinancingViewComponent implements OnInit, CanComponentDeactivate {
   }
   ngOnInit(): void {
     this.UiObject = this.route.snapshot.data.UIdata[0]
+    //console.log(typeof this.UiObject)
+    this.UiObject.Controls[0].Controls.forEach(element => {
+      if(this.CheckCondition(element.Options.visible) && !this.active){
+        this.active=element.ID;
+      }
+    });
   }
   CheckCondition(val) {
     return eval(val);
@@ -58,8 +64,6 @@ export class FinancingViewComponent implements OnInit, CanComponentDeactivate {
 
   getInnerControls(obj) {
     let field: any[] = [];
-    // this.form.addControl(obj.Type+obj.ID,this.builder.group([]))
-    // let tempArray = this.form.get(obj.Type + obj.ID) as FormArray;
     let fg = new FormGroup({});
     obj.Controls.forEach(element => {
       let f: any = {}
@@ -73,8 +77,6 @@ export class FinancingViewComponent implements OnInit, CanComponentDeactivate {
         f.value = this.Financing.Data[element.Options.name]
       }
       if (element.Type != 'Button') {
-        // tempArray.insert(element.Options.name, new FormControl({ value: f.value ? f.value : '', disabled: eval(f.readonly) }, Validators.required));
-        // this.form.addControl(element.Options.name, new FormControl({ value: f.value ? f.value : '', disabled: eval(f.readonly) }, Validators.required));
       }
       f.options = element.Options;
 
@@ -98,7 +100,7 @@ export class FinancingViewComponent implements OnInit, CanComponentDeactivate {
 
           this._toast.success("Approved Successfully")
 
-          console.log(val);
+          //console.log(val);
           this.navigate();
 
         })
@@ -122,18 +124,17 @@ export class FinancingViewComponent implements OnInit, CanComponentDeactivate {
   }
 
   check(Tab) {
-    console.log(Tab)
+    //console.log(Tab)
   }
   SetActive(Tab) {
     let condition = eval(Tab.Options.visible)
-    console.log(this.Status)
     if (!this.active && condition) {
       this.active = Tab.ID
     }
     return condition
   }
   FileUploadAPI(Action) {
-    console.log(this.form)
+    //console.log(this.form)
     if (Action.ActionValue == "cancel") {
       this.navigate();
 

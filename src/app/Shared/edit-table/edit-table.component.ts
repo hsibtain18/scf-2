@@ -24,9 +24,9 @@ export class EditTableComponent implements OnInit {
     this.formObject = this.panelDetailsHeaders.Options.fileobject
     this.panelDetailsHeaders = this.panelDetailsHeaders.Headers
     this.childForm.addControl(this.formObject, new FormArray([this.CreateEntry()]));
-    console.log(this.panelDetailsHeaders);
+    //console.log(this.panelDetailsHeaders);
 
-    console.log(this.childForm.value);
+    //console.log(this.childForm.value);
   }
   CreateEntry() {
     let entry = new FormGroup({});

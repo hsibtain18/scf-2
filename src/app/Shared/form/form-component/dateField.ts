@@ -42,7 +42,7 @@ this.dpConfig.containerClass="cust-date";
   }
   checkEval(val) {
     let Status = val.Status
-    // console.log(this.form)
+    // //console.log(this.form)
     // return eval(val.readonly);
   }
 }

@@ -102,6 +102,6 @@ export class LimitListComponent implements OnInit {
       link.href = "assets/downloadFIle/template.xlsx";
       link.click();
     }
-    console.log(data);
+    //console.log(data);
   }
 }

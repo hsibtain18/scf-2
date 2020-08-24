@@ -35,7 +35,7 @@ export class FileUploadComponent implements OnInit {
 
   ngOnInit(): void {
     this.childForm = this.mainForm.form;
-    console.log(this.DirectCall);
+    //console.log(this.DirectCall);
     if (this.fileObject.length == 0 || this.fileObject.length < this.options.Options.maxFiles) {
       for (let f of this.fields) {
         if (f.type != "Collection") {
@@ -71,7 +71,7 @@ export class FileUploadComponent implements OnInit {
     const name = this.fields[0].name
 
 
-    console.log(this.GetFileObjectName("File").name)
+    //console.log(this.GetFileObjectName("File").name)
     if (this.ValidateFile(event.target.files[0])) {
       this.childForm.get(name).enable()
       const FileName = event.target.files[0].name.substring(0, event.target.files[0].name.length - 4);
@@ -190,7 +190,7 @@ export class FileUploadComponent implements OnInit {
   }
   DeleteFile(File, index) {
     if (File.ID == undefined) {
-      console.log("delete");
+      //console.log("delete");
       this.fileObject.splice(index, 1)
       this.childForm.get(this.fields[0].name).reset();
     }

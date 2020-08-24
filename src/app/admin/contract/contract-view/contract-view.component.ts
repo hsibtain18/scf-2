@@ -52,7 +52,12 @@ export class ContractViewComponent implements OnInit, CanComponentDeactivate {
     }
   }
   ngOnInit(): void {
-    this.UiObject = this.route.snapshot.data.UIdata[0]
+    this.UiObject = this.route.snapshot.data.UIdata[0];
+    this.UiObject.Controls[0].Controls.forEach(element => {
+      if(this.CheckCondition(element.Options.visible) && !this.active){
+        this.active=element.ID;
+      }
+    });
   }
   CheckCondition(val) {
     return eval(val);
@@ -123,7 +128,7 @@ export class ContractViewComponent implements OnInit, CanComponentDeactivate {
             this.navigate();
           }
 
-          console.log(val);
+          //console.log(val);
           this.navigate();
 
         })
@@ -138,7 +143,7 @@ export class ContractViewComponent implements OnInit, CanComponentDeactivate {
             this._toast.success("Rejected Successfully")
             this.navigate();
           }
-          console.log(val);
+          //console.log(val);
           this.navigate();
 
         })
@@ -174,7 +179,7 @@ export class ContractViewComponent implements OnInit, CanComponentDeactivate {
     }
   }
   FileUploadAPI(Action) {
-    console.log(this.form)
+    //console.log(this.form)
     if (Action.ActionValue == "cancel") {
       this.navigate();
 

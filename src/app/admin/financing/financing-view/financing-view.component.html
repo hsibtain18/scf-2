@@ -8,7 +8,6 @@
         </li>
     </ol>
     <div class="container-fluid"   *ngIf="BreadCrumbs">
-{{active}}
         <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs" (navChange)="check($event)" >
             <li *ngFor="let tabs of UiObject.Controls[0].Controls" [ngbNavItem]="tabs.ID">
                 <a class="navlinks" *ngIf="SetActive(tabs)" ngbNavLink> {{tabs.Options.text}} </a>
