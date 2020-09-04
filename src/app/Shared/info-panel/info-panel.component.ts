@@ -2,7 +2,6 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators, ControlContainer, FormGroupDirective } from '@angular/forms';
 import { FormCreateService } from '../services/form-create.service';
 import { UserDataService } from 'src/app/admin/user-data.service';
-import { async } from '@angular/core/testing';
 
 @Component({
   selector: 'app-info-panel',
@@ -12,7 +11,6 @@ import { async } from '@angular/core/testing';
 
 })
 export class InfoPanelComponent implements OnInit {
-
   @Output() onSubmit = new EventEmitter();
   @Input() fields: any[] = [];
   @Input() heading: string = "";
@@ -22,22 +20,27 @@ export class InfoPanelComponent implements OnInit {
   buttons: any[] = []
   textAreaList: any[] = []
   childForm;
+  minDate: Date;
   GroupedData: any[];
   dropdownValues: any[] = [];
   constructor(public mainForm: FormGroupDirective, private _dataService: UserDataService,
     private FormCreate: FormCreateService) { }
 
   async ngOnInit(): Promise<any> {
-    this.dropdownValues.splice(0, 1);
+    let today = new Date();
+    this.minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    this.dropdownValues.splice(0, 1);    
     this.childForm = this.mainForm.form
     this.buttons = this.fields.filter((element => {
       if (element.type == 'Button')
         return element;
-    }))
+    }));
+
     this.textAreaList = this.fields.filter((element => {
       if (element.type == 'Textarea')
         return element;
-    }))
+    }));
+    
     let fieldsCtrls = {};
     // for (let f of this.fields) {
 
@@ -58,9 +61,9 @@ export class InfoPanelComponent implements OnInit {
           this.childForm.addControl(f.name, new FormControl({ value: f.value ? f.value : null, disabled: this.checkEval(f) }, this.SetValidators(f.validators)));
         }
       }
-    })
-
+    });
   }
+
   getSelectOptions(f) {
     return new Promise((resolve, reject) => {
       this._dataService.GetCalls("utility/", f.options.dataSource)

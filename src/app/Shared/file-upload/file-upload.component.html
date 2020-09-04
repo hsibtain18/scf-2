@@ -2,7 +2,6 @@
     <div class="col-md-12 tabContent " *ngIf="fileObject?.length<options.Options.maxFiles">
         <h4>{{heading}} Upload </h4>
         <div class="row ">
-
             <div class="form-group col-md-10 input-group">
                 <span class="col-md-12 p-0 has-float-label">
                     <input class="form-control" class="form-control" id="filename" type="text" [readonly]="upload"
@@ -10,29 +9,22 @@
                     <label for="filename">&nbsp;File Name &nbsp;</label>
                     <input #myFleOffer type="file" style="display: none;" class="inputfile" name="mFileOffer"
                         id="mFileOffer" (change)=onFileChange($event) accept=".pdf" #hiddenFile />
-
                 </span>
                 <p class="fileSize">File Type: PDF only. Max File Size: 15 MB</p>
             </div>
             <div class="col-md-2 text-right ">
                 <button class="btn btn-primary  mr-2" type="button" (click)="hiddenFile.click()">Browse</button>
-
             </div>
         </div>
         <div class="row d-flex">
             <div class="col-md-4" *ngFor="let field of fields.slice(1);let i=index; trackBy:trackByFn">
-
                 <div class="form-group col-md-12 p-0 input-group " [ngSwitch]="field.type">
                     <!-- inputs -->
                     <span *ngSwitchCase="'TextBox'" class="col-md-12 p-0 has-float-label">
                         <input class="form-control" [id]="field.name" autocomplete="off" [type]="field.inputType"
                             [name]="field.name" [formControlName]="field.name" [placeholder]="field.label" />
                         <label [for]="field.name"> {{field.label}} </label>
-
                     </span>
-
-
-
                     <span class="col-md-12 p-0 has-float-label" *ngSwitchCase="'DatePicker'">
                         <input type="text" readonly [placeholder]="field.label" class="form-control" bsDatepicker
                             [formControlName]="field.name"
@@ -47,14 +39,13 @@
                         [formControlName]="fields[3].name" class="custom" />
                     <label [for]="fields[3].name" class="chkbox" style="padding-left: 10px;"> {{fields[3].label}}
                     </label>
-
                 </fieldset>
             </div>
             <div class="col-md-12 p-0 text-right">
                 <button class="btn btn-primary " *ngIf="DirectCall=='false'" (click)="SendCall('save')"
-                    [disabled]="!childForm.controls[fields[0].name].valid" type="submit">Save </button>
-                    <button class="btn btn-primary " *ngIf="DirectCall=='true'" (click)="SendCall('save')"
-                    [disabled]="!childForm.valid" type="submit">Save </button>
+                    [disabled]="!childForm.controls[fields[0].name].valid" type="submit">Save</button>
+                <button class="btn btn-primary " *ngIf="DirectCall=='true'" (click)="SendCall('save')"
+                    [disabled]="!childForm.valid" type="submit">Save</button>
                 <button class="btn btn-primary ml-2" (click)="SendCall('cancel')" type="button">Cancel</button>
             </div>
         </div>
@@ -96,14 +87,11 @@
                             <p class="drop" *ngIf="File.ID" (click)="FileUploadEvent.emit(File)" ngbDropdownItem>View</p>
                             <p  class="drop"  *ngIf="CheckCondition(options.Options.optionDelete)" (click)="DeleteFile(File,i)"
                                 ngbDropdownItem>Delete </p>
-
                         </div>
                     </div>
-
                 </td>
             </tr>
         </tbody>
-
         <!-- </ng-container> -->
     </table>
     <!-- <ngb-pagination class="d-flex justify-content-center" [collectionSize]="70" (pageChange)="paginate($event)" size="sm" [(page)]="page"></ngb-pagination> -->

@@ -13,7 +13,6 @@ import { element } from 'protractor';
 
 })
 export class FileUploadComponent implements OnInit {
-
   @Output() FileUpload = new EventEmitter();
   @Input() fields: any;
   childForm: FormGroup;
@@ -156,27 +155,16 @@ export class FileUploadComponent implements OnInit {
 
     // let self = this;
     reader.onloadend = function (evt: any) {
-
-
-
-
-
       let str: any = reader.result;
-
       let bytesString = "";
-
       let spl = str.substring(str.indexOf(",") + 1, str.length);
       bytesString = window.atob(spl);
       for (let i = 0; i < bytesString.length; i++) {
         byteArray.push(bytesString.charCodeAt(i));
       }
-
     }
 
-
     fileObjDetail.FileData = byteArray;
-
-
 
     let extension = file.name.split(".");
 
@@ -188,6 +176,7 @@ export class FileUploadComponent implements OnInit {
 
     return fileObjDetail;
   }
+
   DeleteFile(File, index) {
     if (File.ID == undefined) {
       //console.log("delete");
@@ -199,10 +188,8 @@ export class FileUploadComponent implements OnInit {
         ID: File.ID,
         ActionValue: "delete"
       }
-      this.FileUpload.emit(obj)
-
+      this.FileUpload.emit(obj);
     }
-
   }
 
   GetFileObjectName(type) {
@@ -210,8 +197,9 @@ export class FileUploadComponent implements OnInit {
       if (el.type == "File") {
         return el.name;
       }
-    })[0]
+    })[0];
   }
+
   SendCall(action) {
     let obj = {
       directCall: this.DirectCall,
@@ -220,21 +208,21 @@ export class FileUploadComponent implements OnInit {
     if (this.DirectCall == 'false' && action == "cancel") {
       // this.DeleteFile();
     }
-    if (this.DirectCall == 'false' && action == "save") {
-      this.FileView = true;
-      // this.fileObject[0].FileDisplayName = this.childForm.controls[this.fields[0].name].value
-      this.fileObject.push({
-        FileDisplayName: this.childForm.controls[this.fields[0].name].value,
-        UploadDate: formatDate(new Date(), 'yyyy/MM/dd', 'en'),
-      })
+    else if (this.DirectCall == 'false' && action == "save") {
+      if (this.childForm.controls[this.fields[0].name].value) {
+        this.FileView = true;
+        // this.fileObject[0].FileDisplayName = this.childForm.controls[this.fields[0].name].value
+        this.fileObject.push({
+          FileDisplayName: this.childForm.controls[this.fields[0].name].value,
+          UploadDate: formatDate(new Date(), 'yyyy/MM/dd', 'en')
+        });
+      }
     }
-    if (this.DirectCall && action == "cancel") {
-      this.FileUpload.emit(obj)
-
+    else if (this.DirectCall && action == "cancel") {
+      this.FileUpload.emit(obj);
     }
-    if (this.DirectCall && action == "save") {
-      this.FileUpload.emit(obj)
+    else if (this.DirectCall && action == "save") {
+      this.FileUpload.emit(obj);
     }
-
   }
 }

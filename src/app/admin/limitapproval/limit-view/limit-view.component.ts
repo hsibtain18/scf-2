@@ -38,8 +38,6 @@ export class LimitViewComponent implements OnInit, CanComponentDeactivate {
         this.LimitObject = val[1];
         this.Status = val[1].Data.Status
         this.form.addControl("ID", new FormControl(val[1].Data.ID));
-
-
       })
       // this._dataService.GetCalls("buyer", this.limitID)
       //   .then((data: any) => {
@@ -54,115 +52,130 @@ export class LimitViewComponent implements OnInit, CanComponentDeactivate {
       //   })
     });
   }
+
   canDeactivate() {
     if (this.form.dirty) {
       return false;
-
-    } else {
-      return true;
     }
+
+    return true;
   }
+
   ngOnInit(): void {
     this.UiObject = this.route.snapshot.data.UIdata[0]
     this.spinnerConfig = loadingConfig;
   }
+
   CheckCondition(val) {
     return eval(val);
   }
+
   getInnerControls(obj) {
     let field: any[] = [];
     // this.form.addControl(obj.Type+obj.ID,this.builder.group([]))
     // let tempArray = this.form.get(obj.Type + obj.ID) as FormArray;
     let fg = new FormGroup({});
+
     obj.Controls.forEach(element => {
       let f: any = {}
       f.type = element.Type;
       f.name = element.Options.name;
       f.validators = element.Options.validators;
       f.label = element.Options.label;
-      f.inputType = element.Options.texttype != null ? element.Options.texttype : 'text'
+      f.inputType = element.Options.texttype != null ? element.Options.texttype : 'text';
       f.readonly = element.Options.readonly;
+
       if (this.LimitObject.Data[element.Options.name] != null) {
-        f.value = this.LimitObject.Data[element.Options.name]
+        f.value = this.LimitObject.Data[element.Options.name];
       }
 
-      if (element.Type != 'Button') {
-        // tempArray.insert(element.Options.name, new FormControl({ value: f.value ? f.value : '', disabled: eval(f.readonly) }, Validators.required));
-        // this.form.addControl(element.Options.name, new FormControl({ value: f.value ? f.value : '', disabled: eval(f.readonly) }, Validators.required));
-      }
       if (element.Type == 'DateRangePicker' || element.Type == 'Button') {
         f.options = element.Options;
       }
-      field.push(f);
+      else {
+        // tempArray.insert(element.Options.name, new FormControl({ value: f.value ? f.value : '', disabled: eval(f.readonly) }, Validators.required));
+        // this.form.addControl(element.Options.name, new FormControl({ value: f.value ? f.value : '', disabled: eval(f.readonly) }, Validators.required));
+      }
 
+      field.push(f);
     });
 
     return field;
   }
-  SaveData(action) {
-    this.showSpinner = true;
-    if (action == "Reject") {
-      this._dataService.PostCalls("limit/reject", { ID: this.form.get('ID').value })
-        .then(val => {
-          this._toastService.success("Rejected Successfully")
-          this.showSpinner = false;
-          this.navigate();
-        })
-    }
-    if (action == "Approve") {
-      this._dataService.PostCalls("limit/approve", this.form.value)
-        .then((val: any) => {
-          this.showSpinner = false;
-          if (val.Status == 201) {
-            this._modalCustomService.OpenTimedDialog({ heading: val.Messages, type: 4 });
-          }
-          else {
-            // this._modalCustomService.OpenTimedDialog({heading:"Created Successfully",type:1})
-            this._toastService.success("Approved Successfully")
+
+  SaveData(action: any) {
+    switch (action) {
+      case "Reject":
+        this.showSpinner = true;
+        this._dataService.PostCalls("limit/reject", { ID: this.form.get('ID').value })
+          .then(val => {
+            this._toastService.success("Rejected successfully.")
+            this.showSpinner = false;
             this.navigate();
-
-          }
-          // this.Status=val.Status;
-          //console.log(val);
-        })
+          });
+        break;
+      case "Approve":
+        if (this.form.valid) {
+          this.showSpinner = true;
+          this._dataService.PostCalls("limit/approve", this.form.value)
+            .then((val: any) => {
+              this.showSpinner = false;
+              if (val.Status == 201) {
+                this._modalCustomService.OpenTimedDialog({ heading: val.Messages, type: 4 });
+              }
+              else {
+                // this._modalCustomService.OpenTimedDialog({heading:"Created Successfully",type:1})
+                this._toastService.success("Approved successfully.")
+                this.navigate();
+              }
+              // this.Status=val.Status;
+              //console.log(val);
+            });
+        }
+        break;
+      default:
+        break;
     }
   }
+
   FileUploadAPI(Action) {
-    this.showSpinner = true;
+    switch (Action.ActionValue) {
+      case "cancel":
+        this.navigate();
+        break;
+      case "save":
+        if (this.form.valid) {
+          this.showSpinner = true;
+          this._dataService.PostCalls("limit/agreement", this.form.value)
+            .then(val => {
+              this.showSpinner = false;
+              this._toastService.success("Saved successfully.")
 
-    if (Action.ActionValue == "cancel") {
-      this.navigate();
-
-    }
-    if (Action.ActionValue == "save") {
-      this.showSpinner = true;
-      this._dataService.PostCalls("limit/agreement", this.form.value)
-        .then(val => {
-          this.showSpinner = false;
-          this._toastService.success("Saved Successfully")
-
-          this.navigate();
-
-        }).catch(err => {
-          this.showSpinner = false;
-
-        })
-
-
+              this.navigate();
+            }).catch(err => {
+              this.showSpinner = false;
+            });
+        }
+        break;
+      default:
+        break;
     }
   }
+
   navigate() {
     this._router.navigate(['/User/LimitApproval'], { state: { ParentID: -1, MenuID: -1, URL: "/User/LimitApproval" } })
-
   }
+
   getFileObject(inner) {
     let obj = inner.Controls.filter(ele => {
       if (ele.Type == "Collection") {
         return ele.Options.name;
       }
     })
+
     return this.LimitObject[obj[0].Options.name];
   }
+
   FileEvent(value) {
     //console.log(value)
   }

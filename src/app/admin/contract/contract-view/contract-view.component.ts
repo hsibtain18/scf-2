@@ -11,10 +11,9 @@ import { CanComponentDeactivate } from 'src/app/Guards/DeActicateGuard';
   templateUrl: './contract-view.component.html',
   styleUrls: ['./contract-view.component.scss']
 })
+
 export class ContractViewComponent implements OnInit, CanComponentDeactivate {
-
   public form = new FormGroup({});
-
   public UiObject: any = []
   public Status: any;
   active;
@@ -33,35 +32,36 @@ export class ContractViewComponent implements OnInit, CanComponentDeactivate {
             this.Status = data.Data.Status
             this.BreadCrumbs = "View";
             this.form.addControl("ID", new FormControl(data.Data.ID));
-          })
+          });
       }
       // else {
       //   this.BreadCrumbs = "Create"
       //   this.Status = -2
 
       // }
-
     });
   }
+
   canDeactivate() {
-    if (this.form.dirty) {
+    if (this.form.dirty)
       return false;
 
-    } else {
-      return true;
-    }
+    return true;
   }
+
   ngOnInit(): void {
     this.UiObject = this.route.snapshot.data.UIdata[0];
     this.UiObject.Controls[0].Controls.forEach(element => {
-      if(this.CheckCondition(element.Options.visible) && !this.active){
-        this.active=element.ID;
+      if (this.CheckCondition(element.Options.visible) && !this.active) {
+        this.active = element.ID;
       }
     });
   }
+
   CheckCondition(val) {
     return eval(val);
   }
+
   getInnerControls(obj) {
     let field: any[] = [];
     // this.form.addControl(obj.Type+obj.ID,this.builder.group([]))
@@ -75,6 +75,7 @@ export class ContractViewComponent implements OnInit, CanComponentDeactivate {
       f.label = element.Options.label;
       f.inputType = element.Options.texttype != null ? element.Options.texttype : 'text'
       f.readonly = element.Options.readonly;
+
       if (this.Status > -2 && this.Contract.Data[element.Options.name] != null) {
         f.value = this.Contract.Data[element.Options.name]
       }
@@ -88,133 +89,138 @@ export class ContractViewComponent implements OnInit, CanComponentDeactivate {
       f.options = element.Options;
 
       field.push(f);
-
     });
 
     return field;
   }
+
   SetActive(Tab) {
     let condition = eval(Tab.Options.visible)
     if (!this.active && condition) {
       this.active = Tab.ID
     }
-    return condition
+
+    return condition;
   }
+
   SaveData(action) {
     this.form.addControl("OrderNumber", new FormControl(this.Contract.Data.OrderNumber))
     this.form.addControl("BuyerCode", new FormControl(this.Contract.Data.BuyerCode))
-    if (action == "Deliver") {
-      this._dataService.PostCalls("contractpayment/delivered", this.form.value)
-        .then((val: any) => {
-          if (val.Status == 201) {
-            this._dialog.OpenTimedDialog({ heading: val.Message, type: 2 })
 
-          } else {
-            this._toast.success("Delivered Successfully")
+    switch (action) {
+      case "Deliver":
+        if (this.form.valid) {
+          this._dataService.PostCalls("contractpayment/delivered", this.form.value)
+            .then((val: any) => {
+              if (val.Status == 201) {
+                this._dialog.OpenTimedDialog({ heading: val.Message, type: 2 })
+
+              } else {
+                this._toast.success("Delivered successfully.")
+                this.navigate();
+              }
+            });
+        }
+        break;
+      case "Approve":
+        if (this.form.valid) {
+          this._dataService.PostCalls("contractpayment/approved", this.form.value)
+            .then((val: any) => {
+              if (val.Status == 201) {
+                this._dialog.OpenTimedDialog({ heading: val.Message, type: 2 });
+              } else {
+                this._toast.success("Approved successfully.");
+                this.navigate();
+              }
+
+              //console.log(val);
+              this.navigate();
+            });
+        }
+        break;
+      case "Reject":
+        this._dataService.PostCalls("contractpayment/rejected", this.form.value)
+          .then((val: any) => {
+            if (val.Status == 201) {
+              this._dialog.OpenTimedDialog({ heading: val.Message, type: 2 });
+            } else {
+              this._toast.success("Rejected successfully.");
+              this.navigate();
+            }
+            //console.log(val);
             this.navigate();
-          }
+          });
+        break;
+      case "Update":
+        if (this.form.valid) {
+          this._dataService.PostCalls("contractpayment/update", this.form.value)
+            .then((val: any) => {
+              if (val.Status == 201) {
+                this._dialog.OpenTimedDialog({ heading: val.Message, type: 2 });
+              } else {
+                this._toast.success("Updated successfully.");
+                this.navigate();
+              }
+            });
+        }
+        break;
+      case "receive":
+        this.form.controls['OrderNumber'].enable();
+        this._dataService.PostCalls("contractpayment/received", this.form.value)
+          .then((val: any) => {
+            if (val.Status == 201) {
+              this._dialog.OpenTimedDialog({ heading: val.Message, type: 2 });
+            } else {
+              this._toast.success("Created successfully.")
+              this.navigate();
+            }
 
-        })
-    }
-    if (action == "Approve") {
-      this._dataService.PostCalls("contractpayment/approved", this.form.value)
-        .then((val: any) => {
-
-          if (val.Status == 201) {
-            this._dialog.OpenTimedDialog({ heading: val.Message, type: 2 })
-
-          } else {
-            this._toast.success("Approved Successfully")
-            this.navigate();
-          }
-
-          //console.log(val);
-          this.navigate();
-
-        })
-    }
-    if (action == "Reject") {
-      this._dataService.PostCalls("contractpayment/rejected", this.form.value)
-        .then((val: any) => {
-          if (val.Status == 201) {
-            this._dialog.OpenTimedDialog({ heading: val.Message, type: 2 })
-
-          } else {
-            this._toast.success("Rejected Successfully")
-            this.navigate();
-          }
-          //console.log(val);
-          this.navigate();
-
-        })
-    }
-    if (action == "Update") {
-      this._dataService.PostCalls("contractpayment/update", this.form.value)
-        .then((val: any) => {
-
-          if (val.Status == 201) {
-            this._dialog.OpenTimedDialog({ heading: val.Message, type: 2 })
-
-          } else {
-            this._toast.success("Updated Successfully")
-            this.navigate();
-          }
-
-        })
-    }
-    if (action == "receive") {
-      this.form.controls['OrderNumber'].enable();
-      this._dataService.PostCalls("contractpayment/received", this.form.value)
-        .then((val: any) => {
-
-          if (val.Status == 201) {
-            this._dialog.OpenTimedDialog({ heading: val.Message, type: 2 })
-
-          } else {
-            this._toast.success("Created Successfully")
-            this.navigate();
-          }
-          this.form.controls['OrderNumber'].disable();
-
-        })
+            this.form.controls['OrderNumber'].disable();
+          });
+        break;
+      default:
+        break;
     }
   }
+
   FileUploadAPI(Action) {
     //console.log(this.form)
-    if (Action.ActionValue == "cancel") {
-      this.navigate();
-
-    }
-    if (Action.ActionValue == "save") {
-      this._dataService.PostCalls("limit/agreement", this.form.value)
-        .then(val => {
-          this.navigate();
-
-        })
-
-
+    switch (Action.ActionValue) {
+      case "cancel":
+        this.navigate();
+        break;
+      case "save":
+        this._dataService.PostCalls("limit/agreement", this.form.value)
+          .then(val => {
+            this.navigate();
+          });
+        break;
+      default:
+        break;
     }
   }
+
   navigate() {
-    this._router.navigate(['/User/Contract'], { state: { ParentID: -1, MenuID: -1, URL: "/User/Contract" } })
-
+    this._router.navigate(['/User/Contract'], { state: { ParentID: -1, MenuID: -1, URL: "/User/Contract" } });
   }
+
   getFileObject(inner) {
     let obj = inner.Controls.filter(ele => {
       if (ele.Type == "Collection") {
         return ele.Options.name;
       }
-    })
+    });
     return this.Contract[obj[0].Options.name];
   }
+
   getHeaderObject(inner) {
     return inner.Controls.filter(ele => {
       if (ele.Type == "GridView") {
         return ele;
       }
     })[0];
-
   }
+
   getButtons(inner) {
     let obj = inner.Controls.filter(ele => {
       if (ele.Type == "Button") {
