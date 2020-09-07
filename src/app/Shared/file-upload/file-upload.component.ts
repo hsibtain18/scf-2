@@ -93,11 +93,11 @@ export class FileUploadComponent implements OnInit {
   ValidateFile(file) {
 
     if (file == null || file.length == 0 || Math.round(file.size * 100 / (1024 * 1024) / 100) > 15) {
-      this._modalCustomService.error("Invalid File")
+      this._modalCustomService.error("Maximum file size of 15mb is allowed.")
       return;
     }
-    if (file.type.toLowerCase().indexOf('pdf') == -1) {
-      this._modalCustomService.error("Invalid File")
+    else if (file.type.toLowerCase().indexOf('pdf') == -1) {
+      this._modalCustomService.error("Only PDF format is allowed.")
       return;
     }
     return true
