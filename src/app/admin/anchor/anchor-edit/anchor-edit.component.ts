@@ -133,17 +133,15 @@ export class AnchorEditComponent implements OnInit, CanComponentDeactivate {
     // this.Mapper(Event);
     switch (action) {
       case "Reject":
-        if (this.form.valid) {
-          this.showSpinner = true;
-          this._dataService.PostCalls("anchors/reject", { ID: this.form.get('ID').value })
-            .then(val => {
-              this._toaster.success("Rejected successfully.");
-              this.showSpinner = false;
-              this.navigate();
-            }).catch(err => {
-              this.showSpinner = false;
-            });
-        }
+        this.showSpinner = true;
+        this._dataService.PostCalls("anchors/reject", { ID: this.form.get('ID').value })
+          .then(val => {
+            this._toaster.success("Rejected successfully.");
+            this.showSpinner = false;
+            this.navigate();
+          }).catch(err => {
+            this.showSpinner = false;
+          });
         break;
       case "Create":
         if (this.form.valid) {
