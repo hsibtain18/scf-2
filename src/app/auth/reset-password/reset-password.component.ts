@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { EncryptDecryptService } from 'src/app/Shared/services/encrypt-decrypt.service';
 import { AuthService } from '../auth.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { loadingConfig } from 'src/app/const/config';
 
@@ -19,10 +19,12 @@ export class ResetPasswordComponent implements OnInit {
   public spinnerConfig: any;
   constructor(private _encrypt: EncryptDecryptService,
     private _authService: AuthService,
+    private activatedRoute: ActivatedRoute,
     private _route: Router,
     private toast: ToastrService) {
+    let token = activatedRoute.snapshot.url[1].path;
     this.form = new FormGroup({
-      token: new FormControl('test', Validators.required),
+      token: new FormControl(token, Validators.required),
       Password: new FormControl('', Validators.required),
       ConfirmPassword: new FormControl('', Validators.required)
     })
@@ -50,10 +52,12 @@ export class ResetPasswordComponent implements OnInit {
 
     if (this.form.valid && this.form.controls['Password'].value == this.form.controls['ConfirmPassword'].value) {
       this.showSpinner = true;
-      this._authService.PostCalls('login/ChangePassword', this.form.value)
+      let obj = this._encrypt.encryptData(this.form.value)
+      this._authService.PostCalls('login/ChangePassword', obj)
         .then(val => {
           this.toast.success('Password Successfully Changed')
           this.showSpinner = false;
+          this._route.navigate(['auth/login'])
         })
         .catch(err => {
           this.showSpinner = false;
