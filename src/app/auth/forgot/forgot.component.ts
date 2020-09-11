@@ -18,7 +18,7 @@ export class ForgotComponent implements OnInit {
     private _route: Router,
     private toast: ToastrService) {
     this.form = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email])
+      Email: new FormControl('', [Validators.required, Validators.email])
     })
   }
 
