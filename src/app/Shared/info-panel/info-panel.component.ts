@@ -1,7 +1,8 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { FormGroup, FormControl, Validators, ControlContainer, FormGroupDirective } from '@angular/forms';
+import { FormGroup, FormControl, Validators, ControlContainer, FormGroupDirective, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { FormCreateService } from '../services/form-create.service';
 import { UserDataService } from 'src/app/admin/user-data.service';
+import { RegexValidator } from '../etc/validators'
 
 @Component({
   selector: 'app-info-panel',
@@ -43,7 +44,6 @@ export class InfoPanelComponent implements OnInit {
     
     let fieldsCtrls = {};
     // for (let f of this.fields) {
-
 
     // }
     this.fields.forEach(async f => {
@@ -93,7 +93,8 @@ export class InfoPanelComponent implements OnInit {
         }
         if (rules.indexOf("pattern()") >= 0) {
           let pattern = rules.split('|')
-          validators.push(Validators.pattern(pattern[1]))
+          // validators.push(Validators.pattern(pattern[1]))
+          validators.push(RegexValidator(pattern[1]))
         }
         if (rules.indexOf("min()") >= 0) {
           let pattern: any = rules.split('|')

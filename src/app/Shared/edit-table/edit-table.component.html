@@ -17,25 +17,26 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody [formArrayName]="formObject" >
+                    <tbody [formArrayName]="formObject">
                         <tr *ngFor="let data of DataObject;let i=index" [formGroupName]="i">
                             <td *ngFor="let col of panelDetailsHeaders">
                                 <span *ngIf="!col.Editable; else formgroups"> {{i+1}} </span>
                                 <!-- {{data[col.Column]}} -->
 
-                                <ng-template #formgroups class="px-2" >
+                                <ng-template #formgroups class="px-2">
                                     <span class="form-group" *ngIf="col.TextType=='text'">
-                                        <input type="number" [placeholder]="col.DisplayText"  [formControlName]="col.Column"  class="form-control">
+                                        <input type="number" appMinNumber min="1" [placeholder]="col.DisplayText"
+                                            [formControlName]="col.Column" class="form-control">
                                     </span>
                                     <span class="form-group" *ngIf="col.TextType=='date'">
-                                        <input type="text" [placeholder]="col.DisplayText" [formControlName]="col.Column" class="form-control"
-                                            bsDatepicker readonly
+                                        <input type="text" [placeholder]="col.DisplayText" bsDatepicker
                                             [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'cust-date' ,adaptivePosition: true  }">
                                     </span>
-                                    <span class="form-group"  *ngIf="col.TextType=='alpha'">
-                                        <input type="text" [placeholder]="col.DisplayText" [formControlName]="col.Column"  class="form-control">
+                                    <span class="form-group" *ngIf="col.TextType=='alpha'">
+                                        <input type="text" [placeholder]="col.DisplayText"
+                                            [formControlName]="col.Column" class="form-control">
                                     </span>
-                                    
+
                                 </ng-template>
                             </td>
                         </tr>

@@ -31,6 +31,8 @@
                 }
             }
         }
+
+
     }
 
     p {
@@ -46,6 +48,13 @@
         color           : white;
         margin          : 5px 12px;
         font-size       : 13px;
+    }
+
+    .modal-body {
+        img {
+            width        : 90px;
+            margin-bottom: 5px;
+        }
     }
 
 }

@@ -27,6 +27,7 @@ import { FormCreateService } from './services/form-create.service';
 import { EditTableComponent } from './edit-table/edit-table.component';
 // import { TreeTableModule } from 'primeng/treetable';
 import {TooltipModule} from 'primeng/tooltip';
+import { MinNumberDirective } from './etc/min-number.directive';
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -42,7 +43,8 @@ import {TooltipModule} from 'primeng/tooltip';
     InnerGridComponent,
     TreeTableComponent,
     DialogBoxComponent,
-    EditTableComponent
+    EditTableComponent,
+    MinNumberDirective,
   ],
   imports: [
     CommonModule,
@@ -73,8 +75,8 @@ import {TooltipModule} from 'primeng/tooltip';
     TableModule,
     TreeTableComponent,
     EditTableComponent,
-    TooltipModule
-
+    TooltipModule,
+    MinNumberDirective
   ],
   entryComponents: [
     DialogBoxComponent
