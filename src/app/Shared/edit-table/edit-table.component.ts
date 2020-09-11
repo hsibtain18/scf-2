@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormGroupDirective, FormArray, FormGroup, FormControl, Validators } from '@angular/forms';
 import { FormCreateService } from '../services/form-create.service';
 import { Header } from 'primeng/api';
-
+import { MinNumberValidation } from '../etc/validators'
 @Component({
   selector: 'app-edit-table',
   templateUrl: './edit-table.component.html',

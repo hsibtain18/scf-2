@@ -4,14 +4,14 @@ import { CommonModule } from '@angular/common';
 import { AuthRoutingModule } from './auth-routing.module';
 import { LoginComponent } from './login/login.component';
 import { ForgotComponent } from './forgot/forgot.component';
-import { ChangePasswordComponent } from './change-password/change-password.component';
 import { AuthService } from './auth.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../Shared/shared.module';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 @NgModule({
-  declarations: [LoginComponent, ForgotComponent, ChangePasswordComponent],
+  declarations: [LoginComponent, ForgotComponent, ResetPasswordComponent],
   imports: [
     CommonModule,
     AuthRoutingModule,
@@ -19,7 +19,7 @@ import { SharedModule } from '../Shared/shared.module';
     SharedModule
 
   ],
-  providers:[
+  providers: [
     AuthService,
   ]
 })

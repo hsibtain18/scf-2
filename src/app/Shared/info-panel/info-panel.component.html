@@ -10,15 +10,17 @@
             <div class="form-group col-md-12 p-0 input-group " [ngSwitch]="field.type">
                 <span *ngSwitchCase="'TextBox'" [hidden]="!inputCondition(field.options?.visible)"
                     class="col-md-12 p-0 has-float-label">
-                    <input class="form-control" [id]="field.name" [minlength]="field.options?.minLength" 
-                        [maxlength]="field.options?.maxLength" autocomplete="off" [type]="field.inputType"
-                        [name]="field.name" [formControlName]="field.name" [placeholder]="field.label"
+                    <input class="form-control" [id]="field.name" appMinNumber 
+                        [minlength]="field.options?.minLength" [maxlength]="field.options?.maxLength" autocomplete="off"
+                        [type]="field.inputType" [name]="field.name" [formControlName]="field.name"
+                        [placeholder]="field.label"
                         [ngClass]="{'validationError': (childForm.controls[field.name].errors && (childForm.controls[field.name].dirty || childForm.controls[field.name].touched))}" />
                     <label [for]="field.name"> {{field.label}} </label>
-                    <p *ngIf="!childForm.controls[field.name].pristine && !childForm.controls[field.name].valid && field.options.message" class="errorMessage">
+                    <p *ngIf="!childForm.controls[field.name].pristine && !childForm.controls[field.name].valid && field.options.message"
+                        class="errorMessage">
                         <!-- <small *ngIf="loginForm.controls['Password'].hasError('required') && (loginForm.controls.Password.dirty || loginForm.controls.Password.touched)">This field is required</small> -->
-                        <small > {{field.options.message}} </small>
-                      </p>
+                        <small> {{field.options.message}} </small>
+                    </p>
                     <!-- <img src="../../../assets/images/info.svg" alt=""> -->
                     <svg *ngIf="field.options?.Tooltip" [pTooltip]="field.options.Tooltip" tooltipPosition="top"
                         version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
@@ -128,14 +130,14 @@
                 <span class="col-md-12 p-0 has-float-label" *ngSwitchCase="'DateRangePicker'">
                     <input type="text" readonly [placeholder]="field.label" class="form-control"
                         (bsValueChange)="dateRangeCreated($event ,field)" bsDaterangepicker
-                        [formControlName]="field.name" [minDate] = "minDate"
+                        [formControlName]="field.name" [minDate]="minDate"
                         [ngClass]="{'validationError': (childForm.controls[field.name].errors && (childForm.controls[field.name].dirty || childForm.controls[field.name].touched))}"
                         [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'cust-date', adaptivePosition: true }">
                     <label [for]="field.name"> {{field.label}} </label>
                 </span>
                 <span class="col-md-12 p-0 has-float-label" *ngSwitchCase="'DatePicker'">
                     <input type="text" readonly [placeholder]="field.label" class="form-control" bsDatepicker
-                        [formControlName]="field.name" [minDate] = "minDate"
+                        [formControlName]="field.name" [minDate]="minDate"
                         [ngClass]="{'validationError': (childForm.controls[field.name].errors && (childForm.controls[field.name].dirty || childForm.controls[field.name].touched))}"
                         [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'cust-date', adaptivePosition: true  }">
                     <label [for]="field.name"> {{field.label}} </label>
