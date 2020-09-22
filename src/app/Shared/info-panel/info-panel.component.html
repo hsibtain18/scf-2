@@ -10,10 +10,9 @@
             <div class="form-group col-md-12 p-0 input-group " [ngSwitch]="field.type">
                 <span *ngSwitchCase="'TextBox'" [hidden]="!inputCondition(field.options?.visible)"
                     class="col-md-12 p-0 has-float-label">
-                    <input class="form-control" [id]="field.name" appMinNumber 
-                        [minlength]="field.options?.minLength" [maxlength]="field.options?.maxLength" autocomplete="off"
-                        [type]="field.inputType" [name]="field.name" [formControlName]="field.name"
-                        [placeholder]="field.label"
+                    <input class="form-control" [id]="field.name" appMinNumber [minlength]="field.options?.minLength"
+                        [maxlength]="field.options?.maxLength" autocomplete="off" [type]="field.inputType"
+                        [name]="field.name" [formControlName]="field.name" [placeholder]="field.label"
                         [ngClass]="{'validationError': (childForm.controls[field.name].errors && (childForm.controls[field.name].dirty || childForm.controls[field.name].touched))}" />
                     <label [for]="field.name"> {{field.label}} </label>
                     <p *ngIf="!childForm.controls[field.name].pristine && !childForm.controls[field.name].valid && field.options.message"
@@ -145,7 +144,7 @@
             </div>
         </div>
         <div class="col-md-12 form-group" *ngFor="let field of textAreaList;let i=index; trackBy:trackByFn">
-            <span class="col-md-12 p-0 has-float-label">
+            <span class="col-md-12 p-0 has-float-label" [hidden]="!inputCondition(field.options?.visible)">
                 <textarea class="form-control" [id]="field.name" requiredforapproval="1" maxlength="2000" rows="3"
                     [name]="field.name" [formControlName]="field.name" [placeholder]="field.label"></textarea>
                 <label [for]="field.name"> {{field.label}} </label>
@@ -158,7 +157,6 @@
 
             <div class="text-right">
                 <ng-template ngFor let-button [ngForOf]="buttons">
-
                     <button
                         *ngIf="(button.options.submit==1 && buttonsCondition(button.options.visible)); else resetButton"
                         type="button" (click)="saveValue(button)" [disabled]="!mainForm.form.valid"
@@ -166,7 +164,7 @@
 
                     <ng-template #resetButton>
                         <button type="button" *ngIf="buttonsCondition(button.options.visible)"
-                            (click)="saveValue(button)" [class]="button.options.class">
+                            (click)="saveValue(button)" [disabled]="specificCondition(button.options)"  [class]="button.options.class">
                             {{button.name}} </button>
 
                     </ng-template>

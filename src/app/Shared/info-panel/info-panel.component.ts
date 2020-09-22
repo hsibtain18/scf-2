@@ -20,7 +20,7 @@ export class InfoPanelComponent implements OnInit {
   @Input() DataObject: any
   buttons: any[] = []
   textAreaList: any[] = []
-  childForm;
+  childForm: FormGroup
   minDate: Date;
   GroupedData: any[];
   dropdownValues: any[] = [];
@@ -30,7 +30,7 @@ export class InfoPanelComponent implements OnInit {
   async ngOnInit(): Promise<any> {
     let today = new Date();
     this.minDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    this.dropdownValues.splice(0, 1);    
+    this.dropdownValues.splice(0, 1);
     this.childForm = this.mainForm.form
     this.buttons = this.fields.filter((element => {
       if (element.type == 'Button')
@@ -41,7 +41,7 @@ export class InfoPanelComponent implements OnInit {
       if (element.type == 'Textarea')
         return element;
     }));
-    
+
     let fieldsCtrls = {};
     // for (let f of this.fields) {
 
@@ -63,7 +63,20 @@ export class InfoPanelComponent implements OnInit {
       }
     });
   }
+  specificCondition(Options): boolean {
+    if (Options.disabledCondition) {
+      let condition: any = Options.disabledCondition.split(',')
+      for (let i = 0; i < condition.length; i++) {
+        console.log(this.childForm.controls[condition[i]].value)
+        if (this.childForm.controls[condition[i]].value == null || this.childForm.controls[condition[i]].value == '') {
+          return true
+        }
+      }
+      console.log(condition)
+    }
 
+    return false;
+  }
   getSelectOptions(f) {
     return new Promise((resolve, reject) => {
       this._dataService.GetCalls("utility/", f.options.dataSource)
@@ -137,8 +150,12 @@ export class InfoPanelComponent implements OnInit {
         }
       }
     }
+
+ 
     return validators
   }
+
+
   dateRangeCreated(temp, field) {
     if (temp) {
       this.childForm.addControl(field.options.endDate, new FormControl(new Date(temp[1])));
