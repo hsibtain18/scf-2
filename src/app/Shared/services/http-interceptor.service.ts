@@ -21,10 +21,10 @@ export class HttpInterceptorService implements HttpInterceptor {
       const loggedUser = this._crypto.DecryptToken(storageUser );
 
       request = request.clone({
-        setHeaders: {
-          'Content-Type':  'application/json; charset=utf-8',
-          'dataType': 'json',
-        },
+        // setHeaders: {
+        //   'Content-Type':  'application/json; charset=utf-8',
+        //   'dataType': 'json',
+        // },
         headers: request.headers.set(
           'authorization', `Bearer ${loggedUser}`
         )

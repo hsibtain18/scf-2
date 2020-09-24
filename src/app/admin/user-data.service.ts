@@ -23,6 +23,23 @@ export class UserDataService {
 
     });
   }
+  PostFiles(ResourceName: string , obj: File){
+    return new Promise((resolve,reject)=>{
+      let url = baseUrl +"/"+ ResourceName;
+      const formData: FormData = new FormData();
+      formData.append('uploadFile', obj);
+      
+      this._httpClient.post(url, formData)
+      .toPromise()
+      .then(val=> 
+        resolve(val)
+      )
+      .catch(error=>{
+        reject(error)
+      })
+
+    });
+  }
   SearchCalls(ResourceName: string , obj : any){
     return new Promise((resolve,reject)=>{
       

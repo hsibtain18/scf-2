@@ -16,9 +16,8 @@
                         <input #myFleOffer type="file" style="display: none;" class="inputfile"
                             accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                             name="myfile" id="mFileOffer" (change)=onFileChange($event,button.Options) #hiddenFile />
-                        <button class="btn btn-primary  mr-2" type="button" (click)="hiddenFile.click()">
+                        <button class="btn btn-primary" type="button" (click)="hiddenFile.click()">
                             {{button.Options.name}} </button>
-
                     </ng-template>
                 </ng-template>
             </form>

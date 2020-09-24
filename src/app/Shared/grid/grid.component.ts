@@ -69,8 +69,7 @@ export class GridComponent implements OnInit, OnDestroy {
     this.header = this.UIObject.Headers;
     this.ApiRoute = this.UIObject.Api;
     this.buttonsArray = this.UIObject.ButtonsArray;
-    this.GetGridData()
-
+    this.GetGridData();
   }
 
   GetGridData() {
@@ -112,20 +111,23 @@ export class GridComponent implements OnInit, OnDestroy {
     let obj = {};
     let file = File.target.files[0];
     if (this.ValidateFile(File.target.files[0])) {
-      let fileReader = new FileReader();
-      fileReader.readAsArrayBuffer(file);
-      fileReader.onload = (e) => {
-        this.arrayBuffer = fileReader.result;
-        var data = new Uint8Array(this.arrayBuffer);
-        var arr = new Array();
-        for (var i = 0; i != data.length; ++i)
-          arr[i] = String.fromCharCode(data[i]);
-        var bstr = arr.join("");
+        obj["FileData"] = File.target.files[0];
+        obj["action"] = action;
+        this.Action.emit(obj);
+      // let fileReader = new FileReader();
+      // fileReader.readAsArrayBuffer(file);
+      // fileReader.onload = (e) => {
+      //   this.arrayBuffer = fileReader.result;
+      //   var data = new Uint8Array(this.arrayBuffer);
+      //   var arr = new Array();
+      //   for (var i = 0; i != data.length; ++i)
+      //     arr[i] = String.fromCharCode(data[i]);
+      //   var bstr = arr.join("");
 
-        obj["FileData"] = { data: bstr, name: file.name, type: file.type };
-        obj["action"] = action
-        this.Action.emit(obj)
-      }
+      //   obj["FileData"] = { data: bstr, name: file.name, type: file.type };
+      //   obj["action"] = action;
+      //   this.Action.emit(obj);
+      // }
     }
   }
   ValidateFile(file) {
@@ -162,8 +164,6 @@ export class GridComponent implements OnInit, OnDestroy {
 
         //console.log(err);
       })
-
-
   }
   NavigateUrl(Options) {
     if (Options.route) {
@@ -180,7 +180,6 @@ export class GridComponent implements OnInit, OnDestroy {
   file: File;
   filelist: any;
   addfile(event) {
-
     this.file = event.target.files[0];
     let fileReader = new FileReader();
     fileReader.readAsArrayBuffer(this.file);
@@ -200,7 +199,6 @@ export class GridComponent implements OnInit, OnDestroy {
       var arraylist = XLSX.utils.sheet_to_json(worksheet, { raw: true });
       this.filelist = [];
       //console.log(this.filelist)
-
     }
   }
 }
