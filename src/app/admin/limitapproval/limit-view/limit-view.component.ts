@@ -38,6 +38,8 @@ export class LimitViewComponent implements OnInit, CanComponentDeactivate {
         this.LimitObject = val[1];
         this.Status = val[1].Data.Status
         this.form.addControl("ID", new FormControl(val[1].Data.ID));
+        this.form.addControl("AnchorCode", new FormControl(val[1].Data.AnchorCode));
+        this.form.addControl("BuyerCode", new FormControl(val[1].Data.BuyerCode));
       })
       // this._dataService.GetCalls("buyer", this.limitID)
       //   .then((data: any) => {
@@ -107,7 +109,7 @@ export class LimitViewComponent implements OnInit, CanComponentDeactivate {
     switch (action) {
       case "Reject":
         this.showSpinner = true;
-        this._dataService.PostCalls("limit/reject", { ID: this.form.get('ID').value })
+        this._dataService.PostCalls("limit/reject", { ID: this.form.get('ID').value, AnchorCode: this.form.get('AnchorCode').value, BuyerCode: this.form.get('BuyerCode').value })
           .then(val => {
             this._toastService.success("Rejected successfully.")
             this.showSpinner = false;

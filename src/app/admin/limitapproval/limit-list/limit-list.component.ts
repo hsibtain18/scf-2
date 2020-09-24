@@ -71,7 +71,7 @@ export class LimitListComponent implements OnInit {
 
     }
     if (data.action.action == "upload") {
-      this._UserService.PostCalls("buyer/upload", { FileData: data["FileData"] })
+      this._UserService.PostFiles("buyer/upload", data["FileData"])
         .then((val: any) => {
           // this.showSpinner = true;
           if (val.data) {
@@ -85,11 +85,9 @@ export class LimitListComponent implements OnInit {
             XLSX.writeFile(wb, "ErrorFile.xls");
           }
           else {
-            this._toastService.success("Uploaded Successfully")
+            this._toastService.success("Uploaded successfully.")
             this._sharedService.SetActionStatus(true);
           }
-
-
         })
         .catch(err => {
           this.showSpinner = false;
@@ -98,7 +96,7 @@ export class LimitListComponent implements OnInit {
 
     if (data.action.action == "template") {
       let link = document.createElement("a");
-      link.download = "filename";
+      link.download = "Buyer Detail Template";
       link.href = "assets/downloadFIle/template.xlsx";
       link.click();
     }
