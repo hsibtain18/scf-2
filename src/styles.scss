@@ -160,6 +160,13 @@ html {
 }
 
 .login {
+    .image {
+        text-align: center;
+
+        img {
+            width: 260px;
+        }
+    }
     .title {
         // text-align: center !important;
         margin: 2rem auto;
