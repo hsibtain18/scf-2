@@ -97,7 +97,7 @@ export class LimitListComponent implements OnInit {
     if (data.action.action == "template") {
       let link = document.createElement("a");
       link.download = "Buyer Detail Template";
-      link.href = "assets/downloadFIle/template.xlsx";
+      link.href = "assets/downloadFile/template.xlsx";
       link.click();
     }
     //console.log(data);
