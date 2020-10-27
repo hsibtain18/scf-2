@@ -16,7 +16,7 @@ export class InfoPanelComponent implements OnInit {
   @Input() fields: any[] = [];
   @Input() heading: string = "";
   @Input() Status: number;
-  @Input() formname: any;
+  @Input() formname: any; 
   @Input() DataObject: any
   buttons: any[] = []
   textAreaList: any[] = []

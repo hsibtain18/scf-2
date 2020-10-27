@@ -16,7 +16,7 @@ export class ContractViewComponent implements OnInit, CanComponentDeactivate {
   public form = new FormGroup({});
   public UiObject: any = []
   public Status: any;
-  active;
+  active; 
   contractID: number
   Contract: any = []
   BreadCrumbs = ""
@@ -164,7 +164,7 @@ export class ContractViewComponent implements OnInit, CanComponentDeactivate {
             });
         }
         break;
-      case "receive":
+      case "Receive":
         this.form.controls['OrderNumber'].enable();
         this._dataService.PostCalls("contractpayment/received", this.form.value)
           .then((val: any) => {
