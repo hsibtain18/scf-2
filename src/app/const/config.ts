@@ -1,6 +1,6 @@
 import { SPINNER_ANIMATIONS, SPINNER_PLACEMENT } from '@hardpool/ngx-spinner';
 export const CryptoKey = "12345-92867-37091-19375";
-export const baseUrl = "http://192.168.200.52:3000/api";
+export const baseUrl = "http://192.168.200.140:3000/api";
 
 
 export const loadingConfig = {

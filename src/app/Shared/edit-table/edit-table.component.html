@@ -29,7 +29,7 @@
                                             [formControlName]="col.Column" class="form-control">
                                     </span>
                                     <span class="form-group" *ngIf="col.TextType=='date'"> 
-                                        <input type="text" [placeholder]="col.DisplayText"  [formControlName]="col.Column" bsDatepicker
+                                        <input type="text" [placeholder]="col.DisplayText"  readonly  class="form-control" [formControlName]="col.Column" bsDatepicker
                                             [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY', containerClass: 'cust-date' ,adaptivePosition: true  }">
                                     </span>
                                     <span class="form-group" *ngIf="col.TextType=='alpha'">
